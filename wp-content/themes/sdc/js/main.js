@@ -100,7 +100,7 @@ $(function(){
 	// });
 });
 
-$(function(){
+((function(){
 	/* main portfolio sliders */
 	$('#portfolio__for').slick({
 		autoplay: true,
@@ -377,10 +377,10 @@ $(function(){
 	$('input[name="tel"]').inputmask('+7 (999) 999-99-99');
 
 	$('.fancy').fancybox();
-});
+})(jQuery));
 
 
-$(function(){
+((function(){
 
 	/* map */
 
@@ -421,4 +421,4 @@ $(function(){
 
 	/* map */
 
-});
+})(jQuery));
