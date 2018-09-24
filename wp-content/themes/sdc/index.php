@@ -11,8 +11,7 @@
  *
  * @package WordPress
  */
-echo sdc_get_portfolio_category();
-die;
+
 get_header(); ?>
 <div class="preloader show">
     <div class="preloader__block"></div>

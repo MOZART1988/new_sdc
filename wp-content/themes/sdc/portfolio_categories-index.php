@@ -5,9 +5,7 @@
 $taxonomies = array(
     'category',
 );
-$category = !empty(get_category_by_slug('portfolio')) ?
-    get_category_by_slug('portfolio') :
-    get_category_by_slug('portfolio_' . pll_current_language());
+$category = sdc_get_portfolio_category();
 $categories = get_categories(['parent' => $category->cat_ID, 'hide_empty' => 0]);
 
 ?>

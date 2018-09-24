@@ -201,9 +201,6 @@ if (! function_exists('sdc_get_portfolio_category')) :
     */
 
     function sdc_get_portfolio_category(){
-        $category = get_categories(['slug' => 'portfolio', 'post_type' => 'portfolio_item']);
-        print_r($category);
-        die;
         $category = !empty(get_category_by_slug('portfolio')) ?
             get_category_by_slug('portfolio') :
             get_category_by_slug('portfolio-' . pll_current_language());

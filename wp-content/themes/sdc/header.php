@@ -79,9 +79,7 @@
     </nav><!-- header nav more -->
     <nav class="nav"><!-- header nav -->
         <?php
-        $categoryId = sdc_get_portfolio_category();
-        var_dump($categoryId);
-        die;
+        $categoryId = sdc_get_portfolio_category()->cat_ID;
         ?>
         <ul>
             <li class="active"><a href="#">Компания</a></li>
