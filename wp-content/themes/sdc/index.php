@@ -11,9 +11,13 @@
  *
  * @package WordPress
  */
-
+echo sdc_get_portfolio_category();
+die;
 get_header(); ?>
-
+<div class="preloader show">
+    <div class="preloader__block"></div>
+    <span class="preloader__title"><?php _e('Smartdigital', 'SDC')?></span>
+</div>
 <div class="main"><!-- main content -->
     <section class="banner"><!-- main banner -->
         <img src="img/img-1.jpg">

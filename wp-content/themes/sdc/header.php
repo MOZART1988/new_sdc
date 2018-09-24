@@ -17,10 +17,17 @@
     <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/libs.css">
     <?php wp_head(); ?>
 </head>
-
-<body <?php body_class(); ?>>
+<body class="<?php echo sdc_body_class(); ?>">
 <header><!-- header -->
-    <?=sdc_the_custom_logo()?><!-- header logo -->
+    <?php if (sdc_is_front_page()) : ?>
+        <a href="/" class="logo">
+            <img src="<?=esc_url( get_template_directory_uri() )?>/img/logo.png"><span>smartdigital</span>
+        </a>
+    <?php else : ?>
+        <a href="/" class="logo">
+            <img src="<?=esc_url( get_template_directory_uri() )?>/img/logo-1.png"><span>smartdigital</span>
+        </a>
+    <?php endif; ?>
     <span class="slogan"><?php _e('Агентство рекламы и маркетинга', 'SDC')?></span><!-- header slogan -->
     <div class="langs"><!-- header langs -->
         <ul>
@@ -71,9 +78,14 @@
         </a>
     </nav><!-- header nav more -->
     <nav class="nav"><!-- header nav -->
+        <?php
+        $categoryId = sdc_get_portfolio_category();
+        var_dump($categoryId);
+        die;
+        ?>
         <ul>
             <li class="active"><a href="#">Компания</a></li>
-            <li><a href="portfolio.html" id="c_1">Портфолио</a></li>
+            <li><a href="<?=get_category_link($categoryId)?>" id="c_1">Портфолио</a></li>
             <li><a href="#">Услуги</a></li>
             <li><a href="#">Клиенты</a></li>
             <li><a href="#">События</a></li>
@@ -81,7 +93,3 @@
         </ul>
     </nav><!-- header nav -->
 </header><!-- header -->
-<div class="preloader show">
-    <div class="preloader__block"></div>
-    <span class="preloader__title">Smartdigital</span>
-</div>

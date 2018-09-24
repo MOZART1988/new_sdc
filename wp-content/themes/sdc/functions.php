@@ -3,6 +3,87 @@
  * functions.php for theme SDC
 */
 
+/**
+ * Элемент портфолио
+ * @return WP_Post_Type
+*/
+function portfolio_item() {
+    register_post_type('portfolio_item', [
+        'labels' => [
+            'name'            => __( 'Элементы портфолио' ),
+            'singular_name'   => __( 'Портфолио' ),
+            'add_new'         => __( 'Добавить' ),
+            'add_new_item'    => __( 'Добавить новый элемент' ),
+            'edit'            => __( 'Редактировать' ),
+            'edit_item'       => __( 'Редактировать элемент' ),
+            'new_item'        => __( 'Новый элемент' ),
+            'all_items'       => __( 'Все элементы портфолио' ),
+            'view'            => __( 'Просмотреть' ),
+            'view_item'       => __( 'Просмотреть элемент' ),
+            'search_items'    => __( 'Поиск' ),
+            'not_found'       => __( 'Не удалось найти' ),
+        ],
+        'public' => true, // show in admin panel?
+        'menu_position' => 5,
+        'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'],
+        'taxonomies' => ['category'],
+        'has_archive' => true,
+        'capability_type' => 'post',
+        'menu_icon'   => 'dashicons-images-alt',
+        'rewrite' => ['slug' => 'portfolio'],
+    ]);
+}
+add_action( 'init', 'portfolio_item' );
+
+
+/**
+ * Dыбор цвета заголовка в элементы портфолио на странице всех элементов портфолио
+*/
+
+function portfolio_title_color() {
+    add_meta_box(
+        'pt_title_color',
+        __('Цвет заголовка'),
+        'portfolio_title_color_callback',
+        'portfolio_item'
+    );
+}
+
+add_action('add_meta_boxes', 'portfolio_title_color');
+
+
+function portfolio_title_color_callback($post) {
+    wp_nonce_field(basename(__FILE__), 'pt_title_color');
+    $links_stored_meta = get_post_meta( $post->ID );
+    ?>
+    <select name="pt_title_color_original" id="pt_title_color_original">
+        <option value="white" <?=(isset($links_stored_meta['pt_title_color_original']) &&
+        ($links_stored_meta['pt_title_color_original'][0] === 'white') ? 'selected' : '')?>>Светлый заголовок</option>
+        <option value="dark" <?=(isset($links_stored_meta['pt_title_color_original']) &&
+        ($links_stored_meta['pt_title_color_original'][0] === 'dark') ? 'selected' : '')?>>Темный заголовок</option>
+    </select>
+
+    <?php
+}
+
+/**
+ * Cохранение
+*/
+
+function portfolio_title_color_save( $post_id ) {
+    $is_autosave = wp_is_post_autosave( $post_id );
+    $is_revision = wp_is_post_revision( $post_id );
+    $is_valid_nonce = ( isset( $_POST[ 'pt_title_color' ] ) && wp_verify_nonce( $_POST[ 'pt_title_color' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
+        return;
+    }
+    if( isset( $_POST[ 'pt_title_color_original' ] ) ) {
+        update_post_meta( $post_id, 'pt_title_color_original', sanitize_text_field( $_POST[ 'pt_title_color_original' ] ) );
+    }
+}
+
+add_action('save_post', 'portfolio_title_color_save');
+
 
 if (! function_exists('sdc_main_style')) :
     /**
@@ -52,32 +133,82 @@ if ( ! function_exists( 'sdc_setup' ) ) :
 
         add_action( 'wp_enqueue_scripts', 'sdc_main_style' );
         add_action( 'wp_enqueue_scripts', 'sdc_main_scripts');
+        add_theme_support('post-thumbnails');
+
+        add_image_size( 'portfolio', 398, 326, true );
+        add_image_size('very-small', 50, 50, true);
     }
 endif; // sdc setup
 
 add_action( 'after_setup_theme', 'sdc_setup' );
 
-if ( ! function_exists( 'sdc_the_custom_logo' ) ) :
-    /**
-     * Displays the optional custom logo.
-     *
-     * Does nothing if the custom logo is not available.
-     *
-     */
-    function sdc_the_custom_logo() {
-        return '<a href="/" class="logo">
-            <img src="'.esc_url( get_template_directory_uri() ).'/img/logo.png"><span>smartdigital</span>
-            </a>';
-    }
-endif;
-
 if (! function_exists('sdc_footer_logo')) :
     /**
      * Displays footer logo
+     * @return string
     */
 
     function sdc_footer_logo() {
         return '<a href="/"><img src="'.esc_url( get_template_directory_uri() ).'/img/logo.png"></a>';
+    }
+
+endif;
+
+if (! function_exists('sdc_is_front_page')) :
+    /**
+     * Check if page is home
+     * @return bool
+    */
+
+    function sdc_is_front_page(){
+        $isfrontpage = false;
+
+        $current = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+        $site = get_site_url();
+        $site = str_replace('http://', '', $site);
+        $site = str_replace('https://', '', $site);
+        $site = str_replace('www', '', $site);
+        if( $site == $current || $site . '/' == $current ){
+            $isfrontpage = true;
+        }
+
+
+        return $isfrontpage;
+    }
+
+endif;
+
+if (! function_exists('sdc_body_class')) :
+    /**
+     * set body class
+     * @return string
+    */
+
+    function sdc_body_class() {
+        if (sdc_is_front_page()) {
+            return '';
+        }
+
+        return 'body';
+    }
+
+endif;
+
+if (! function_exists('sdc_get_portfolio_category')) :
+    /**
+     * get portfolio category
+     * @return []] $category
+    */
+
+    function sdc_get_portfolio_category(){
+        $category = get_categories(['slug' => 'portfolio', 'post_type' => 'portfolio_item']);
+        print_r($category);
+        die;
+        $category = !empty(get_category_by_slug('portfolio')) ?
+            get_category_by_slug('portfolio') :
+            get_category_by_slug('portfolio-' . pll_current_language());
+
+        return $category;
     }
 
 endif;
