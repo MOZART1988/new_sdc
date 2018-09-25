@@ -7,7 +7,7 @@ get_header();
 ?>
 <div class="preloader show">
     <div class="preloader__block"></div>
-    <span class="preloader__title">Контакты</span>
+    <span class="preloader__title"><?php the_title()?></span>
 </div>
 <div class="page"><!-- main content -->
     <section class="contacts"><!-- main contacts -->
@@ -23,11 +23,13 @@ get_header();
                 <?php endif; ?>
             </div>
             <div class="row contacts--row">
-                <?php if (sdc_get_contacts_page()) : ?>
-                    <?php get_template_part('templates/pages/contacts', 'main')?>
-                <?php else : ?>
-                    <?php get_template_part('templates/pages/other', 'main'); ?>
-                <?php endif; ?>
+                <?php while (have_posts()) : the_post(); ?>
+                    <?php if (sdc_get_contacts_page()) : ?>
+                        <?php get_template_part('templates/pages/contacts', 'main')?>
+                    <?php else : ?>
+                        <?php get_template_part('templates/pages/other', 'main'); ?>
+                    <?php endif; ?>
+                <?php endwhile; ?>
             </div>
         </div>
     </section><!-- main contacts -->

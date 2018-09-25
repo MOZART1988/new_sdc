@@ -21,10 +21,92 @@ function myajax_data(){
 */
 
 /**
+ * Отправка запроса из формы контактов
+*/
+
+if (wp_doing_ajax()) {
+    add_action('wp_ajax_send_request_contact_form', 'send_request_contact_form_callback');
+    add_action('wp_ajax_nopriv_send_request_contact_form', 'send_request_contact_form_callback');
+}
+
+add_action( 'wp_footer', 'send_request_contact_form', 99);
+
+function send_request_contact_form() {
+    ?>
+    <script type="text/javascript" >
+        $(document).ready(function($) {
+            $('body').on('submit', '#sendContactForm', function(e){
+
+                e.preventDefault();
+                var form = $(this);
+                var data = {
+                    action: 'send_request_contact_form',
+                    form: $(this).serialize(),
+                };
+
+                $.ajax({
+                    url: myajax.url,
+                    data: data,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    success: function (data) {
+                        form.find('input[type=text]').val('');
+                        form.find('textarea').val('');
+                        alert(data);
+                    };
+                    error: function (data) {
+                        console.log(data);
+                        alert('error');
+                    }
+                });
+
+                return false;
+            });
+        });
+    </script>
+    <?
+}
+
+function send_request_contact_form_callback() {
+    if (!empty($_POST['form'])) {
+        parse_str(urldecode($_POST['form']), $result);
+        $form = $result['sendContactForm'];
+        if (!empty($form['name']) && !empty($form['tel']) && !empty($form['message']) && !empty($form['email'])) {
+            $body = '
+                <p>Имя - '.$form['name'].'</p>
+                <p>Телефон - '.$form['tel'].'</p>
+                <p>Email - '.$form['email'].'</p>
+                <p>Сообщение - '.$form['message'].'</p>
+            ';
+
+            $to = get_option('admin_email');
+
+
+            if (wp_mail($to, 'Новый запрос - контакт форма', $body)) {
+                wp_send_json(
+                    ['success' => true, 'message' => pll__('Спасибо за Ваше обращение, мы свяжемся с Вами в ближайшее время')]
+                );
+            }
+
+            wp_send_json(
+                ['success' => false, 'message' => pll__('Произошла ошибка, попробуйте позже')]
+            );
+        }
+    } else {
+        wp_send_json(1);
+
+    }
+}
+
+/**
  *  Загрузка элементов по портфолио по отдельной категории
 */
-add_action('wp_ajax_load_items_by_portfolio_category', 'load_items_by_portfolio_category_callback');
-add_action('wp_ajax_nopriv_load_items_by_portfolio_category', 'load_items_by_portfolio_category_callback');
+
+if (wp_doing_ajax()) {
+    add_action('wp_ajax_load_items_by_portfolio_category', 'load_items_by_portfolio_category_callback');
+    add_action('wp_ajax_nopriv_load_items_by_portfolio_category', 'load_items_by_portfolio_category_callback');
+}
+
 add_action( 'wp_footer' , 'load_items_by_portfolio_category', 99);
 
 function load_items_by_portfolio_category() {
@@ -134,8 +216,11 @@ function load_items_by_portfolio_category_callback() {
  * Отправка формы обратный звонок
 */
 
-add_action('wp_ajax_send_request_phone_form', 'send_request_phone_form_callback');
-add_action('wp_ajax_nopriv_send_request_phone_form', 'send_request_phone_form_callback');
+if (wp_doing_ajax()) {
+    add_action('wp_ajax_send_request_phone_form', 'send_request_phone_form_callback');
+    add_action('wp_ajax_nopriv_send_request_phone_form', 'send_request_phone_form_callback');
+}
+
 add_action( 'wp_footer' , 'send_request_phone_form', 99);
 
 function send_request_phone_form() {
@@ -190,12 +275,12 @@ function send_request_phone_form_callback() {
 
             if (wp_mail($to, 'Новый запрос - перезвоните мне', $body)) {
                 wp_send_json(
-                    ['success' => true, 'message' => 'Спасибо за Ваше обращение, мы свяжемся с Вами в ближайшее время']
+                    ['success' => true, 'message' => pll__('Спасибо за Ваше обращение, мы свяжемся с Вами в ближайшее время')]
                 );
             }
 
             wp_send_json(
-                ['success' => false, 'message' => 'Произошла ошибка, попробуйте позже']
+                ['success' => false, 'message' => pll__('Произошла ошибка, попробуйте позже')]
             );
         }
     } else {
@@ -300,12 +385,18 @@ if (! function_exists('sdc_main_style')) :
 
 endif;
 
+/**
+ * set email format to html
+*/
 
-if (! function_exists('wpse27856_set_content_type')) {
-    function wpse27856_set_content_type(){
-        return "text/html";
-    }
+add_filter( 'wp_mail_content_type', 'wpse27856_set_content_type' );
+
+function wpse27856_set_content_type(){
+
+    return "text/html";
+
 }
+
 
 
 if (! function_exists('sdc_main_scripts')) :
@@ -352,12 +443,22 @@ if ( ! function_exists( 'sdc_setup' ) ) :
         add_image_size( 'portfolio', 398, 326, true );
         add_image_size('very-small', 50, 50, true);
 
+        /**
+         * removes autop from single content
+         */
 
-        add_filter( 'wp_mail_content_type', 'wpse27856_set_content_type' );
+        remove_filter( 'the_content', 'wpautop' );
+
 
         /**
          * register strings for polylang
         */
+
+        /**
+         * header.php
+        */
+        pll_register_string('Агентство рекламы и маркетинга', 'Агентство рекламы и маркетинга', 'SDC');
+        pll_register_string('Перезвонить?', 'Перезвонить?', 'SDC');
 
         /**
          * index.php
@@ -374,8 +475,24 @@ if ( ! function_exists( 'sdc_setup' ) ) :
         );
 
         /**
+         * contacts-main.php
+        */
+        pll_register_string('Электронная почта', 'Электронная почта', 'SDC');
+        pll_register_string('Контактный номер телефона', 'Контактный номер телефона', 'SDC');
+        pll_register_string('Ваше письмо отправленно', 'Ваше письмо отправленно', 'SDC');
+        pll_register_string('Обратная связь:', 'Обратная связь:', 'SDC');
+        pll_register_string('Произошла ошибка, попробуйте позже', 'Произошла ошибка, попробуйте позже', 'SDC');
+        pll_register_string('Спасибо за Ваше обращение, мы свяжемся с Вами в ближайшее время', 'Спасибо за Ваше обращение, мы свяжемся с Вами в ближайшее время', 'SDC');
+
+        /**
          * request-phone.php
         */
+        pll_register_string('Имя', 'Имя', 'SDC');
+        pll_register_string('Контактный номер', 'Контактный номер', 'SDC');
+        pll_register_string('Сообщение', 'Сообщение', 'SDC');
+        pll_register_string('Отправить', 'Отправить', 'SDC');
+        pll_register_string('Закажите услугу', 'Закажите услугу', 'SDC');
+        pll_register_string('или получите консультацию', 'или получите консультацию', 'SDC');
     }
 endif; // sdc setup
 

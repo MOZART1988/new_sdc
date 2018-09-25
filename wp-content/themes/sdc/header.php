@@ -28,7 +28,7 @@
             <img src="<?=esc_url( get_template_directory_uri() )?>/img/logo-1.png"><span>smartdigital</span>
         </a>
     <?php endif; ?>
-    <span class="slogan"><?php _e('Агентство рекламы и маркетинга', 'SDC')?></span><!-- header slogan -->
+    <span class="slogan"><?php pll__('Агентство рекламы и маркетинга')?></span><!-- header slogan -->
     <div class="langs"><!-- header langs -->
         <ul><?php pll_the_languages();?></ul>
     </div><!-- header langs -->
@@ -36,7 +36,7 @@
         <ul>
             <li><a href="tel:+7 (727)350-57-60"><span>(+7 727)</span> 350-57-60</a></li>
         </ul>
-        <a href="tel:+7 (727)350-57-60" class="call"><?php _e('Перезвонить?', 'SDC')?></a>
+        <a href="tel:+7 (727)350-57-60" class="call"><?=pll__('Перезвонить?')?></a>
     </div><!-- header phones -->
     <a href="#" class="nav--btn">
         <span></span>
