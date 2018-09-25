@@ -11,11 +11,10 @@
  *
  * @package WordPress
  */
-
 get_header(); ?>
 <div class="preloader show">
     <div class="preloader__block"></div>
-    <span class="preloader__title"><?php _e('Smartdigital', 'SDC')?></span>
+    <span class="preloader__title"><?php pll__('Smartdigital')?></span>
 </div>
 <div class="main"><!-- main content -->
     <section class="banner"><!-- main banner -->
@@ -29,7 +28,7 @@ get_header(); ?>
                     <h2 class="title">О компании</h2>
                 </div>
                 <div class="col-lg-9 col-md-8 right">
-                    <h3>У нас работаю фанаты своего дела. Профессиональная команда, которая способна справиться с самой сложной задачей.</h3>
+                    <h3><?=pll__('У нас работаю фанаты своего дела. Профессиональная команда, которая способна справиться с самой сложной задачей.')?></h3>
                 </div>
             </div>
             <div class="row">

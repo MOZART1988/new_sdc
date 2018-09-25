@@ -354,6 +354,28 @@ if ( ! function_exists( 'sdc_setup' ) ) :
 
 
         add_filter( 'wp_mail_content_type', 'wpse27856_set_content_type' );
+
+        /**
+         * register strings for polylang
+        */
+
+        /**
+         * index.php
+        */
+        pll_register_string('Название сайта', 'Smartdigital', 'SDC');
+        pll_register_string(
+                'Слоган сайта',
+            'У нас работаю фанаты своего дела. Профессиональная команда, которая способна справиться с самой сложной задачей.',
+            'SDC');
+        pll_register_string(
+                'Заказать обратный звонок',
+                'Заказать обратный звонок',
+                'SDC'
+        );
+
+        /**
+         * request-phone.php
+        */
     }
 endif; // sdc setup
 

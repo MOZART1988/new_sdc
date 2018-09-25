@@ -73,5 +73,5 @@
             <span></span>
         </a>
     </nav><!-- header nav more -->
-
+    <?php get_template_part('templates/main/nav-right', 'menu')?>
 </header><!-- header -->
