@@ -319,6 +319,7 @@ if (! function_exists('sdc_main_scripts')) :
         wp_register_script( 'jquery', get_template_directory_uri() . '/js/jquery.js', false, NULL, true );
         wp_enqueue_script( 'jquery' );
         wp_enqueue_script('libs', get_template_directory_uri() . '/js/libs.js', [], false, true);
+        wp_enqueue_script('ymaps', get_template_directory_uri() . '/js/ymaps.js', [], false, true);
         wp_enqueue_script( 'main', get_template_directory_uri() . '/js/main.js', [], false, true );
     }
 
@@ -459,7 +460,7 @@ endif;
 if (! function_exists('sdc_get_portfolio_category')) :
     /**
      * get portfolio category
-     * @return []] $category
+     * @return object $category
     */
 
     function sdc_get_portfolio_category(){
@@ -468,6 +469,38 @@ if (! function_exists('sdc_get_portfolio_category')) :
             get_category_by_slug('portfolio-' . pll_current_language());
 
         return $category;
+    }
+
+endif;
+
+if (! function_exists('sdc_get_contacts_page')) :
+    /**
+     * get contacts page
+     * @return array $post
+    */
+
+    function sdc_get_contacts_page() {
+
+        $args = [
+            'name'        => 'contacts',
+            'post_type'   => 'page',
+            'post_status' => 'publish',
+            'numberposts' => 1
+        ];
+        $post = get_posts($args);
+
+        if (!$post) {
+            $args = [
+                'name'        => 'contacts-' . pll_current_language(),
+                'post_type'   => 'page',
+                'post_status' => 'publish',
+                'numberposts' => 1
+            ];
+
+            $post = get_posts($args);
+        }
+
+        return $post !== null ? $post[0] : null;
     }
 
 endif;

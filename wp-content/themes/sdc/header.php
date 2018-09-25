@@ -73,17 +73,5 @@
             <span></span>
         </a>
     </nav><!-- header nav more -->
-    <nav class="nav"><!-- header nav -->
-        <?php
-        $categoryId = sdc_get_portfolio_category()->cat_ID;
-        ?>
-        <ul>
-            <li class="active"><a href="#">Компания</a></li>
-            <li><a href="<?=get_category_link($categoryId)?>" id="c_1">Портфолио</a></li>
-            <li><a href="#">Услуги</a></li>
-            <li><a href="#">Клиенты</a></li>
-            <li><a href="#">События</a></li>
-            <li><a href="#">Контакты</a></li>
-        </ul>
-    </nav><!-- header nav -->
+
 </header><!-- header -->

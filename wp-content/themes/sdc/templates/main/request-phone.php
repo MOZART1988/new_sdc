@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: ivan
- * Date: 25.09.18
- * Time: 11:45
+ * template for displaing call phone form
  */
 ?>
 <div id="modal--call" class="modal fade">
@@ -21,4 +18,12 @@
             </div>
         </div>
     </div>
+</div>
+<a href="#" class="call--btn" data-toggle="modal" data-target="#modal--call">
+    <span class="bg"></span>
+</a>
+<div class="help">
+    <h5>Закажите услугу</h5>
+    <p>или получите консультацию</p>
+    <span class="close"></span>
 </div>

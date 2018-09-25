@@ -90,14 +90,6 @@ get_header(); ?>
         </div>
     </section><!-- main about -->
     <?php get_template_part('templates/main/request', 'phone'); ?>
-    <a href="#" class="call--btn" data-toggle="modal" data-target="#modal--call">
-        <span class="bg"></span>
-    </a>
-    <div class="help">
-        <h5>Закажите услугу</h5>
-        <p>или получите консультацию</p>
-        <span class="close"></span>
-    </div>
 </div><!-- main content -->
 
 <?php get_footer(); ?>
