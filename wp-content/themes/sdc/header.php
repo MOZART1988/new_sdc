@@ -30,11 +30,7 @@
     <?php endif; ?>
     <span class="slogan"><?php _e('Агентство рекламы и маркетинга', 'SDC')?></span><!-- header slogan -->
     <div class="langs"><!-- header langs -->
-        <ul>
-            <li class="active"><a href="#">Ру</a></li>
-            <li><a href="#">En</a></li>
-            <li><a href="#">Kz</a></li>
-        </ul>
+        <ul><?php pll_the_languages();?></ul>
     </div><!-- header langs -->
     <div class="phones"><!-- header phones -->
         <ul>

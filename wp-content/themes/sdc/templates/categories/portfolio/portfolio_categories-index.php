@@ -12,20 +12,17 @@ $categories = get_categories(['parent' => $category->cat_ID, 'hide_empty' => 0])
 <?php if (!empty($categories)) : ?>
 <div class="portfolio__nav">
     <ul>
-        <li><a href="#"><?php _e('Все', 'SDC'); ?></a></li>
+        <li class="active"><a data-id="all" href="#"><?php _e('Все', 'SDC'); ?></a></li>
         <?php foreach ($categories as $item) : ?>
-
-            <li><a href="#"><?=$item->name?></a></li>
+            <li><a data-id="<?=$item->cat_ID?>" href="#"><?=$item->name?></a></li>
         <?php endforeach; ?>
 
     </ul>
 </div>
 <select class="dropdown">
-    <option value="1"><?php _e('Все', 'SDC'); ?></option>
-    <?php $counter = 2 ; ?>
+    <option value="all"><?php _e('Все', 'SDC'); ?></option>
     <?php foreach ($categories as $item) : ?>
-        <option value="<?=$counter?>"><?=$item->name?></option>
-        <?php $counter++; ?>
+        <option value="<?=$item->cat_ID?>"><?=$item->name?></option>
     <?php endforeach; ?>
 </select>
 <?php endif; ?>

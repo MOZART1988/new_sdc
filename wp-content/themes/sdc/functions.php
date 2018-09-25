@@ -4,7 +4,209 @@
 */
 
 /**
- * Элемент портфолио
+ * Adding AJAX var
+ */
+add_action( 'wp_enqueue_scripts', 'myajax_data', 99 );
+function myajax_data(){
+    wp_localize_script( 'main', 'myajax',
+        array(
+            'url' => admin_url('admin-ajax.php')
+        )
+    );
+
+}
+
+/**
+ * AJAX requests
+*/
+
+/**
+ *  Загрузка элементов по портфолио по отдельной категории
+*/
+add_action('wp_ajax_load_items_by_portfolio_category', 'load_items_by_portfolio_category_callback');
+add_action('wp_ajax_nopriv_load_items_by_portfolio_category', 'load_items_by_portfolio_category_callback');
+add_action( 'wp_footer' , 'load_items_by_portfolio_category', 99);
+
+function load_items_by_portfolio_category() {
+    ?>
+    <script type="text/javascript" >
+        $(document).ready(function($) {
+           $('body').on('click', '.portfolio__nav a', function(){
+
+               $('.portfolio__nav li').removeClass('active');
+               $(this).parent().addClass('active');
+
+               var data = {
+                   action: 'load_items_by_portfolio_category',
+                   id: $(this).data('id')
+               };
+                $.ajax({
+                    url: myajax.url,
+                    data: data,
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function (data) {
+                        $('.portfolio-ajax-result').html(data);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+           });
+        });
+    </script>
+    <?php
+}
+
+function load_items_by_portfolio_category_callback() {
+
+    if (empty($_GET['id'])) {
+        wp_die();
+    }
+
+    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+
+    $args = [
+        'post_type'=>'portfolio_item',
+        'posts_per_page' => 9,
+        'paged' => $paged,
+        'lang' => pll_current_language()
+    ];
+
+    if ($_GET['id'] !== 'all') {
+        $args = [
+            'post_type'=>'portfolio_item',
+            'posts_per_page' => 9,
+            'paged' => $paged,
+            'lang' => pll_current_language(),
+            'cat' => $_GET['id']
+        ];
+    }
+
+    $loop = new WP_Query( $args );
+
+    if ($loop->have_posts()) {
+        $counter = 1;
+        $counterPost = wp_count_posts('portfolio_item');
+        while ($loop->have_posts()) {
+            $loop->the_post();
+            if ($counter === 2 || $counter === 3 || $counter === 5 || $counter === 6 || $counter === 8 || $counter === 9) {
+                get_template_part( 'templates/categories/portfolio/portfolio_item', 'index' );
+            }
+            if ($counter === 1) {
+                echo '<div class="row">';
+                get_template_part( 'templates/categories/portfolio/portfolio_item', 'index' );
+            } elseif ($counter === 4 || $counter === 7) {
+                echo '</div>
+                <div class="row">';
+                get_template_part( 'templates/categories/portfolio/portfolio_item', 'index' );
+            } elseif ($counter === (int)$counterPost->publish || $counter === 9) {
+                echo '</div>';
+            }
+
+            $counter++;
+        }
+
+        $total_pages = $loop->max_num_pages;
+
+        if ($total_pages > 1){
+
+            $current_page = max(1, get_query_var('paged'));
+
+            echo '<div class="pagination"><a href="#" class="back">в самое начало</a>' . paginate_links(array(
+                    'base' => get_pagenum_link(1) . '%_%',
+
+                    'current' => $current_page,
+                    'total' => $total_pages,
+                    'type' => 'list',
+                    'next_text' => '>',
+                    'prev_text' => '<',
+                )) . '<a href="#" class="end">в самый конец</a></div>';
+        }
+
+        wp_reset_postdata();
+    }
+
+    wp_die();
+}
+
+/**
+ * Отправка формы обратный звонок
+*/
+
+add_action('wp_ajax_send_request_phone_form', 'send_request_phone_form_callback');
+add_action('wp_ajax_nopriv_send_request_phone_form', 'send_request_phone_form_callback');
+add_action( 'wp_footer' , 'send_request_phone_form', 99);
+
+function send_request_phone_form() {
+    ?>
+    <script type="text/javascript" >
+        $(document).ready(function($) {
+            $('body').on('submit', '#requestPhoneForm', function(e){
+
+                e.preventDefault();
+                var form = $(this);
+                var data = {
+                    action: 'send_request_phone_form',
+                    form: $(this).serialize(),
+                };
+
+                $.ajax({
+                    url: myajax.url,
+                    data: data,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    success: function (data) {
+                        form.find('input[type=text]').val('');
+                        form.find('textarea').val('');
+                        form.after('<br><p style="color:green">'+data.message+'</p>');
+                    },
+                    error: function (data) {
+                        console.log(data);
+                        alert('error');
+                    }
+                });
+
+                return false;
+            });
+        });
+    </script>
+    <?php
+}
+
+function send_request_phone_form_callback() {
+    if (!empty($_POST['form'])) {
+        parse_str(urldecode($_POST['form']), $result);
+        $form = $result['requestPhoneForm'];
+        if (!empty($form['name']) && !empty($form['tel']) && !empty($form['message'])) {
+            $body = '
+                <p>Имя - '.$form['name'].'</p>
+                <p>Телефон - '.$form['tel'].'</p>
+                <p>Сообщение - '.$form['message'].'</p>
+            ';
+
+            $to = get_option('admin_email');
+
+
+            if (wp_mail($to, 'Новый запрос - перезвоните мне', $body)) {
+                wp_send_json(
+                    ['success' => true, 'message' => 'Спасибо за Ваше обращение, мы свяжемся с Вами в ближайшее время']
+                );
+            }
+
+            wp_send_json(
+                ['success' => false, 'message' => 'Произошла ошибка, попробуйте позже']
+            );
+        }
+    } else {
+        wp_send_json(1);
+
+    }
+}
+
+
+/**
+ * Элемент портфолио в админке
  * @return WP_Post_Type
 */
 function portfolio_item() {
@@ -84,6 +286,9 @@ function portfolio_title_color_save( $post_id ) {
 
 add_action('save_post', 'portfolio_title_color_save');
 
+/**
+ * SDC THEME SETUP
+ */
 
 if (! function_exists('sdc_main_style')) :
     /**
@@ -94,6 +299,14 @@ if (! function_exists('sdc_main_style')) :
     }
 
 endif;
+
+
+if (! function_exists('wpse27856_set_content_type')) {
+    function wpse27856_set_content_type(){
+        return "text/html";
+    }
+}
+
 
 if (! function_exists('sdc_main_scripts')) :
     /**
@@ -137,10 +350,60 @@ if ( ! function_exists( 'sdc_setup' ) ) :
 
         add_image_size( 'portfolio', 398, 326, true );
         add_image_size('very-small', 50, 50, true);
+
+
+        add_filter( 'wp_mail_content_type', 'wpse27856_set_content_type' );
     }
 endif; // sdc setup
 
 add_action( 'after_setup_theme', 'sdc_setup' );
+
+
+/**
+ * ADDITIONAL FUNCTIONS
+*/
+if (! function_exists('hm_get_template_part')) :
+
+    function hm_get_template_part( $file, $template_args = array(), $cache_args = array() ) {
+        $template_args = wp_parse_args( $template_args );
+        $cache_args = wp_parse_args( $cache_args );
+        if ( $cache_args ) {
+            foreach ( $template_args as $key => $value ) {
+                if ( is_scalar( $value ) || is_array( $value ) ) {
+                    $cache_args[$key] = $value;
+                } else if ( is_object( $value ) && method_exists( $value, 'get_id' ) ) {
+                    $cache_args[$key] = call_user_method( 'get_id', $value );
+                }
+            }
+            if ( ( $cache = wp_cache_get( $file, serialize( $cache_args ) ) ) !== false ) {
+                if ( ! empty( $template_args['return'] ) )
+                    return $cache;
+                echo $cache;
+                return;
+            }
+        }
+        $file_handle = $file;
+        do_action( 'start_operation', 'hm_template_part::' . $file_handle );
+        if ( file_exists( get_stylesheet_directory() . '/' . $file . '.php' ) )
+            $file = get_stylesheet_directory() . '/' . $file . '.php';
+        elseif ( file_exists( get_template_directory() . '/' . $file . '.php' ) )
+            $file = get_template_directory() . '/' . $file . '.php';
+        ob_start();
+        $return = require( $file );
+        $data = ob_get_clean();
+        do_action( 'end_operation', 'hm_template_part::' . $file_handle );
+        if ( $cache_args ) {
+            wp_cache_set( $file, $data, serialize( $cache_args ), 3600 );
+        }
+        if ( ! empty( $template_args['return'] ) )
+            if ( $return === false )
+                return false;
+            else
+                return $data;
+        echo $data;
+    }
+
+endif;
 
 if (! function_exists('sdc_footer_logo')) :
     /**
@@ -162,7 +425,6 @@ if (! function_exists('sdc_is_front_page')) :
 
     function sdc_is_front_page(){
         $isfrontpage = false;
-
         $current = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
         $site = get_site_url();
         $site = str_replace('http://', '', $site);
