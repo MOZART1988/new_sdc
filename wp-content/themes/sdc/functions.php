@@ -292,6 +292,39 @@ function send_request_phone_form_callback() {
     }
 }
 
+/**
+ * Элемент основные направления в админке
+ * @return WP_Post_Type
+*/
+
+function direction_item() {
+    register_post_type('direction_item', [
+        'labels' => [
+            'name'            => __( 'Основные направления' ),
+            'singular_name'   => __( 'Основные направления' ),
+            'add_new'         => __( 'Добавить' ),
+            'add_new_item'    => __( 'Добавить новый элемент' ),
+            'edit'            => __( 'Редактировать' ),
+            'edit_item'       => __( 'Редактировать элемент' ),
+            'new_item'        => __( 'Новый элемент' ),
+            'all_items'       => __( 'Основные направления' ),
+            'view'            => __( 'Просмотреть' ),
+            'view_item'       => __( 'Просмотреть элемент' ),
+            'search_items'    => __( 'Поиск' ),
+            'not_found'       => __( 'Не удалось найти' ),
+        ],
+        'public' => true,
+        'menu_position' => 6,
+        'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'],
+        'taxonomies' => ['category'],
+        'has_archive' => true,
+        'capability_type' => 'post',
+        'menu_icon'   => 'dashicons-images-alt',
+        'rewrite' => ['slug' => 'direction'],
+    ]);
+}
+
+add_action( 'init', 'direction_item' );
 
 /**
  * Элемент портфолио в админке
@@ -444,6 +477,7 @@ if ( ! function_exists( 'sdc_setup' ) ) :
         add_theme_support('post-thumbnails');
 
         add_image_size( 'portfolio', 398, 326, true );
+        add_image_size('direction', 135, 126, true);
         add_image_size('very-small', 50, 50, true);
 
         /**
@@ -614,6 +648,22 @@ if (! function_exists('sdc_get_portfolio_category')) :
     }
 
 endif;
+
+if (! function_exists('sdc_get_direction_category')) {
+    /**
+     * get direction category
+     * @return object $category
+    */
+
+    function sdc_get_direction_category() {
+        $category = !empty(get_category_by_slug('direction')) ?
+            get_category_by_slug('direction') :
+            get_category_by_slug('direction-' . pll_current_language());
+
+        return $category;
+    }
+}
+
 
 if (! function_exists('sdc_get_contacts_page')) :
     /**
