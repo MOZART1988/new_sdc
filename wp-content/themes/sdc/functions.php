@@ -479,6 +479,7 @@ if ( ! function_exists( 'sdc_setup' ) ) :
         add_image_size( 'portfolio', 398, 326, true );
         add_image_size('direction', 135, 126, true);
         add_image_size('very-small', 50, 50, true);
+        add_image_size('events', 281, 186, true);
 
         /**
          * removes autop from single content
@@ -531,6 +532,13 @@ if ( ! function_exists( 'sdc_setup' ) ) :
         pll_register_string('Отправить', 'Отправить', 'SDC');
         pll_register_string('Закажите услугу', 'Закажите услугу', 'SDC');
         pll_register_string('или получите консультацию', 'или получите консультацию', 'SDC');
+
+        /**
+         * common strings
+        */
+
+        pll_register_string('в самый конец', 'в самый конец', 'SDC');
+        pll_register_string('в самое начало', 'в самое начало', 'SDC');
     }
 endif; // sdc setup
 
@@ -634,6 +642,38 @@ if (! function_exists('sdc_body_class')) :
 
 endif;
 
+if (! function_exists('sdc_get_events_category')) :
+    /**
+     * get events category
+     * @return object
+     */
+
+    function sdc_get_events_category(){
+
+        return !empty(get_category_by_slug('events')) ?
+            get_category_by_slug('events') :
+            get_category_by_slug('events-' . pll_current_language());
+    }
+
+    /**
+     * get events category from request
+     * @return object
+     */
+    function sdc_get_events_category_from_request(){
+        $term = get_queried_object();
+
+        if ($term !== null) {
+            $term_slug = get_queried_object()->slug;
+
+            if ($term_slug === 'events' || (strpos($term_slug, 'events') !== false)) {
+                return sdc_get_events_category();
+            }
+        }
+
+        return null;
+    }
+endif;
+
 if (! function_exists('sdc_get_portfolio_category')) :
     /**
      * get portfolio category
@@ -658,9 +698,7 @@ if (! function_exists('sdc_get_portfolio_category')) :
             $term_slug = get_queried_object()->slug;
 
             if ($term_slug === 'portfolio' || (strpos($term_slug, 'portfolio') !== false)) {
-                return !empty(get_category_by_slug('portfolio')) ?
-                    get_category_by_slug('portfolio') :
-                    get_category_by_slug('portfolio-' . pll_current_language());
+                return sdc_get_portfolio_category();
             }
         }
 
@@ -695,9 +733,7 @@ if (! function_exists('sdc_get_direction_category')) {
             $term_slug = get_queried_object()->slug;
 
             if ($term_slug === 'direction' || (strpos($term_slug, 'direction') !== false)) {
-                return !empty(get_category_by_slug('direction')) ?
-                    get_category_by_slug('direction') :
-                    get_category_by_slug('direction-' . pll_current_language());
+                return sdc_get_direction_category();
             }
         }
 

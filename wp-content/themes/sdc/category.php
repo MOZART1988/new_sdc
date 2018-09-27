@@ -41,6 +41,22 @@ if (!empty(sdc_get_direction_category_from_request())) {
     hm_get_template_part('templates/categories/direction/direction-main', ['loop' => $loop, 'category' => $category]);
 }
 
+if (!empty(sdc_get_events_category_from_request())) {
+    $category = sdc_get_portfolio_category();
+    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+    $args = [
+        'post_type'=>'post',
+        'posts_per_page' => 9,
+        'paged' => $paged,
+        'lang' => pll_current_language()
+    ];
+
+    $loop = new WP_Query( $args );
+
+    get_header();
+    hm_get_template_part('templates/categories/events/events-main', ['loop' => $loop, 'category' => $category]);
+}
+
 
 ?>
 

@@ -28,7 +28,7 @@
             <img src="<?=esc_url( get_template_directory_uri() )?>/img/logo-1.png"><span>smartdigital</span>
         </a>
     <?php endif; ?>
-    <span class="slogan"><?php pll__('Агентство рекламы и маркетинга')?></span><!-- header slogan -->
+    <span class="slogan"><?=pll__('Агентство рекламы и маркетинга')?></span><!-- header slogan -->
     <div class="langs"><!-- header langs -->
         <ul><?php pll_the_languages();?></ul>
     </div><!-- header langs -->
