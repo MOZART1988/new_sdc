@@ -14,7 +14,7 @@
 get_header(); ?>
 <div class="preloader show">
     <div class="preloader__block"></div>
-    <span class="preloader__title"><?php pll__('Smartdigital')?></span>
+    <span class="preloader__title"><?=pll__('Smartdigital')?></span>
 </div>
 <div class="main"><!-- main content -->
     <section class="banner"><!-- main banner -->

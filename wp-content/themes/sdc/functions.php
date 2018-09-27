@@ -510,6 +510,7 @@ if ( ! function_exists( 'sdc_setup' ) ) :
                 'Заказать обратный звонок',
                 'SDC'
         );
+        pll_register_string('Smartdigital', 'Smartdigital', 'SDC');
 
         /**
          * contacts-main.php
@@ -636,15 +637,34 @@ endif;
 if (! function_exists('sdc_get_portfolio_category')) :
     /**
      * get portfolio category
-     * @return object $category
+     * @return object
     */
 
     function sdc_get_portfolio_category(){
-        $category = !empty(get_category_by_slug('portfolio')) ?
+
+        return !empty(get_category_by_slug('portfolio')) ?
             get_category_by_slug('portfolio') :
             get_category_by_slug('portfolio-' . pll_current_language());
+    }
 
-        return $category;
+    /**
+     * get portfolio category from request
+     * @return object
+     */
+    function sdc_get_portfolio_category_from_request(){
+        $term = get_queried_object();
+
+        if ($term !== null) {
+            $term_slug = get_queried_object()->slug;
+
+            if ($term_slug === 'portfolio' || (strpos($term_slug, 'portfolio') !== false)) {
+                return !empty(get_category_by_slug('portfolio')) ?
+                    get_category_by_slug('portfolio') :
+                    get_category_by_slug('portfolio-' . pll_current_language());
+            }
+        }
+
+        return null;
     }
 
 endif;
@@ -652,15 +672,36 @@ endif;
 if (! function_exists('sdc_get_direction_category')) {
     /**
      * get direction category
-     * @return object $category
+     * @return object
     */
 
     function sdc_get_direction_category() {
-        $category = !empty(get_category_by_slug('direction')) ?
+
+        return !empty(get_category_by_slug('direction')) ?
             get_category_by_slug('direction') :
             get_category_by_slug('direction-' . pll_current_language());
 
-        return $category;
+    }
+
+    /**
+     * get direction category from request
+     * @return object
+     */
+    function sdc_get_direction_category_from_request() {
+
+        $term = get_queried_object();
+
+        if ($term !== null) {
+            $term_slug = get_queried_object()->slug;
+
+            if ($term_slug === 'direction' || (strpos($term_slug, 'direction') !== false)) {
+                return !empty(get_category_by_slug('direction')) ?
+                    get_category_by_slug('direction') :
+                    get_category_by_slug('direction-' . pll_current_language());
+            }
+        }
+
+        return null;
     }
 }
 
