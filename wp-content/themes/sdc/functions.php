@@ -36,8 +36,7 @@ function send_request_contact_form() {
     <script type="text/javascript" >
         $(document).ready(function($) {
             $('body').on('submit', '#sendContactForm', function(e){
-
-                e.preventDefault();
+                //e.preventDefault();
                 var form = $(this);
                 var data = {
                     action: 'send_request_contact_form',
@@ -52,19 +51,23 @@ function send_request_contact_form() {
                     success: function (data) {
                         form.find('input[type=text]').val('');
                         form.find('textarea').val('');
-                        alert(data);
-                    };
+                        form.find('input[type=email]').val('');
+                        $('#result-message-ajax').html(data.message);
+
+                    },
                     error: function (data) {
                         console.log(data);
-                        alert('error');
+                        $('#result-message-ajax').html('Произошла ошибка сервера');
                     }
                 });
+
+                $('#modal--form').modal('show');
 
                 return false;
             });
         });
     </script>
-    <?
+    <?php
 }
 
 function send_request_contact_form_callback() {

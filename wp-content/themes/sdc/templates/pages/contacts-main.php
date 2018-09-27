@@ -13,13 +13,13 @@
         <input type="email" placeholder="<?=pll__('Электронная почта')?>" required="required" name="sendContactForm[email]">
         <input type="text" placeholder="<?=pll__('Контактный номер телефона')?>" name="sendContactForm[tel]" required="required">
         <textarea rows="5" required="required" name="sendContactForm[message]"></textarea>
-        <input type="submit" class="btn" value="<?=pll__('Отправить')?>" data-toggle="modal" data-target="#modal--form">
+        <input type="submit" class="btn" value="<?=pll__('Отправить')?>" />
         <div id="modal--form" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-                        <h4><?=pll__('Ваше письмо отправленно')?></h4>
+                        <h4 id="result-message-ajax"><?=pll__('Ваше письмо отправленно')?></h4>
                     </div>
                 </div>
             </div>
