@@ -59,7 +59,6 @@ $loop = $template_args['loop'];
 
                         echo '<div class="pagination"><a href="#" class="back">в самое начало</a>' . paginate_links(array(
                                 'base' => get_pagenum_link(1) . '%_%',
-
                                 'current' => $current_page,
                                 'total' => $total_pages,
                                 'type' => 'list',

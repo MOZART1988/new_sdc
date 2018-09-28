@@ -102,6 +102,108 @@ function send_request_contact_form_callback() {
 }
 
 /**
+ *  Загрузка элементов событий в отдельной категории
+*/
+
+if (wp_doing_ajax()) {
+    add_action('wp_ajax_load_items_by_events_category', 'load_items_by_events_category_callback');
+    add_action('wp_ajax_nopriv_load_items_by_events_category', 'load_items_by_events_category_callback');
+}
+
+add_action( 'wp_footer' , 'load_items_by_events_category', 99);
+
+function load_items_by_events_category() {
+    ?>
+    <script type="text/javascript" >
+        $(document).ready(function($) {
+            $('body').on('click', '.events-filter a', function(){
+
+                $('.events-filter').removeClass('active');
+                $(this).parent().addClass('active');
+
+                var data = {
+                    action: 'load_items_by_events_category',
+                    id: $(this).data('id')
+                };
+                $.ajax({
+                    url: myajax.url,
+                    data: data,
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function (data) {
+                        console.log(data);
+                        $('.events-ajax-result').html(data);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            });
+        });
+    </script>
+    <?php
+}
+
+function load_items_by_events_category_callback() {
+
+    if (empty($_GET['id'])) {
+        wp_die();
+    }
+
+    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+
+    $args = [
+        'post_type'=>'post',
+        'posts_per_page' => 10,
+        'paged' => $paged,
+        'lang' => pll_current_language()
+    ];
+
+    if ($_GET['id'] !== 'all') {
+        $args = [
+            'post_type'=>'post',
+            'posts_per_page' => 10,
+            'paged' => $paged,
+            'lang' => pll_current_language(),
+            'cat' => $_GET['id']
+        ];
+    }
+
+
+    $loop = new WP_Query( $args );
+
+    if ($loop->have_posts()) {
+        echo '<div class="row">';
+        while ($loop->have_posts()) {
+            $loop->the_post();
+            get_template_part('/templates/categories/events/events_item', 'index');
+        }
+        echo '</div>';
+
+        $total_pages = $loop->max_num_pages;
+
+        if ($total_pages > 1){
+
+            $current_page = max(1, get_query_var('paged'));
+
+            echo '<div class="pagination"><a href="#" class="back">в самое начало</a>' . paginate_links(array(
+                    'base' => get_pagenum_link(1) . '%_%',
+
+                    'current' => $current_page,
+                    'total' => $total_pages,
+                    'type' => 'list',
+                    'next_text' => '>',
+                    'prev_text' => '<',
+                )) . '<a href="#" class="end">в самый конец</a></div>';
+        }
+
+        wp_reset_postdata();
+    }
+
+    wp_die();
+}
+
+/**
  *  Загрузка элементов по портфолио по отдельной категории
 */
 
@@ -116,9 +218,9 @@ function load_items_by_portfolio_category() {
     ?>
     <script type="text/javascript" >
         $(document).ready(function($) {
-           $('body').on('click', '.portfolio__nav a', function(){
+           $('body').on('click', '.portfolio-filter a', function(){
 
-               $('.portfolio__nav li').removeClass('active');
+               $('.portfolio-filter').removeClass('active');
                $(this).parent().addClass('active');
 
                var data = {
@@ -406,6 +508,55 @@ function portfolio_title_color_save( $post_id ) {
 }
 
 add_action('save_post', 'portfolio_title_color_save');
+
+/**
+ * Короткое описание для поста
+*/
+
+function post_short_text() {
+    add_meta_box(
+        'pst_short_text',
+        __('Короткое описание'),
+        'post_short_text_callback',
+        'post'
+    );
+}
+
+add_action('add_meta_boxes', 'post_short_text');
+
+
+function post_short_text_callback($post) {
+    wp_nonce_field(basename(__FILE__), 'pst_short_text');
+    $links_stored_meta = get_post_meta( $post->ID );
+    ?>
+    <textarea style="width:100%"
+           name="pst_short_text_original"
+           id="pst_short_text_original"
+           value="<?php if ( isset ( $links_stored_meta['pst_short_text_original'] ) ) echo $links_stored_meta['pst_short_text_original'][0]; ?>" >
+        <?php if ( isset ( $links_stored_meta['pst_short_text_original'] ) ) echo $links_stored_meta['pst_short_text_original'][0]; ?>"
+    </textarea>
+    <?php
+}
+
+/**
+ * Cохранение
+ */
+
+function post_short_text_save( $post_id ) {
+    $is_autosave = wp_is_post_autosave( $post_id );
+    $is_revision = wp_is_post_revision( $post_id );
+    $is_valid_nonce = ( isset( $_POST[ 'pst_short_text' ] ) && wp_verify_nonce( $_POST[ 'pst_short_text' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
+        return;
+    }
+    if( isset( $_POST[ 'pst_short_text_original' ] ) ) {
+        update_post_meta( $post_id, 'pst_short_text_original', sanitize_text_field( $_POST[ 'pst_short_text_original' ] ) );
+    }
+}
+
+add_action('save_post', 'post_short_text_save');
+
+
 
 /**
  * SDC THEME SETUP

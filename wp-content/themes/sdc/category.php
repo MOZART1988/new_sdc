@@ -42,11 +42,11 @@ if (!empty(sdc_get_direction_category_from_request())) {
 }
 
 if (!empty(sdc_get_events_category_from_request())) {
-    $category = sdc_get_portfolio_category();
+    $category = sdc_get_events_category();
     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
     $args = [
         'post_type'=>'post',
-        'posts_per_page' => 9,
+        'posts_per_page' => 10,
         'paged' => $paged,
         'lang' => pll_current_language()
     ];
