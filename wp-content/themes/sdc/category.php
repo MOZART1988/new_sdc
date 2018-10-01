@@ -53,7 +53,7 @@ if (!empty(sdc_get_events_category_from_request())) {
     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
     $args = [
         'post_type'=>'post',
-        'posts_per_page' => 1,
+        'posts_per_page' => 10,
         'paged' => $paged,
         'lang' => pll_current_language()
     ];

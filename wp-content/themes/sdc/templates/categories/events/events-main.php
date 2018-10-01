@@ -42,15 +42,19 @@ $loop = $template_args['loop'];
 
                     $current_page = max(1, get_query_var('paged'));
 
-                    echo '<div class="pagination"><a href="#" class="back">'.pll__('в самое начало').'</a>' . paginate_links(array(
-                            'base' => get_pagenum_link(1) . '%_%',
-
-                            'current' => $current_page,
-                            'total' => $total_pages,
-                            'type' => 'list',
-                            'next_text' => '>',
-                            'prev_text' => '<',
-                        )) . '<a href="#" class="end">'.pll__('в самый конец').'</a></div>';
+                    echo '<div class="pagination">
+                                <a href="'.get_category_link(sdc_get_events_category()->cat_ID).'" class="back">'.pll__('в самое начало').'</a>' . paginate_links(
+                            [
+                                'current' => $current_page,
+                                'total' => $total_pages,
+                                'type' => 'list',
+                                'next_text' => '>',
+                                'prev_text' => '<',
+                                'base' => get_pagenum_link(1) . '%_%',
+                                'format' => 'page/%#%/',
+                                'prev_next' => false,
+                            ]
+                        ) . '<a href="'.get_category_link(sdc_get_events_category()->cat_ID).'page/'.$loop->max_num_pages.'/" class="end">'.pll__('в самый конец').'</a></div>';
                 }
                 ?>
                 <?php wp_reset_postdata();?>

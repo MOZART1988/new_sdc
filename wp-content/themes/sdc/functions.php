@@ -193,15 +193,18 @@ function load_items_by_events_category_callback() {
 
             $current_page = max(1, get_query_var('paged'));
 
-            echo '<div class="pagination"><a href="#" class="back">в самое начало</a>' . paginate_links(array(
-                    'base' => get_pagenum_link(1) . '%_%',
-
-                    'current' => $current_page,
-                    'total' => $total_pages,
-                    'type' => 'list',
-                    'next_text' => '>',
-                    'prev_text' => '<',
-                )) . '<a href="#" class="end">в самый конец</a></div>';
+            echo '<div class="pagination"><a href="'.get_category_link(sdc_get_events_category()->cat_ID).'" class="back">'.pll__('в самое начало').'</a>' . paginate_links(
+                    [
+                        'current' => $current_page,
+                        'total' => $total_pages,
+                        'type' => 'list',
+                        'next_text' => '>',
+                        'prev_text' => '<',
+                        'base' => get_site_url() . '/category/portfolio' . '%_%',
+                        'format' => '/page/%#%/',
+                        'prev_next' => false,
+                    ]
+                ) . '<a href="'.get_category_link(sdc_get_events_category()->cat_ID).'page/'.$loop->max_num_pages.'/" class="end">'.pll__('в самый конец').'</a></div>';
         }
 
         wp_reset_postdata();
@@ -241,6 +244,7 @@ function load_items_by_portfolio_category() {
                     dataType: 'html',
                     success: function (data) {
                         $('.portfolio-ajax-result').html(data);
+                        $('a.custom-active').parent().addClass('active');
                     },
                     error: function (data) {
                         console.log(data);
@@ -308,7 +312,7 @@ function load_items_by_portfolio_category_callback() {
 
             $current_page = max(1, get_query_var('paged'));
 
-            echo '<div class="pagination"><a href="#" class="back">'.pll__('в самое начало').'</a>' . paginate_links(
+            echo '<div class="pagination"><a href="'.get_category_link(sdc_get_portfolio_category()->cat_ID).'" class="back">'.pll__('в самое начало').'</a>' . paginate_links(
                     [
                         'current' => $current_page,
                         'total' => $total_pages,
@@ -319,7 +323,7 @@ function load_items_by_portfolio_category_callback() {
                         'format' => '/page/%#%/',
                         'prev_next' => false,
                     ]
-                ) . '<a href="#" class="end">'.pll__('в самый конец').'</a></div>';
+                ) . '<a href="'.get_category_link(sdc_get_portfolio_category()->cat_ID).'page/'.$loop->max_num_pages.'/" class="end">'.pll__('в самый конец').'</a></div>';
         }
     }
 
@@ -643,6 +647,8 @@ if ( ! function_exists( 'sdc_setup' ) ) :
         add_image_size('very-small', 50, 50, true);
         add_image_size('events', 281, 186, true);
 
+        add_image_size('event-single', 298, 216, true);
+
         /**
          * removes autop from single content
          */
@@ -701,6 +707,12 @@ if ( ! function_exists( 'sdc_setup' ) ) :
 
         pll_register_string('в самый конец', 'в самый конец', 'SDC');
         pll_register_string('в самое начало', 'в самое начало', 'SDC');
+
+        /**
+         * single post
+        */
+
+        pll_register_string('Метки:', 'Метки:', 'SDC');
     }
 endif; // sdc setup
 
@@ -797,6 +809,10 @@ if (! function_exists('sdc_body_class')) :
     function sdc_body_class() {
         if (sdc_is_front_page()) {
             return '';
+        }
+
+        if (is_single()) {
+            return 'body--porfolio second';
         }
 
         return 'body';

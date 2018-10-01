@@ -55,11 +55,10 @@ $loop = $template_args['loop'];
 
                     if ($total_pages > 1){
 
-
-
                         $current_page = max(1, get_query_var('paged'));
 
-                        echo '<div class="pagination"><a href="#" class="back">'.pll__('в самое начало').'</a>' . paginate_links(
+                        echo '<div class="pagination">
+                                <a href="'.get_category_link(sdc_get_portfolio_category()->cat_ID).'" class="back">'.pll__('в самое начало').'</a>' . paginate_links(
                                 [
                                     'current' => $current_page,
                                     'total' => $total_pages,
@@ -70,7 +69,7 @@ $loop = $template_args['loop'];
                                     'format' => 'page/%#%/',
                                     'prev_next' => false,
                                 ]
-                            ) . '<a href="#" class="end">'.pll__('в самый конец').'</a></div>';
+                            ) . '<a href="'.get_category_link(sdc_get_portfolio_category()->cat_ID).'page/'.$loop->max_num_pages.'/" class="end">'.pll__('в самый конец').'</a></div>';
                     }
                     ?>
                 <?php endif; ?>
