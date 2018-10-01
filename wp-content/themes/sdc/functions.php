@@ -3,6 +3,13 @@
  * functions.php for theme SDC
 */
 
+add_action( 'parse_query','changept' );
+function changept() {
+    if( is_category() && !is_admin() )
+        set_query_var( 'post_type', ['post', 'portfolio_item'] );
+    return;
+}
+
 /**
  * Adding AJAX var
  */
@@ -287,7 +294,7 @@ function load_items_by_portfolio_category_callback() {
                 echo '</div>
                 <div class="row">';
                 get_template_part( 'templates/categories/portfolio/portfolio_item', 'index' );
-            } elseif ($counter === (int)$counterPost->publish || $counter === 9) {
+            } elseif ($counter === (int)$counterPost->publish || $counter === 9 || empty($loop->posts[$counter])) {
                 echo '</div>';
             }
 
@@ -300,19 +307,22 @@ function load_items_by_portfolio_category_callback() {
 
             $current_page = max(1, get_query_var('paged'));
 
-            echo '<div class="pagination"><a href="#" class="back">в самое начало</a>' . paginate_links(array(
-                    'base' => get_pagenum_link(1) . '%_%',
-
-                    'current' => $current_page,
-                    'total' => $total_pages,
-                    'type' => 'list',
-                    'next_text' => '>',
-                    'prev_text' => '<',
-                )) . '<a href="#" class="end">в самый конец</a></div>';
+            echo '<div class="pagination"><a href="#" class="back">'.pll__('в самое начало').'</a>' . paginate_links(
+                    [
+                        'current' => $current_page,
+                        'total' => $total_pages,
+                        'type' => 'list',
+                        'next_text' => '>',
+                        'prev_text' => '<',
+                        'base' => get_pagenum_link(1) . '%_%',
+                        'format' => '/page/%#%/',
+                        'prev_next' => false,
+                    ]
+                ) . '<a href="#" class="end">'.pll__('в самый конец').'</a></div>';
         }
-
-        wp_reset_postdata();
     }
+
+    wp_reset_postdata();
 
     wp_die();
 }
@@ -455,7 +465,7 @@ function portfolio_item() {
         'has_archive' => true,
         'capability_type' => 'post',
         'menu_icon'   => 'dashicons-images-alt',
-        'rewrite' => ['slug' => 'portfolio'],
+        //'rewrite' => ['slug' => 'portfolio'],
     ]);
 }
 add_action( 'init', 'portfolio_item' );

@@ -1,5 +1,8 @@
 
 $(function(){
+
+	$('a.custom-active').parent().addClass('active');
+
 	setTimeout(function(){
 		$('.preloader').addClass('load');
 		$('.preloader').removeClass('link show');

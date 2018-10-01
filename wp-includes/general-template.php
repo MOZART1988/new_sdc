@@ -3785,7 +3785,7 @@ function paginate_links( $args = '' ) {
 	endif;
 	for ( $n = 1; $n <= $total; $n++ ) :
 		if ( $n == $current ) :
-            $page_links[] = '<li class="active"><a href="#">'.number_format_i18n( $n ).'</a></li>';
+            $page_links[] = '<a class="custom-active" href="#">'.number_format_i18n( $n ).'</a>';
 			//$page_links[] = "<span aria-current='" . esc_attr( $args['aria_current'] ) . "' class='page-numbers current'>" . $args['before_page_number'] . number_format_i18n( $n ) . $args['after_page_number'] . "</span>";
 			$dots = true;
 		else :

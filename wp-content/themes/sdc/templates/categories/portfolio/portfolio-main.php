@@ -44,7 +44,7 @@ $loop = $template_args['loop'];
                             </div>
                             <div class="row">
                             <?php get_template_part( 'templates/categories/portfolio/portfolio_item', 'index' );?>
-                        <?php elseif ($counter === (int)$counterPost->publish || $counter === 9) : ?>
+                        <?php elseif ($counter === (int)$counterPost->publish || $counter === 9 || empty($loop->posts[$counter])) : ?>
                             </div>
                         <?php endif; ?>
 
@@ -55,20 +55,27 @@ $loop = $template_args['loop'];
 
                     if ($total_pages > 1){
 
+
+
                         $current_page = max(1, get_query_var('paged'));
 
-                        echo '<div class="pagination"><a href="#" class="back">в самое начало</a>' . paginate_links(array(
-                                'base' => get_pagenum_link(1) . '%_%',
-                                'current' => $current_page,
-                                'total' => $total_pages,
-                                'type' => 'list',
-                                'next_text' => '>',
-                                'prev_text' => '<',
-                            )) . '<a href="#" class="end">в самый конец</a></div>';
+                        echo '<div class="pagination"><a href="#" class="back">'.pll__('в самое начало').'</a>' . paginate_links(
+                                [
+                                    'current' => $current_page,
+                                    'total' => $total_pages,
+                                    'type' => 'list',
+                                    'next_text' => '>',
+                                    'prev_text' => '<',
+                                    'base' => get_pagenum_link(1) . '%_%',
+                                    'format' => 'page/%#%/',
+                                    'prev_next' => false,
+                                ]
+                            ) . '<a href="#" class="end">'.pll__('в самый конец').'</a></div>';
                     }
                     ?>
-                    <?php wp_reset_postdata();?>
                 <?php endif; ?>
+
+                <?php wp_reset_postdata();?>
             </div>
         </div>
     </div>

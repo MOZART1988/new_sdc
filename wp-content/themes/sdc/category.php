@@ -6,11 +6,18 @@
  * @package WordPress
  */
 
-
 if (!empty(sdc_get_portfolio_category_from_request())) {
 
     $category = sdc_get_portfolio_category();
-    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+
+    if ( get_query_var( 'paged' ) ) {
+        $paged = get_query_var( 'paged' );
+    } elseif ( get_query_var( 'page' ) ) {
+        $paged = get_query_var( 'page' );
+    } else {
+        $paged = 1;
+    }
+
     $args = [
         'post_type'=>'portfolio_item',
         'posts_per_page' => 9,
@@ -46,7 +53,7 @@ if (!empty(sdc_get_events_category_from_request())) {
     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
     $args = [
         'post_type'=>'post',
-        'posts_per_page' => 10,
+        'posts_per_page' => 1,
         'paged' => $paged,
         'lang' => pll_current_language()
     ];
