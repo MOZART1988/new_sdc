@@ -254,6 +254,7 @@ function load_items_by_portfolio_category() {
 
 function load_items_by_portfolio_category_callback() {
 
+
     if (empty($_GET['id'])) {
         wp_die();
     }
@@ -314,7 +315,7 @@ function load_items_by_portfolio_category_callback() {
                         'type' => 'list',
                         'next_text' => '>',
                         'prev_text' => '<',
-                        'base' => get_pagenum_link(1) . '%_%',
+                        'base' => get_site_url() . '/category/portfolio' . '%_%',
                         'format' => '/page/%#%/',
                         'prev_next' => false,
                     ]
