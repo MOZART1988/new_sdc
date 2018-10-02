@@ -18,13 +18,7 @@ get_header();
 <div class="page portfolio--unit"><!-- page content -->
     <?php while(have_posts()) : the_post()?>
         <div class="banner second">
-            <div class="breadcrumbs">
-                <ul>
-                    <li><a href="index.html">Главная</a></li>
-                    <li><a href="portfolio.html">События</a></li>
-                    <li><a href="#">Вячеслав Артёмов. Новый альбом “In Spe”</a></li>
-                </ul>
-            </div>
+            <?php get_template_part('/templates/categories/events/events', 'breadcumps')?>
         </div>
         <div class="container portfolio--container">
             <section class="event"><!-- main event -->

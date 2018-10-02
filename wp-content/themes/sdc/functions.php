@@ -640,7 +640,9 @@ if ( ! function_exists( 'sdc_setup' ) ) :
 
         add_action( 'wp_enqueue_scripts', 'sdc_main_style' );
         add_action( 'wp_enqueue_scripts', 'sdc_main_scripts');
+
         add_theme_support('post-thumbnails');
+        add_theme_support( 'title-tag' );
 
         add_image_size( 'portfolio', 398, 326, true );
         add_image_size('direction', 135, 126, true);
