@@ -410,6 +410,39 @@ function send_request_phone_form_callback() {
 }
 
 /**
+ * Элемент клиет в админке
+ * @return WP_Post_Type
+*/
+
+function client_item() {
+    register_post_type( 'client_item', [
+        'labels' => [
+            'name'            => __( 'Клиенты' ),
+            'singular_name'   => __( 'Клиент' ),
+            'add_new'         => __( 'Добавить' ),
+            'add_new_item'    => __( 'Добавить нового клиента' ),
+            'edit'            => __( 'Редактировать' ),
+            'edit_item'       => __( 'Редактировать клиента' ),
+            'new_item'        => __( 'Новый клиент' ),
+            'all_items'       => __( 'Клиенты' ),
+            'view'            => __( 'Просмотреть' ),
+            'view_item'       => __( 'Просмотреть клиента' ),
+            'search_items'    => __( 'Поиск' ),
+            'not_found'       => __( 'Не удалось найти' ),
+        ],
+        'public' => true,
+        'menu_position' => 7,
+        'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'],
+        'has_archive' => true,
+        'capability_type' => 'post',
+        'taxonomies' => ['category'],
+        'menu_icon'   => 'dashicons-images-alt',
+    ]);
+}
+
+add_action( 'init', 'client_item' );
+
+/**
  * Элемент основные направления в админке
  * @return WP_Post_Type
 */
@@ -474,7 +507,6 @@ function portfolio_item() {
     ]);
 }
 add_action( 'init', 'portfolio_item' );
-
 
 /**
  * Dыбор цвета заголовка в элементы портфолио на странице всех элементов портфолио
@@ -644,12 +676,15 @@ if ( ! function_exists( 'sdc_setup' ) ) :
         add_theme_support('post-thumbnails');
         add_theme_support( 'title-tag' );
 
+
         add_image_size( 'portfolio', 398, 326, true );
         add_image_size('direction', 135, 126, true);
-        add_image_size('very-small', 50, 50, true);
-        add_image_size('events', 281, 186, true);
 
+        add_image_size('events', 281, 186, true);
         add_image_size('event-single', 298, 216, true);
+
+        add_image_size('client-thumb', 162, 162);
+        add_image_size('client-list', 324, 262, true);
 
         /**
          * removes autop from single content
@@ -920,6 +955,40 @@ if (! function_exists('sdc_get_direction_category')) {
         return null;
     }
 }
+
+if (! function_exists('sdc_get_clients_category')) :
+    /**
+     * get clients category
+     * @return object
+     */
+
+    function sdc_get_clients_category() {
+
+        return !empty(get_category_by_slug('clients')) ?
+            get_category_by_slug('clients') :
+            get_category_by_slug('clients-' . pll_current_language());
+
+    }
+
+    /**
+     * get clients category from request
+     * @return object
+     */
+    function sdc_get_clients_category_from_request() {
+
+        $term = get_queried_object();
+
+        if ($term !== null) {
+            $term_slug = get_queried_object()->slug;
+
+            if ($term_slug === 'clients' || (strpos($term_slug, 'clients') !== false)) {
+                return sdc_get_clients_category();
+            }
+        }
+
+        return null;
+    }
+endif;
 
 
 if (! function_exists('sdc_get_contacts_page')) :
