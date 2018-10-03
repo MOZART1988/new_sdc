@@ -630,7 +630,7 @@ function portfolio_goal_callback($post) {
     wp_nonce_field(basename(__FILE__), 'pt_goal');
     $links_stored_meta = get_post_meta( $post->ID );
     ?>
-    <input type="text" size="100"
+    <input required type="text" size="100"
            name="pt_goal_original"
            id="pt_goal_original"
            value="<?php if ( isset ( $links_stored_meta['pt_goal_original'] ) ) echo $links_stored_meta['pt_goal_original'][0]; ?>"/>
@@ -655,7 +655,119 @@ function portfolio_goal_save( $post_id ) {
 
 add_action('save_post', 'portfolio_goal_save');
 
+/**
+ * Поле решение в портфолио
+*/
+function portfolio_desicion() {
+    add_meta_box(
+        'pt_desicion',
+        __('Решение'),
+        'portfolio_desicion_callback',
+        'portfolio_item'
+    );
+}
 
+add_action('add_meta_boxes', 'portfolio_desicion');
+
+
+function portfolio_desicion_callback($post) {
+    wp_nonce_field(basename(__FILE__), 'pt_desicion');
+    $links_stored_meta = get_post_meta( $post->ID );
+    ?>
+
+    <input required type="text" size="100"
+           name="pt_desicion_original"
+           id="pt_desicion_original"
+           value="<?php if ( isset ( $links_stored_meta['pt_desicion_original'] ) ) echo $links_stored_meta['pt_desicion_original'][0]; ?>"/>
+    <?php
+}
+
+/**
+ * Cохранение
+ */
+
+function portfolio_desicion_save( $post_id ) {
+    $is_autosave = wp_is_post_autosave( $post_id );
+    $is_revision = wp_is_post_revision( $post_id );
+    $is_valid_nonce = ( isset( $_POST[ 'pt_desicion' ] ) && wp_verify_nonce( $_POST[ 'pt_desicion' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
+        return;
+    }
+    if( isset( $_POST[ 'pt_desicion_original' ] ) ) {
+        update_post_meta( $post_id, 'pt_desicion_original', sanitize_text_field( $_POST[ 'pt_desicion_original' ] ) );
+    }
+}
+
+add_action('save_post', 'portfolio_desicion_save');
+
+/**
+ * Поле большой картинки в портфолио
+ */
+function portfolio_custom_image_one() {
+    add_meta_box(
+        'pt_custom_image_one',
+        __('Дополнительное изображение 1'),
+        'portfolio_custom_image_one_callback',
+        'portfolio_item'
+    );
+}
+
+add_action('add_meta_boxes', 'portfolio_custom_image_one');
+
+function portfolio_custom_image_one_callback($post) {
+
+    $attachmentId = get_post_meta($post->ID, 'pt_custom_image_one'); ?>
+
+    <input id="pt_custom_image_one_original" name="pt_custom_image_one_original" type="hidden" value="<?=$attachmentId[0];?>"  />
+
+    <p>
+        <a href="#" id="portfolio_custom_image_one_upload">Загрузите изображение для портфолио</a>
+    </p>
+
+    <br/>
+
+    <img src="<?= !empty($attachmentId[0]) ? wp_get_attachment_image_src($attachmentId[0], 'portfolio')[0] : ''?>"
+         style="width:200px;" id="picsrc" />
+    <script>
+        $(document).ready( function($) {
+            $('#portfolio_custom_image_one_upload').click(function() {
+
+                metaImageFrame = wp.media.frames.metaImageFrame = wp.media({
+                    title: 'Изображения портфолио',
+                    button: { text:  'Загрузите изображение для портфолио' },
+                });
+
+                metaImageFrame.on('select', function() {
+
+                    var media_attachment = metaImageFrame.state().get('selection').first().toJSON();
+
+                    console.log(media_attachment);
+
+                    $( '#picsrc' ).attr('src', media_attachment.link);
+
+                    $('#pt_custom_image_one_original').val(media_attachment.id);
+
+                });
+
+                metaImageFrame.open();
+
+            });
+        });
+    </script>
+    <?php
+}
+
+/**
+ * Сохранение
+*/
+
+function portfolio_custom_image_one_save($post_id) {
+    if (isset($_POST['pt_custom_image_one_original'])){
+        update_post_meta($post_id, 'pt_custom_image_one', $_POST['pt_custom_image_one_original']);
+    }
+}
+
+add_action('save_post', 'portfolio_custom_image_one_save');
 
 /**
  * Короткое описание для поста
