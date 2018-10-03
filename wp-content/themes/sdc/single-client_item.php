@@ -15,7 +15,7 @@ get_header();
         </div>
         <div class="container portfolio--container">
             <div class="portfolio--unit__block">
-                <div class="portfolio--unit__block__row">
+                <div class="portfolio--unit__block__row" style="width: 100%">
                     <div class="col-lg-10 col-md-9 col-sm-9">
                         <?php the_title('<h1>', '</h1>'); ?>
                         <p><?php the_content(); ?></p>
@@ -27,54 +27,7 @@ get_header();
             </div>
             <h3 class="text-center"><?=pll__('Все работы для компании')?> <?=$post->post_title?></h3>
             <?php get_template_part('templates/categories/portfolio/portfolio_categories', 'index'); ?>
-            <div class="portfolio">
-                <div class="slider portfolio__for" id="portfolio__for--1">
-                    <div>
-                        <div class="portfolio__for__col left">
-                            <a href="img/img-8.jpg" class="fancy"><img src="img/img-53.jpg"></a>
-                        </div>
-                        <div class="portfolio__for__col right">
-                            <span class="portfolio__for__col__title">Туристическая компания Asirius</span>
-                            <span class="portfolio__for__col__task"><strong>Задача:</strong> разработать сайт с минимум информации, но максимум картинок.</span>
-                            <a href="#" class="btn">Просмотреть результат</a>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="portfolio__for__col left">
-                            <a href="img/img-8.jpg" class="fancy"><img src="img/img-53.jpg"></a>
-                        </div>
-                        <div class="portfolio__for__col right">
-                            <span class="portfolio__for__col__title">Туристическая компания Asirius</span>
-                            <span class="portfolio__for__col__task"><strong>Задача:</strong> разработать сайт с минимум информации, но максимум картинок.</span>
-                            <a href="#" class="btn">Просмотреть результат</a>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="portfolio__for__col left">
-                            <a href="img/img-8.jpg" class="fancy"><img src="img/img-53.jpg"></a>
-                        </div>
-                        <div class="portfolio__for__col right">
-                            <span class="portfolio__for__col__title">Туристическая компания Asirius</span>
-                            <span class="portfolio__for__col__task"><strong>Задача:</strong> разработать сайт с минимум информации, но максимум картинок.</span>
-                            <a href="#" class="btn">Просмотреть результат</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="portfolio__slider--nav" id="portfolio__nav--1">
-                    <div>
-                        <span>Сайт</span>
-                        <img src="img/img-9.jpg">
-                    </div>
-                    <div>
-                        <span>Сайт</span>
-                        <img src="img/img-10.jpg">
-                    </div>
-                    <div>
-                        <span>Сайт</span>
-                        <img src="img/img-11.jpg">
-                    </div>
-                </div>
-            </div>
+            <?php hm_get_template_part('templates/categories/portfolio/portfolio_slider', ['clientId' => $post->ID]); ?>
         </div>
         <?=hm_get_template_part('templates/categories/clients/other-clients', ['mainPost' => $post, 'category' => get_the_category()]) ?>
         <form class="portfolio--unit__form second">

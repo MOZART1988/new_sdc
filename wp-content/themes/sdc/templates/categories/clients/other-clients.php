@@ -16,7 +16,8 @@ $args = [
     'limit' => 5,
     'orderby' => 'rand',
     'post__not_in' => [$mainPost->ID],
-    'post_type' => 'client_item'
+    'post_type' => 'client_item',
+    'lang' => pll_current_language(),
 ];
 
 $loop = new WP_Query( $args );

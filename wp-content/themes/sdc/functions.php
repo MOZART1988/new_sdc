@@ -891,6 +891,10 @@ if ( ! function_exists( 'sdc_setup' ) ) :
 
 
         add_image_size( 'portfolio', 398, 326, true );
+        add_image_size('portfolio-slide', 710, 572, true);
+        add_image_size('portfolio-slide-small', 94, 80, true);
+
+
         add_image_size('direction', 135, 126, true);
 
         add_image_size('events', 281, 186, true);
@@ -958,6 +962,8 @@ if ( ! function_exists( 'sdc_setup' ) ) :
 
         pll_register_string('в самый конец', 'в самый конец', 'SDC');
         pll_register_string('в самое начало', 'в самое начало', 'SDC');
+        pll_register_string('Задача:', 'Задача:', 'SDC');
+        pll_register_string('Просмотреть результат', 'Просмотреть результат', 'SDC');
 
         /**
          * single post
