@@ -3,6 +3,8 @@
  * functions.php for theme SDC
 */
 
+//flush_rewrite_rules( false );
+
 add_action( 'parse_query','changept' );
 function changept() {
     if( is_category() && !is_admin() )
@@ -433,7 +435,7 @@ function client_item() {
         'public' => true,
         'menu_position' => 7,
         'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'],
-        'has_archive' => true,
+        'has_archive' => false,
         'capability_type' => 'post',
         'taxonomies' => ['category'],
         'menu_icon'   => 'dashicons-images-alt',
@@ -685,6 +687,7 @@ if ( ! function_exists( 'sdc_setup' ) ) :
 
         add_image_size('client-thumb', 162, 162);
         add_image_size('client-list', 324, 262, true);
+        add_image_size('client-others', 333, 273, true);
 
         /**
          * removes autop from single content
@@ -750,6 +753,14 @@ if ( ! function_exists( 'sdc_setup' ) ) :
         */
 
         pll_register_string('Метки:', 'Метки:', 'SDC');
+
+
+        /**
+         * single client_item
+        */
+
+        pll_register_string('Все работы для компании', 'Все работы для компании', 'SDC');
+
     }
 endif; // sdc setup
 

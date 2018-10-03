@@ -3,14 +3,6 @@
  * Created by PhpStorm.
  * User: ivan
  * Date: 01.10.18
- * Time: 16:59
- */
-?>
-<?php
-/**
- * Created by PhpStorm.
- * User: ivan
- * Date: 01.10.18
  * Time: 16:35
  */
 get_header();
