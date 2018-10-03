@@ -559,6 +559,105 @@ function portfolio_title_color_save( $post_id ) {
 add_action('save_post', 'portfolio_title_color_save');
 
 /**
+ * Поле клиента в добавлении элемента портфолио
+*/
+function portfolio_client_id() {
+    add_meta_box(
+        'pt_client_id',
+        __('Клиент'),
+        'portfolio_client_id_callback',
+        'portfolio_item'
+    );
+}
+
+add_action('add_meta_boxes', 'portfolio_client_id');
+
+function portfolio_client_id_callback($post) {
+    wp_nonce_field(basename(__FILE__), 'pt_client_id');
+    $links_stored_meta = get_post_meta( $post->ID );
+    $args = ['post_type' => 'client_item', 'posts_per_page' => -1, 'post_status' => 'any', 'post_parent' => null];
+    $clients = get_posts($args);
+    ?>
+    <select name="pt_client_id_original" id="pt_client_id_original">
+        <?php foreach ($clients as $client) : ?>
+            <option value="<?=$client->ID?>"
+                <?=(isset($links_stored_meta['pt_client_id_original']) && ($links_stored_meta['pt_client_id_original'][0] == $client->ID)
+                    ? 'selected' : '')?>>
+                <?=$client->post_title?>
+            </option>
+        <?php endforeach ; ?>
+    </select>
+
+    <?php
+}
+
+/**
+ * Cохранение клиента в элементе портфолио
+ */
+
+function portfolio_client_id_save( $post_id ) {
+    $is_autosave = wp_is_post_autosave( $post_id );
+    $is_revision = wp_is_post_revision( $post_id );
+    $is_valid_nonce = ( isset( $_POST[ 'pt_client_id' ] )
+        && wp_verify_nonce( $_POST[ 'pt_client_id' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
+        return;
+    }
+    if( isset( $_POST[ 'pt_client_id_original' ] ) ) {
+        update_post_meta( $post_id, 'pt_client_id_original', sanitize_text_field( $_POST[ 'pt_client_id_original' ] ) );
+    }
+}
+
+add_action('save_post', 'portfolio_client_id_save');
+
+/**
+ * Задача для элемента портфолио
+*/
+
+function portfolio_goal() {
+    add_meta_box(
+        'pt_goal',
+        __('Задача'),
+        'portfolio_goal_callback',
+        'portfolio_item'
+    );
+}
+
+add_action('add_meta_boxes', 'portfolio_goal');
+
+
+function portfolio_goal_callback($post) {
+    wp_nonce_field(basename(__FILE__), 'pt_goal');
+    $links_stored_meta = get_post_meta( $post->ID );
+    ?>
+    <input type="text" size="100"
+           name="pt_goal_original"
+           id="pt_goal_original"
+           value="<?php if ( isset ( $links_stored_meta['pt_goal_original'] ) ) echo $links_stored_meta['pt_goal_original'][0]; ?>"/>
+    <?php
+}
+
+/**
+ * Cохранение
+ */
+
+function portfolio_goal_save( $post_id ) {
+    $is_autosave = wp_is_post_autosave( $post_id );
+    $is_revision = wp_is_post_revision( $post_id );
+    $is_valid_nonce = ( isset( $_POST[ 'pt_goal' ] ) && wp_verify_nonce( $_POST[ 'pt_goal' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
+        return;
+    }
+    if( isset( $_POST[ 'pt_goal_original' ] ) ) {
+        update_post_meta( $post_id, 'pt_goal_original', sanitize_text_field( $_POST[ 'pt_goal_original' ] ) );
+    }
+}
+
+add_action('save_post', 'portfolio_goal_save');
+
+
+
+/**
  * Короткое описание для поста
 */
 
