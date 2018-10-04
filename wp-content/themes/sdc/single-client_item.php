@@ -27,7 +27,9 @@ get_header();
             </div>
             <h3 class="text-center"><?=pll__('Все работы для компании')?> <?=$post->post_title?></h3>
             <?php get_template_part('templates/categories/portfolio/portfolio_categories', 'index'); ?>
-            <?php hm_get_template_part('templates/categories/portfolio/portfolio_slider', ['clientId' => $post->ID]); ?>
+            <div class="portfolio-ajax-result-for-slider">
+                <?php hm_get_template_part('templates/categories/portfolio/portfolio_slider', ['clientId' => $post->ID, 'categoryId' => 'all']); ?>
+            </div>
         </div>
         <?=hm_get_template_part('templates/categories/clients/other-clients', ['mainPost' => $post, 'category' => get_the_category()]) ?>
         <form class="portfolio--unit__form second">

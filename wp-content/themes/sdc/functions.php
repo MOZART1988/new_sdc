@@ -235,23 +235,73 @@ function load_items_by_portfolio_category() {
                $('.portfolio-filter').removeClass('active');
                $(this).parent().addClass('active');
 
+               var container = $('.portfolio-ajax-result');
+               var isForSlider = 0;
+
+
+               if ($('.portfolio-ajax-result-for-slider').length) {
+                   container = $('.portfolio-ajax-result-for-slider');
+                   isForSlider = 1;
+               }
+
                var data = {
                    action: 'load_items_by_portfolio_category',
-                   id: $(this).data('id')
+                   id: $(this).data('id'),
+                   isForSlider: isForSlider
                };
-                $.ajax({
-                    url: myajax.url,
-                    data: data,
-                    type: 'GET',
-                    dataType: 'html',
-                    success: function (data) {
-                        $('.portfolio-ajax-result').html(data);
-                        $('a.custom-active').parent().addClass('active');
-                    },
-                    error: function (data) {
-                        console.log(data);
-                    }
-                });
+
+               $.ajax({
+                   url: myajax.url,
+                   data: data,
+                   type: 'GET',
+                   dataType: 'html',
+                   success: function (data) {
+                       container.html(data);
+                       $('a.custom-active').parent().addClass('active');
+
+                       if ($('.portfolio-ajax-result-for-slider').length) {
+                           $('#portfolio__for--1').slick({
+                               autoplay: true,
+                               slidesToShow: 1,
+                               slidesToScroll: 1,
+                               speed: 1500,
+                               arrows: true,
+                               fade: true,
+                               asNavFor: '#portfolio__nav--1'
+                           });
+                           $('#portfolio__nav--1').slick({
+                               autoplay: true,
+                               slidesToShow: 13,
+                               slidesToScroll: 1,
+                               asNavFor: '#portfolio__for--1',
+                               arrows: true,
+                               centerMode: true,
+                               focusOnSelect: true,
+                               centerPadding: 0,
+                               responsive: [
+                                   {
+                                       breakpoint: 991,
+                                       settings: {
+                                           slidesToShow: 3,
+                                           arrows: false
+                                       }
+                                   },
+                                   {
+                                       breakpoint: 767,
+                                       settings: {
+                                           slidesToShow: 2,
+                                           arrows: true,
+                                           centerMode: false,
+                                       }
+                                   }
+                               ]
+                           });
+                       }
+                   },
+                   error: function (data) {
+                       console.log(data);
+                   }
+               });
            });
         });
     </script>
@@ -260,10 +310,20 @@ function load_items_by_portfolio_category() {
 
 function load_items_by_portfolio_category_callback() {
 
-
     if (empty($_GET['id'])) {
         wp_die();
     }
+
+    /**
+     * Загрузка элементов для слайдера
+    */
+
+    if (!empty($_GET['isForSlider'])) {
+        global $post;
+        hm_get_template_part('templates/categories/portfolio/portfolio_slider', ['clientId' => $post->ID, 'categoryId' => $_GET['id']]);
+        wp_die();
+    }
+
 
     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 
