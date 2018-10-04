@@ -247,7 +247,8 @@ function load_items_by_portfolio_category() {
                var data = {
                    action: 'load_items_by_portfolio_category',
                    id: $(this).data('id'),
-                   isForSlider: isForSlider
+                   isForSlider: isForSlider,
+                   postId: $('.portfolio__nav').data('post-id')
                };
 
                $.ajax({
@@ -318,9 +319,15 @@ function load_items_by_portfolio_category_callback() {
      * Загрузка элементов для слайдера
     */
 
-    if (!empty($_GET['isForSlider'])) {
-        global $post;
-        hm_get_template_part('templates/categories/portfolio/portfolio_slider', ['clientId' => $post->ID, 'categoryId' => $_GET['id']]);
+    if (!empty($_GET['isForSlider']) && (int)$_GET['isForSlider'] === 1) {
+
+        hm_get_template_part('templates/categories/portfolio/portfolio_slider', [
+            'clientId' => $_GET['postId'],
+            'categoryId' => $_GET['id']
+        ]);
+
+
+
         wp_die();
     }
 
