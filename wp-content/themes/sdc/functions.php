@@ -325,10 +325,10 @@ function load_items_by_portfolio_category_callback() {
             'clientId' => $_GET['postId'],
             'categoryId' => $_GET['id']
         ]);
-
-
-
         wp_die();
+
+
+
     }
 
 
