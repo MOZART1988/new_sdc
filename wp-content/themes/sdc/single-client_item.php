@@ -32,58 +32,8 @@ get_header();
             </div>
         </div>
         <?=hm_get_template_part('templates/categories/clients/other-clients', ['mainPost' => $post, 'category' => get_the_category()]) ?>
-        <form class="portfolio--unit__form second">
-            <div class="portfolio--unit__form__title">
-                <h3>Хотите заказать проект?</h3>
-                <h6>Заполните заявку и мы свяжимся с вами.</h6>
-            </div>
-            <div class="row">
-                <input type="text" placeholder="Имя" required="required" class="half">
-                <input type="text" placeholder="Контактный номер телефона" name="tel" required="required" class="half right">
-            </div>
-            <div class="row">
-                <input type="email" placeholder="Электронная почта" required="required" class="half">
-                <input type="text" placeholder="Название компании" required="required" class="half right">
-            </div>
-            <textarea rows="5" placeholder="Расскажите в кратце о своем проекте" required="required"></textarea>
-            <div class="portfolio--unit__form__btn">
-                <input type="submit" value="Отправить" class="btn" data-target="#modal--portfolio" data-toggle="modal">
-            </div>
-        </form>
-        <div id="modal--portfolio" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-                        <h4>Ваше письмо отправленно!</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="modal--call" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-                        <h4>Заказать обратный звонок</h4>
-                        <form>
-                            <input type="text" placeholder="Имя" required="required">
-                            <input type="text" placeholder="Контактный номер" name="tel" required="required">
-                            <textarea rows="5" placeholder="Сообщение" required="required"></textarea>
-                            <input type="submit" class="btn" value="Отправить">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <a href="#" class="call--btn" data-toggle="modal" data-target="#modal--call">
-            <span class="bg"></span>
-        </a>
-        <div class="help">
-            <h5>Закажите услугу</h5>
-            <p>или получите консультацию</p>
-            <span class="close"></span>
-        </div>
+        <?php get_template_part('templates/main/request', 'project'); ?>
+        <?php get_template_part('templates/main/request', 'phone'); ?>
     <?php endwhile; ?>
 </div><!-- page content -->
 <?php get_footer(); ?>

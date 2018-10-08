@@ -30,6 +30,88 @@ function myajax_data(){
 */
 
 /**
+ * Отправка запроса заказать проект
+*/
+
+if (wp_doing_ajax()) {
+    add_action('wp_ajax_send_request_project', 'send_request_project_callback');
+    add_action('wp_ajax_nopriv_send_request_project', 'send_request_project_callback');
+}
+
+add_action( 'wp_footer', 'send_request_project', 99);
+
+function send_request_project() {
+    ?>
+    <script type="text/javascript" >
+        $(document).ready(function($) {
+            $('body').on('submit', '#sendProjectForm', function(e){
+                //e.preventDefault();
+                var form = $(this);
+                var data = {
+                    action: 'send_request_project',
+                    form: $(this).serialize(),
+                };
+
+                $.ajax({
+                    url: myajax.url,
+                    data: data,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    success: function (data) {
+                        form.find('input[type=text]').val('');
+                        form.find('textarea').val('');
+                        form.find('input[type=email]').val('');
+                        $('.send-project-result').html(data.message);
+
+                    },
+                    error: function (data) {
+                        console.log(data);
+                        $('.send-project-result').html('Произошла ошибка сервера');
+                    }
+                });
+
+                $('#modal--portfolio').modal('show');
+
+                return false;
+            });
+        });
+    </script>
+    <?php
+}
+
+function send_request_project_callback() {
+    if (!empty($_POST['form'])) {
+        parse_str(urldecode($_POST['form']), $result);
+        $form = $result['sendProjectForm'];
+        if (!empty($form['name']) && !empty($form['tel']) && !empty($form['message']) && !empty($form['email']) && !empty($form['company'])) {
+            $body = '
+                <p>Имя - '.$form['name'].'</p>
+                <p>Телефон - '.$form['tel'].'</p>
+                <p>Email - '.$form['email'].'</p>
+                <p>Компания - '.$form['company'].'</p>
+                <p>Сообщение - '.$form['message'].'</p>
+            ';
+
+            $to = get_option('admin_email');
+
+
+            if (wp_mail($to, 'Новый запрос - Заказать проект', $body)) {
+                wp_send_json(
+                    ['success' => true, 'message' => pll__('Спасибо за Ваше обращение, мы свяжемся с Вами в ближайшее время')]
+                );
+            }
+
+            wp_send_json(
+                ['success' => false, 'message' => pll__('Произошла ошибка, попробуйте позже')]
+            );
+        }
+    } else {
+        wp_send_json(1);
+
+    }
+}
+
+/**
  * Отправка запроса из формы контактов
 */
 
@@ -1012,6 +1094,14 @@ if ( ! function_exists( 'sdc_setup' ) ) :
         pll_register_string('Обратная связь:', 'Обратная связь:', 'SDC');
         pll_register_string('Произошла ошибка, попробуйте позже', 'Произошла ошибка, попробуйте позже', 'SDC');
         pll_register_string('Спасибо за Ваше обращение, мы свяжемся с Вами в ближайшее время', 'Спасибо за Ваше обращение, мы свяжемся с Вами в ближайшее время', 'SDC');
+
+        /**
+         * request-project.php
+        */
+
+        pll_register_string('Заполните заявку и мы свяжимся с вами', 'Заполните заявку и мы свяжимся с вами', 'SDC');
+        pll_register_string('Название компании', 'Название компании', 'SDC');
+        pll_register_string('Расскажите в кратце о своем проекте', 'Расскажите в кратце о своем проекте', 'SDC');
 
         /**
          * request-phone.php
