@@ -1272,6 +1272,8 @@ if ( ! function_exists( 'sdc_setup' ) ) :
         add_image_size( 'portfolio', 398, 326, true );
         add_image_size('portfolio-slide', 710, 572, true);
         add_image_size('portfolio-slide-small', 94, 80, true);
+        add_image_size('portfolio-banner', 1585, 691, true);
+        add_image_size('portfolio-screenshoot-one', 900, false, true);
 
 
         add_image_size('direction', 135, 126, true);
@@ -1282,6 +1284,9 @@ if ( ! function_exists( 'sdc_setup' ) ) :
         add_image_size('client-thumb', 162, 162);
         add_image_size('client-list', 324, 262, true);
         add_image_size('client-others', 333, 273, true);
+
+
+        add_image_size('slide', 187, 103, true);
 
         /**
          * removes autop from single content
