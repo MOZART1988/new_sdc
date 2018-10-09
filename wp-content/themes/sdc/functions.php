@@ -850,12 +850,243 @@ function portfolio_desicion_save( $post_id ) {
 add_action('save_post', 'portfolio_desicion_save');
 
 /**
+ * Скриншот 1
+*/
+
+function portfolio_screenshoot_one() {
+    add_meta_box(
+        'pt_screenshoot_one',
+        __('Скриншот 1'),
+        'portfolio_screenshoot_one_callback',
+        'portfolio_item'
+    );
+}
+
+add_action('add_meta_boxes', 'portfolio_screenshoot_one');
+
+function portfolio_screenshoot_one_callback($post) {
+    $attachmentId = get_post_meta($post->ID, 'pt_screenshoot_one'); ?>
+
+    <input id="pt_screenshoot_one_original" name="pt_screenshoot_one_original" type="hidden" value="<?=$attachmentId[0];?>"  />
+
+    <p>
+        <a href="#" id="portfolio_screenshoot_one_upload">Загрузите скриншот 1</a>
+    </p>
+
+    <br/>
+
+    <img src="<?= !empty($attachmentId[0]) ? wp_get_attachment_image_src($attachmentId[0], 'portfolio')[0] : ''?>"
+         style="width:200px;" id="picsrc-screenshoot-one" />
+    <script>
+        $(document).ready( function($) {
+            $('#portfolio_screenshoot_one_upload').click(function() {
+
+                metaImageFrame = wp.media.frames.metaImageFrame = wp.media({
+                    title: 'Загрузить скриншот',
+                    button: { text:  'Загрузите скриншот 1' },
+                });
+
+                metaImageFrame.on('select', function() {
+
+                    var media_attachment = metaImageFrame.state().get('selection').first().toJSON();
+
+                    console.log(media_attachment);
+
+                    $( '#picsrc-screenshoot-one' ).attr('src', media_attachment.link);
+
+                    $('#pt_screenshoot_one_original').val(media_attachment.id);
+
+                });
+
+                metaImageFrame.open();
+
+            });
+        });
+    </script>
+    <?php
+}
+
+/**
+ * Сохранение
+ */
+
+function portfolio_screenshoot_one_save($post_id) {
+    if (isset($_POST['pt_screenshoot_one_original'])){
+        update_post_meta($post_id, 'pt_screenshoot_one', $_POST['pt_screenshoot_one_original']);
+    }
+}
+
+add_action('save_post', 'portfolio_screenshoot_one_save');
+
+/**
+ * Скриншот 2
+ */
+
+function portfolio_screenshoot_two() {
+    add_meta_box(
+        'pt_screenshoot_two',
+        __('Скриншот 2'),
+        'portfolio_screenshoot_two_callback',
+        'portfolio_item'
+    );
+}
+
+add_action('add_meta_boxes', 'portfolio_screenshoot_two');
+
+function portfolio_screenshoot_two_callback($post) {
+    $attachmentId = get_post_meta($post->ID, 'pt_screenshoot_two'); ?>
+
+    <input id="pt_screenshoot_two_original" name="pt_screenshoot_two_original" type="hidden" value="<?=$attachmentId[0];?>"  />
+
+    <p>
+        <a href="#" id="portfolio_screenshoot_two_upload">Загрузите скриншот 2</a>
+    </p>
+
+    <br/>
+
+    <img src="<?= !empty($attachmentId[0]) ? wp_get_attachment_image_src($attachmentId[0], 'portfolio')[0] : ''?>"
+         style="width:200px;" id="picsrc-screenshoot-two" />
+    <script>
+        $(document).ready( function($) {
+            $('#portfolio_screenshoot_two_upload').click(function() {
+
+                metaImageFrame = wp.media.frames.metaImageFrame = wp.media({
+                    title: 'Загрузить скриншот',
+                    button: { text:  'Загрузите скриншот 2' },
+                });
+
+                metaImageFrame.on('select', function() {
+
+                    var media_attachment = metaImageFrame.state().get('selection').first().toJSON();
+
+                    console.log(media_attachment);
+
+                    $( '#picsrc-screenshoot-two' ).attr('src', media_attachment.link);
+
+                    $('#pt_screenshoot_two_original').val(media_attachment.id);
+
+                });
+
+                metaImageFrame.open();
+
+            });
+        });
+    </script>
+    <?php
+}
+
+/**
+ * Сохранение
+ */
+
+function portfolio_screenshoot_two_save($post_id) {
+    if (isset($_POST['pt_screenshoot_two_original'])){
+        update_post_meta($post_id, 'pt_screenshoot_two', $_POST['pt_screenshoot_two_original']);
+    }
+}
+
+add_action('save_post', 'portfolio_screenshoot_two_save');
+
+
+/**
+ * Цитата для элемента портфолио
+ */
+
+function portfolio_quote() {
+    add_meta_box(
+        'pt_quote',
+        __('Цитата'),
+        'portfolio_quote_callback',
+        'portfolio_item'
+    );
+}
+
+add_action('add_meta_boxes', 'portfolio_quote');
+
+
+function portfolio_quote_callback($post) {
+    wp_nonce_field(basename(__FILE__), 'pt_quote');
+    $links_stored_meta = get_post_meta( $post->ID );
+    ?>
+    <textarea style="width:100%"
+              name="pt_quote_original"
+              id="pt_quote_original">
+        <?php if ( isset ( $links_stored_meta['pt_quote'] ) ) echo $links_stored_meta['pt_quote'][0]; ?>
+    </textarea>
+    <?php
+}
+
+/**
+ * Cохранение
+ */
+
+function portfolio_quote_save( $post_id ) {
+    $is_autosave = wp_is_post_autosave( $post_id );
+    $is_revision = wp_is_post_revision( $post_id );
+    $is_valid_nonce = ( isset( $_POST[ 'pt_quote' ] ) && wp_verify_nonce( $_POST[ 'pt_quote' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
+        return;
+    }
+    if( isset( $_POST[ 'pt_quote_original' ] ) ) {
+        update_post_meta( $post_id, 'pt_quote', sanitize_text_field( $_POST[ 'pt_quote_original' ] ) );
+    }
+}
+
+add_action('save_post', 'portfolio_quote_save');
+
+/**
+ * Блок видео для портфолио
+ */
+
+function portfolio_video() {
+    add_meta_box(
+        'pt_video',
+        __(' Блок видео'),
+        'portfolio_video_callback',
+        'portfolio_item'
+    );
+}
+
+add_action('add_meta_boxes', 'portfolio_video');
+
+
+function portfolio_video_callback($post) {
+    wp_nonce_field(basename(__FILE__), 'pt_video');
+    $links_stored_meta = get_post_meta( $post->ID );
+    ?>
+    <textarea style="width:100%"
+              name="pt_video_original"
+              id="pt_video_original">
+        <?php if ( isset ( $links_stored_meta['pt_video'] ) ) echo $links_stored_meta['pt_video'][0]; ?>
+    </textarea>
+    <?php
+}
+
+/**
+ * Cохранение
+ */
+
+function portfolio_video_save( $post_id ) {
+    $is_autosave = wp_is_post_autosave( $post_id );
+    $is_revision = wp_is_post_revision( $post_id );
+    $is_valid_nonce = ( isset( $_POST[ 'pt_video' ] ) && wp_verify_nonce( $_POST[ 'pt_video' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
+        return;
+    }
+    if( isset( $_POST[ 'pt_video_original' ] ) ) {
+        update_post_meta( $post_id, 'pt_video', sanitize_text_field( $_POST[ 'pt_video_original' ] ) );
+    }
+}
+
+add_action('save_post', 'portfolio_video_save');
+
+/**
  * Поле большой картинки в портфолио
  */
 function portfolio_custom_image_one() {
     add_meta_box(
         'pt_custom_image_one',
-        __('Дополнительное изображение 1'),
+        __('Баннер большой'),
         'portfolio_custom_image_one_callback',
         'portfolio_item'
     );
@@ -940,9 +1171,8 @@ function post_short_text_callback($post) {
     ?>
     <textarea style="width:100%"
            name="pst_short_text_original"
-           id="pst_short_text_original"
-           value="<?php if ( isset ( $links_stored_meta['pst_short_text_original'] ) ) echo $links_stored_meta['pst_short_text_original'][0]; ?>" >
-        <?php if ( isset ( $links_stored_meta['pst_short_text_original'] ) ) echo $links_stored_meta['pst_short_text_original'][0]; ?>"
+           id="pst_short_text_original">
+        <?php if ( isset ( $links_stored_meta['pst_short_text_original'] ) ) echo $links_stored_meta['pst_short_text_original'][0]; ?>
     </textarea>
     <?php
 }
