@@ -1457,6 +1457,80 @@ if (! function_exists('sdc_is_front_page')) :
 
 endif;
 
+if (! function_exists('sdc_is_portfolio_page')) :
+    /**
+     * Check if portfolio page
+    */
+    function sdc_is_portfolio_page() {
+        return strpos($_SERVER['REQUEST_URI'], 'portfolio') !== false;
+    }
+
+endif;
+
+if (! function_exists('sdc_is_clients_page')) :
+    /**
+     * Check if clients page
+     * @return bool
+     */
+    function sdc_is_clients_page() {
+        return strpos($_SERVER['REQUEST_URI'], 'clients') !== false;
+    }
+
+endif;
+
+if (! function_exists('sdc_is_events_page')) :
+    /**
+     * Check if events page
+     * @return bool
+     */
+    function sdc_is_events_page() {
+        return strpos($_SERVER['REQUEST_URI'], 'events') !== false;
+    }
+
+endif;
+
+if (! function_exists('sdc_is_contacts_page')) :
+    /**
+     * Check if contacts page
+     * @return bool
+     */
+    function sdc_is_contacts_page() {
+        return strpos($_SERVER['REQUEST_URI'], 'contacts') !== false;
+    }
+
+endif;
+
+if (! function_exists('sdc_is_current_category')) :
+    /**
+     * Check if contacts page
+     * @return bool
+     */
+    function sdc_is_current_category($slug) {
+        return strpos($_SERVER['REQUEST_URI'], 'slug') !== false;
+    }
+
+endif;
+
+if (! function_exists('sdc_check_if_children_exists')) {
+
+    /**
+     * Check if category has children
+     * @param  WP_Term $term
+     * @return bool
+    */
+
+    function sdc_check_if_children_exists($term) {
+        global $wpdb;
+
+        $exist = $wpdb->get_results(" SELECT COUNT FROM wp_term_taxonomy WHERE parent = '$term->term_id' ");
+        if (!$exist) {
+            return false;
+        }
+        return true;
+    }
+}
+
+
 if (! function_exists('sdc_body_class')) :
     /**
      * set body class

@@ -38,40 +38,6 @@
         </ul>
         <a href="tel:+7 (727)350-57-60" class="call"><?=pll__('Перезвонить?')?></a>
     </div><!-- header phones -->
-    <a href="#" class="nav--btn">
-        <span></span>
-        <span></span>
-        <span></span>
-    </a>
-    <nav class="nav--more"><!-- header nav more -->
-        <div class="container">
-            <ul>
-                <li class="li"><a href="#">Компания</a></li>
-                <li class="submenu active">
-                    <a href="pagePortfolio.html">Портфолио</a>
-                    <ul>
-                        <li class="active"><a href="#">СММ</a></li>
-                        <li><a href="#">Таргетированная реклама</a></li>
-                        <li><a href="#">Email рассылка или же Email маркетинг</a></li>
-                        <li><a href="#">Баннерная реклама</a></li>
-                        <li><a href="#">Контекстная реклама</a></li>
-                        <li><a href="#">SEO</a></li>
-                        <li><a href="#">Копирайтинг</a></li>
-                        <li><a href="#">Создание сайтов</a></li>
-                        <li><a href="#">Поддержка сайта</a></li>
-                        <li><a href="#">Создание видеороликов</a></li>
-                    </ul>
-                </li>
-                <li class="li"><a href="pageDirection.html">Услуги</a></li>
-                <li class="li"><a href="pageClientage.html">Клиенты</a></li>
-                <li class="li"><a href="pageEvent.html">События</a></li>
-                <li class="li"><a href="pageContacts.html">Контакты</a></li>
-            </ul>
-        </div>
-        <a href="#" class="close">
-            <span></span>
-            <span></span>
-        </a>
-    </nav><!-- header nav more -->
+    <?php get_template_part('templates/main/nav-main', 'menu') ?>
     <?php get_template_part('templates/main/nav-right', 'menu')?>
 </header><!-- header -->
