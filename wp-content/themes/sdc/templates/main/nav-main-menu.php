@@ -29,7 +29,7 @@ $clientsPage = sdc_get_clients_category();
                 <a href="/"><?=pll__('Компания')?></a>
             </li>
 
-            <?php if ($portfolioPage !== null) : ?>
+            <?php if ($portfolioPage !== false) : ?>
                 <?php if (sdc_is_portfolio_page() && sdc_check_if_children_exists($portfolioPage)) : ?>
                     <li class="submenu <?=sdc_is_portfolio_page() ? 'active' : ''?>">
                         <a href="<?=get_category_link($portfolioPage->cat_ID)?>"><?=$portfolioPage->name?></a>
@@ -52,7 +52,7 @@ $clientsPage = sdc_get_clients_category();
 
             <li class="li"><a href="pageDirection.html">Услуги</a></li>
 
-            <?php if ($clientsPage !== null) : ?>
+            <?php if ($clientsPage !== false) : ?>
                 <?php if (sdc_is_clients_page() && sdc_check_if_children_exists($clientsPage)) : ?>
                     <li class="submenu <?=sdc_is_clients_page() ? 'active' : ''?>">
                         <a href="<?=get_category_link($clientsPage->cat_ID)?>"><?=$clientsPage->name?></a>
@@ -73,7 +73,7 @@ $clientsPage = sdc_get_clients_category();
                 <?php endif; ?>
             <?php endif; ?>
 
-            <?php if ($eventsPage !== null) : ?>
+            <?php if ($eventsPage !== false) : ?>
                 <?php if (sdc_is_events_page() && sdc_check_if_children_exists($eventsPage)) : ?>
                     <li class="submenu <?=sdc_is_events_page() ? 'active' : ''?>">
                         <a href="<?=get_category_link($eventsPage->cat_ID)?>"><?=$eventsPage->name?></a>
@@ -94,7 +94,7 @@ $clientsPage = sdc_get_clients_category();
                 <?php endif; ?>
             <?php endif; ?>
 
-            <?php if ($contactsPage !== null) : ?>
+            <?php if ($contactsPage !== false) : ?>
                 <li class="<?=(sdc_is_contacts_page() ? 'active' : '')?>">
                     <a href="<?=get_permalink($contactsPage)?>"><?=$contactsPage->post_title?></a>
                 </li>

@@ -20,23 +20,23 @@ $clientsPage = sdc_get_clients_category();
         <li class="<?=sdc_is_front_page() ? 'active' : ''?>">
             <a href="/"><?=pll__('Компания')?></a>
         </li>
-        <?php if ($portfolioPage !== null) : ?>
+        <?php if ($portfolioPage !== false) : ?>
             <li class="<?=(sdc_is_portfolio_page() ? 'active' : '')?>">
                 <a href="<?=get_category_link($portfolioPage->cat_ID)?>" id="c_1"><?=$portfolioPage->name?></a>
             </li>
         <?php endif; ?>
         <li><a href="#">Услуги</a></li>
-        <?php if ($clientsPage !== null) : ?>
+        <?php if ($clientsPage !== false) : ?>
             <li class="<?=(sdc_is_clients_page() ? 'active' : '')?>">
                 <a href="<?=get_category_link($clientsPage->cat_ID)?>"><?=$clientsPage->name?></a>
             </li>
         <?php endif; ?>
-        <?php if ($eventsPage !== null) : ?>
+        <?php if ($eventsPage !== false) : ?>
             <li class="<?=(sdc_is_events_page() ? 'active' : '')?>">
                 <a href="<?=get_category_link($eventsPage->cat_ID)?>"><?=$eventsPage->name?></a>
             </li>
         <?php endif; ?>
-        <?php if ($contactsPage !== null) : ?>
+        <?php if ($contactsPage !== false) : ?>
             <li class="<?=(sdc_is_contacts_page() ? 'active' : '')?>">
                 <a href="<?=get_permalink($contactsPage)?>"><?=$contactsPage->post_title?></a>
             </li>
