@@ -1375,6 +1375,34 @@ endif; // sdc setup
 
 add_action( 'after_setup_theme', 'sdc_setup' );
 
+/**
+ * Настройки темы
+*/
+
+add_action('admin_menu', function(){
+    add_theme_page('Настроить тему SDC', 'Настроить тему SDC', 'edit_theme_options', 'customize.php');
+});
+
+add_action('customize_register', function($customizer) {
+
+    $customizer->add_section(
+        'section_one', [
+            'title' => 'Настройки сайта',
+            'description' => '',
+            'priority' => 11,
+        ]
+    );
+
+    $customizer->add_setting('mainBanner');
+
+    $customizer->add_control(new WP_Customize_Image_Control($customizer, 'mainBanner', [
+        'label'    => 'Главный баннер',
+        'section'  => 'section_one',
+        'settings' => 'mainBanner',
+    ]));
+
+});
+
 
 /**
  * ADDITIONAL FUNCTIONS
