@@ -204,7 +204,9 @@ if (!empty(get_post_meta($postId, 'pt_video'))) {
                 </tr>
             </table>
         </div>-->
-        <?php if (!empty($clientId)) : ?>
+        <?php if (!empty($client) && !empty($clientId)) : ?>
+            <h3 class="text-center"><?=pll__('Все работы для компании')?> <?=$client->post_title?></h3>
+            <?php get_template_part('templates/categories/portfolio/portfolio_categories', 'index'); ?>
             <div class="portfolio-ajax-result-for-slider">
                 <?php hm_get_template_part('templates/categories/portfolio/portfolio_slider', ['clientId' => $clientId, 'categoryId' => 'all']); ?>
             </div>

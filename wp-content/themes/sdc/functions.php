@@ -401,16 +401,33 @@ function load_items_by_portfolio_category_callback() {
      * Загрузка элементов для слайдера
     */
 
-    if (!empty($_GET['isForSlider']) && (int)$_GET['isForSlider'] === 1) {
+    if (!empty($_GET['isForSlider']) && (int)$_GET['isForSlider'] === 1 && !empty($_GET['postId'])) {
 
-        hm_get_template_part('templates/categories/portfolio/portfolio_slider', [
+        $postType = get_post_type($_GET['postId']);
+
+        if ($postType === 'portfolio_item') {
+
+            if (!empty(get_post_meta($_GET['postId'], 'pt_client_id_original'))) {
+
+                $clientId = get_post_meta($_GET['postId'], 'pt_client_id_original')[0];
+
+                echo hm_get_template_part('templates/categories/portfolio/portfolio_slider', [
+                    'clientId' => $clientId,
+                    'categoryId' => $_GET['id'],
+                    'post__not_in' => [$_GET['postId']],
+                ]);
+                wp_die();
+
+            }
+
+
+        }
+
+        echo hm_get_template_part('templates/categories/portfolio/portfolio_slider', [
             'clientId' => $_GET['postId'],
             'categoryId' => $_GET['id']
         ]);
         wp_die();
-
-
-
     }
 
 
@@ -1440,6 +1457,7 @@ if (! function_exists('hm_get_template_part')) :
         if ( $cache_args ) {
             wp_cache_set( $file, $data, serialize( $cache_args ), 3600 );
         }
+
         if ( ! empty( $template_args['return'] ) )
             if ( $return === false )
                 return false;

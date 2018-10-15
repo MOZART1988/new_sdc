@@ -12,7 +12,7 @@ $categoryId = $template_args['categoryId'];
 
 $args = [
     'post_type'=>'portfolio_item',
-    'posts_per_page' => 3,
+    'posts_per_page' => 6,
     'lang' => pll_current_language(),
     'meta_key' => 'pt_client_id_original',
     'meta_value' => $clientId,
@@ -21,7 +21,7 @@ $args = [
 if ($categoryId !== 'all') {
     $args = [
         'post_type'=>'portfolio_item',
-        'posts_per_page' => 3,
+        'posts_per_page' => 6,
         'lang' => pll_current_language(),
         'meta_key' => 'pt_client_id_original',
         'meta_value' => $clientId,
@@ -31,6 +31,7 @@ if ($categoryId !== 'all') {
 
 
 $loop = new WP_Query( $args );
+
 
 ?>
 
