@@ -5,10 +5,10 @@
  */
 get_header();
 ?>
-    <div class="preloader show">
+    <!--<div class="preloader show">
         <div class="preloader__block"></div>
         <span class="preloader__title"><?php the_title()?></span>
-    </div>
+    </div>-->
     <div class="page"><!-- main content -->
         <section class="contacts"><!-- main contacts -->
             <div class="container">

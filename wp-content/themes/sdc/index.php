@@ -12,10 +12,10 @@
  * @package WordPress
  */
 get_header(); ?>
-<div class="preloader show">
+<!--<div class="preloader show">
     <div class="preloader__block"></div>
     <span class="preloader__title"><?=pll__('Smartdigital')?></span>
-</div>
+</div>-->
 <div class="main"><!-- main content -->
     <section class="banner"><!-- main banner -->
         <img src="/img/img-1.jpg">

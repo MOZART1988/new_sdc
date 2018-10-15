@@ -11,10 +11,10 @@ $loop = $template_args['loop'];
  * @var WP_Term $categpry
  */
 ?>
-<div class="preloader show">
+<!--<div class="preloader show">
     <div class="preloader__block"></div>
     <span class="preloader__title"><?=$category->name?></span>
-</div>
+</div>-->
 <div class="page"><!-- main content -->
     <section class="event second"><!-- main event -->
         <div class="container">

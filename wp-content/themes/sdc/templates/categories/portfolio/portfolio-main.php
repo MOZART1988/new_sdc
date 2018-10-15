@@ -13,10 +13,10 @@ $loop = $template_args['loop'];
 
 ?>
 
-<div class="preloader show">
+<!--<div class="preloader show">
     <div class="preloader__block"></div>
     <span class="preloader__title"><?=$category->name?></span>
-</div>
+</div>-->
 <div class="page"><!-- page content -->
     <div class="portfolio">
         <div class="container">
