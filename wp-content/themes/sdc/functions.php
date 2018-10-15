@@ -1745,3 +1745,20 @@ if (! function_exists('sdc_get_contacts_page')) :
 
 endif;
 
+if (! function_exists( 'sdc_is_video' )) :
+
+    /**
+     * check if file is video
+    */
+
+    function sdc_is_video($filename) {
+
+        if(preg_match('/^.*\.(mp4|mov|mpg|mpeg|wmv|mkv)$/i', $filename)) {
+            return true;
+        }
+
+        return false;
+    }
+
+endif;
+

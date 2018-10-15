@@ -11,6 +11,23 @@
  *
  * @package WordPress
  */
+
+$mainBanner = get_theme_mod('mainBanner', '/img/img-1.jpg');
+$mainBannerHtml = '<img src="/img/img-1.jpg">';
+
+if ($mainBanner !== '/img/img-1.jpg') {
+
+    if (sdc_is_video($mainBanner)) {
+        $mainBannerHtml = '<video id="banner-video" width="100%" controls="false" autoplay="true" playsinline="true" muted="true">
+                    <source src="'.$mainBanner.'" type="video/mp4">
+                    <source src="'.$mainBanner.'" type="video/ogg">
+                    Your browser does not support the video tag.
+            </video>';
+    } else {
+        $mainBannerHtml = '<img src="'.$mainBanner.'">';
+    }
+}
+
 get_header(); ?>
 <!--<div class="preloader show">
     <div class="preloader__block"></div>
@@ -18,7 +35,7 @@ get_header(); ?>
 </div>-->
 <div class="main"><!-- main content -->
     <section class="banner"><!-- main banner -->
-        <img src="/img/img-1.jpg">
+        <?=$mainBannerHtml?>
         <span class="banner__title"></span>
     </section><!-- main banner -->
     <section class="about"><!-- main about -->
