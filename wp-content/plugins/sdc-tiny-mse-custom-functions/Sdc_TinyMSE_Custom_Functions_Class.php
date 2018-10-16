@@ -46,6 +46,7 @@ class Sdc_TinyMSE_Custom_Functions_Class {
 
         $plugin_array['custom_text_block'] = plugin_dir_url( __FILE__ ) . 'sdc-tinymce-custom-functions-class.js';
         $plugin_array['screenshot_block'] = plugin_dir_url(__FILE__) . 'sdc-tinymce-custom-functions-class.js';
+        $plugin_array['screenshot_block_height'] = plugin_dir_url(__FILE__) . 'sdc-tinymce-custom-functions-class.js';
         return $plugin_array;
 
     }
@@ -61,6 +62,7 @@ class Sdc_TinyMSE_Custom_Functions_Class {
 
         array_push( $buttons, '|', 'custom_text_block' );
         array_push( $buttons, '|', 'screenshot_block' );
+        array_push( $buttons, '|', 'screenshot_block_height' );
 
         return $buttons;
     }

@@ -32,26 +32,6 @@ if (!empty(get_post_meta($postId, 'pt_desicion_original'))) {
     $desicion = get_post_meta($postId, 'pt_desicion_original')[0];
 }
 
-$screenShootOne = null;
-
-if (!empty(get_post_meta(get_post()->ID, 'pt_screenshoot_one'))) {
-    $url = get_post_meta($postId, 'pt_screenshoot_one')[0];
-    $screenShootOne = wp_get_attachment_image_src($url, 'portfolio-screenshoot-one')[0];
-}
-
-$screenShootTwo = null;
-
-if (!empty(get_post_meta(get_post()->ID, 'pt_screenshoot_two'))) {
-    $url = get_post_meta($postId, 'pt_screenshoot_two')[0];
-    $screenShootTwo = wp_get_attachment_image_src($url, 'portfolio-screenshoot-one')[0];
-}
-
-$quote = null;
-
-if (!empty(get_post_meta($postId, 'pt_quote'))) {
-    $quote = get_post_meta($postId, 'pt_quote')[0];
-}
-
 $videoBlock = null;
 
 if (!empty(get_post_meta($postId, 'pt_video'))) {
@@ -96,38 +76,8 @@ if (!empty(get_post_meta($postId, 'pt_video'))) {
                 </table>
             </div>
         </div>
-        <?php if (!empty($screenShootOne)) : ?>
-            <div class="portfolio--unit__browser--height">
-                <div class="portfolio--unit__browser--height__top">
-                    <img src="/img/img-47.jpg">
-                </div>
-                <img src="<?=$screenShootOne?>">
-                <!--<span style="top: 20%">Главная страница сайта. Слайдер меняется в зависимости от акции</span>
-                <span style="top: 37%">Каждая иконка отрисовывалась вручную для каждого раздела.</span>-->
-                <div class="portfolio--unit__browser--height__bottom">
-                    <img src="/img/img-48.jpg">
-                </div>
-            </div>
-        <?php endif; ?>
-        <?php if (!empty($quote)) : ?>
-            <div class="quotes--block">
-                <h5><?=$quote?></h5>
-            </div>
-        <?php endif; ?>
-        <?php if (!empty($screenShootTwo)) : ?>
-            <div class="portfolio--unit__browser--width">
-                <div class="portfolio--unit__browser--width__top">
-                    <img src="/img/img-51.jpg">
-                </div>
-                <img src="<?=$screenShootTwo?>">
-                <div class="portfolio--unit__browser--width__bottom">
-                    <img src="/img/img-52.jpg">
-                </div>
-            </div>
-        <?php endif; ?>
-
-        <div class="portfolio--unit__text">
-            <?php the_content()?>
+        <div class="sdc_custom_content">
+            <?php the_content(); ?>
         </div>
         <?php if (!empty(get_post_gallery_ids())) : ?>
             <?php $ids = get_post_gallery_ids(); ?>
