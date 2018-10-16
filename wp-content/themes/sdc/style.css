@@ -13,3 +13,16 @@ blockquote {
     margin: 70px 0;
 }
 
+blockquote:after {
+    content: '';
+    width: 150px;
+    height: 77px;
+    background: url(../img/quotes.jpg) no-repeat center center;
+    position: absolute;
+    top: -35px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+
