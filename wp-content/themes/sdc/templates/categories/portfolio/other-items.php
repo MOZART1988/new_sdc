@@ -13,18 +13,17 @@ $mainPost = $template_args['mainPost'];
 
 
 $args = [
-    'limit' => 5,
-    'orderby' => 'rand',
     'cat' => $category[0]->term_id,
     'post__not_in' => [$mainPost->ID],
-    'post_type' => 'portfolio_item'
+    'post_type' => 'portfolio_item',
+    'posts_per_page' => 30,
 ];
 
 $loop = new WP_Query( $args );
 
 ?>
 
-<?php if ($loop->have_posts()): ?>
+<?php if ($loop->have_posts()):  $loop->the_post(); ?>
     <div class="recommended">
         <div class="container">
             <h3><?=pll__('Посмотрите другие проекты, которые мы сделали')?></h3>
@@ -38,7 +37,7 @@ $loop = new WP_Query( $args );
             ?>
             <a href="<?=get_permalink($post)?>" class="recommended__slider__col">
                 <img src="<?=get_the_post_thumbnail_url($post, 'portfolio')?>">
-                <span><?=$post->post_title?></span>
+                <span class="<?=get_post_meta($post->ID)['pt_title_color_original'][0]?>"><?=$post->post_title?></span>
             </a>
         <?php endforeach; ?>
         </div>

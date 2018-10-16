@@ -3,3 +3,13 @@
 .current-lang a{
     color: #b11116!important;
 }
+
+blockquote {
+    padding: 55px 125px;
+    text-align: center;
+    position: relative;
+    border-top: 1px solid #c1c1c1;
+    border-bottom: 1px solid #c1c1c1;
+    margin: 70px 0;
+}
+
