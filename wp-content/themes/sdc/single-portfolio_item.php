@@ -38,6 +38,12 @@ if (!empty(get_post_meta($postId, 'pt_video'))) {
     $videoBlock = get_post_meta($postId, 'pt_video')[0];
 }
 
+$table = null;
+
+if (!empty(get_post_meta($postId, 'pt_table'))) {
+    $table = get_post_meta($postId, 'pt_table')[0];
+}
+
 ?>
 
 <div class="page portfolio--unit"><!-- page content -->
@@ -97,70 +103,23 @@ if (!empty(get_post_meta($postId, 'pt_video'))) {
         <?php endif; ?>
         <?php if (!empty($videoBlock)) : ?>
             <div class="portfolio--unit__video">
-                <?=$videoBlock?>
+                <iframe width="799" height="541" src="<?=$videoBlock?>" frameborder="0" allowfullscreen></iframe>
             </div>
         <?php endif ?>
-
-        <!--<div class="portfolio--unit__table">
-            <table>
-                <tr>
-                    <th>Пункт номер один</th>
-                    <th>Пункт номер два</th>
-                    <th>Пункт номер три</th>
-                    <th>Пункт номер три</th>
-                    <th>Пункт номер пять</th>
-                </tr>
-                <tr>
-                    <td>Пункт номер один</td>
-                    <td>Пункт номер два</td>
-                    <td>Пункт номер три</td>
-                    <td>Пункт номер три</td>
-                    <td>Пункт номер пять</td>
-                </tr>
-                <tr>
-                    <td>Пункт номер один</td>
-                    <td>Пункт номер два</td>
-                    <td>Пункт номер три</td>
-                    <td>Пункт номер три</td>
-                    <td>Пункт номер пять</td>
-                </tr>
-                <tr>
-                    <td>Пункт номер один</td>
-                    <td>Пункт номер два</td>
-                    <td>Пункт номер три</td>
-                    <td>Пункт номер три</td>
-                    <td>Пункт номер пять</td>
-                </tr>
-                <tr>
-                    <td>Пункт номер один</td>
-                    <td>Пункт номер два</td>
-                    <td>Пункт номер три</td>
-                    <td>Пункт номер три</td>
-                    <td>Пункт номер пять</td>
-                </tr>
-                <tr>
-                    <td>Пункт номер один</td>
-                    <td>Пункт номер два</td>
-                    <td>Пункт номер три</td>
-                    <td>Пункт номер три</td>
-                    <td>Пункт номер пять</td>
-                </tr>
-                <tr>
-                    <td>Пункт номер один</td>
-                    <td>Пункт номер два</td>
-                    <td>Пункт номер три</td>
-                    <td>Пункт номер три</td>
-                    <td>Пункт номер пять</td>
-                </tr>
-            </table>
-        </div>-->
-        <?php if (!empty($client) && !empty($clientId)) : ?>
-            <h3 class="text-center"><?=pll__('Все работы для компании')?> <?=$client->post_title?></h3>
-            <?php get_template_part('templates/categories/portfolio/portfolio_categories', 'index'); ?>
-            <div class="portfolio-ajax-result-for-slider">
-                <?php hm_get_template_part('templates/categories/portfolio/portfolio_slider', ['clientId' => $clientId, 'categoryId' => 'all']); ?>
+        <?php if (!empty($table)) : ?>
+            <div class="portfolio--unit__table">
+                <?=$table?>
             </div>
         <?php endif; ?>
+        <div class="portfolio">
+            <?php if (!empty($client) && !empty($clientId)) : ?>
+                <h3 class="text-center"><?=pll__('Все работы для компании')?> <?=$client->post_title?></h3>
+                <?php get_template_part('templates/categories/portfolio/portfolio_categories', 'index'); ?>
+                <div class="portfolio-ajax-result-for-slider">
+                    <?php hm_get_template_part('templates/categories/portfolio/portfolio_slider', ['clientId' => $clientId, 'categoryId' => 'all']); ?>
+                </div>
+            <?php endif; ?>
+        </div>
         <?php get_template_part('templates/main/request', 'project'); ?>
     </div>
     <?php hm_get_template_part('templates/categories/portfolio/other-items', ['mainPost' => get_post(), 'category' => get_the_category()]); ?>

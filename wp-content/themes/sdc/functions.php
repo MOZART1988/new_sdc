@@ -867,6 +867,57 @@ function portfolio_desicion_save( $post_id ) {
 add_action('save_post', 'portfolio_desicion_save');
 
 /**
+ * Блок с таблицой для портфолио
+*/
+
+function portfolio_table() {
+    add_meta_box(
+        'pt_table',
+        __(' Блок таблицы'),
+        'portfolio_table_callback',
+        'portfolio_item'
+    );
+}
+
+add_action('add_meta_boxes', 'portfolio_table');
+
+function portfolio_table_callback($post) {
+
+    $links_stored_meta = get_post_meta( $post->ID, 'pt_table', true );
+
+    wp_editor( $links_stored_meta, 'pt_table_editor', array(
+        'media_buttons' => false,
+        'textarea_name' => 'pt_table',
+        'textarea_rows' => 10,
+        'tabfocus_elements' => 'content-html,save-post',
+        'tinymce' => array(
+            'resize' => false,
+            'add_unload_trigger' => false,
+        ),
+        'autop' => false,
+
+    ) );
+
+
+
+
+}
+
+/**
+ * Cохранение
+ */
+
+function portfolio_table_save( $post_id ) {
+
+    if( isset( $_POST[ 'pt_table' ] ) ) {
+
+        update_post_meta( $post_id, 'pt_table',  $_POST[ 'pt_table' ] );
+    }
+}
+
+add_action('save_post', 'portfolio_table_save');
+
+/**
  * Блок видео для портфолио
  */
 
