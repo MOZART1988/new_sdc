@@ -5,6 +5,17 @@
 
 //flush_rewrite_rules( false );
 
+const TAB_1 = 'Почему мы';
+const TAB_2 = 'Как мы работаем';
+const TAB_3 = 'Миссия компании';
+
+$tabArray = [
+    1 => TAB_1,
+    2 => TAB_2,
+    3 => TAB_3,
+];
+
+
 add_action( 'parse_query','changept' );
 function changept() {
     if( is_category() && !is_admin() )
@@ -604,7 +615,7 @@ function client_item() {
         'has_archive' => false,
         'capability_type' => 'post',
         'taxonomies' => ['category'],
-        'menu_icon'   => 'dashicons-images-alt',
+        'menu_icon'   => 'dashicons-admin-users',
     ]);
 }
 
@@ -637,7 +648,7 @@ function direction_item() {
         'taxonomies' => ['category'],
         'has_archive' => true,
         'capability_type' => 'post',
-        'menu_icon'   => 'dashicons-images-alt',
+        'menu_icon'   => 'dashicons-admin-multisite',
         'rewrite' => ['slug' => 'direction'],
     ]);
 }
@@ -670,11 +681,96 @@ function portfolio_item() {
         'taxonomies' => ['category'],
         'has_archive' => true,
         'capability_type' => 'post',
-        'menu_icon'   => 'dashicons-images-alt',
-        //'rewrite' => ['slug' => 'portfolio'],
+        'menu_icon'   => 'dashicons-portfolio',
     ]);
 }
 add_action( 'init', 'portfolio_item' );
+
+/**
+ * Элемент из таба на главной странице
+*/
+
+function mainpage_tab_item() {
+    register_post_type('mainpage_tab_item', [
+        'labels' => [
+            'name'            => __( 'Табы на главной' ),
+            'singular_name'   => __( 'Элементы' ),
+            'add_new'         => __( 'Добавить' ),
+            'add_new_item'    => __( 'Добавить новый элемент' ),
+            'edit'            => __( 'Редактировать' ),
+            'edit_item'       => __( 'Редактировать элемент' ),
+            'new_item'        => __( 'Новый элемент' ),
+            'all_items'       => __( 'Все элементы из табов на главной' ),
+            'view'            => __( 'Просмотреть' ),
+            'view_item'       => __( 'Просмотреть элемент' ),
+            'search_items'    => __( 'Поиск' ),
+            'not_found'       => __( 'Не удалось найти' ),
+        ],
+        'public' => true,
+        'menu_position' => 2,
+        'supports' => ['title', 'thumbnail', 'excerpt', 'custom-fields'],
+        'has_archive' => false,
+        'capability_type' => 'post',
+        'menu_icon'   => 'dashicons-admin-page',
+    ]);
+}
+
+add_action( 'init', 'mainpage_tab_item' );
+
+/**
+ * Удалить seo метабокс для этого post_type
+ */
+
+function mainpate_tab_item_remove_seo() {
+    remove_meta_box('wpseo_meta', 'mainpage_tab_item', 'normal');
+}
+add_action('add_meta_boxes', 'mainpate_tab_item_remove_seo', 100);
+
+/**
+ * Выбор категории для табов на главной
+*/
+
+function mainpage_tab_category() {
+    add_meta_box(
+        'mainpage_tab_category',
+        __('Категория таба'),
+        'mainpage_tab_category_callback',
+        'mainpage_tab_item'
+    );
+}
+
+add_action('add_meta_boxes', 'mainpage_tab_category');
+
+
+function mainpage_tab_category_callback($post) {
+
+    global $tabArray;
+
+    wp_nonce_field(basename(__FILE__), 'mainpage_tab_category');
+    $links_stored_meta = get_post_meta( $post->ID );
+
+    ?>
+    <select name="mainpage_tab_category" id="mainpage_tab_category">
+        <?php foreach ($tabArray as $key => $value) : ?>
+            <option value="<?=$key?>" <?=(isset($links_stored_meta['mainpage_tab_category']) &&
+            ((int)$links_stored_meta['mainpage_tab_category'][0] === $key ) ? 'selected' : '')?>><?=$value?></option>
+        <?php endforeach ; ?>
+    </select>
+
+    <?php
+}
+
+/**
+ * Cохранение
+ */
+
+function mainpage_tab_category_save( $post_id ) {
+    if( isset( $_POST[ 'mainpage_tab_category' ] ) ) {
+        update_post_meta( $post_id, 'mainpage_tab_category', sanitize_text_field( $_POST[ 'mainpage_tab_category' ] ) );
+    }
+}
+
+add_action('save_post', 'mainpage_tab_category_save');
 
 /**
  * Dыбор цвета заголовка в элементы портфолио на странице всех элементов портфолио

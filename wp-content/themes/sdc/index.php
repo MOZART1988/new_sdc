@@ -12,6 +12,9 @@
  * @package WordPress
  */
 
+global $tabArray;
+$counter = 1;
+
 $mainBanner = get_theme_mod('mainBanner', '/img/img-1.jpg');
 $mainBannerHtml = '<img src="/img/img-1.jpg">';
 
@@ -28,10 +31,6 @@ if ($mainBanner !== '/img/img-1.jpg') {
 }
 
 get_header(); ?>
-<!--<div class="preloader show">
-    <div class="preloader__block"></div>
-    <span class="preloader__title"><?=pll__('Smartdigital')?></span>
-</div>-->
 <div class="main"><!-- main content -->
     <section class="banner"><!-- main banner -->
         <?=$mainBannerHtml?>
@@ -53,53 +52,45 @@ get_header(); ?>
                     <span>Мы сформируем вам правильную стратегию ведения рекламы и продвижению сайта  в интернете, что обеспечивает максимальное увеличение продаж на любом уровне. Благодаря продвижению сайта и интернет рекламе вы получите стабильный поток клиентов.</span>
                 </div>
                 <div class="col-lg-9 col-md-8 right">
-                    <ul class="about__nav">
-                        <li class="active"><a href="#">Почему мы?</a></li>
-                        <li><a href="#">Как мы работаем?</a></li>
-                        <li><a href="#">Миссия компании</a></li>
+                    <ul class="about__nav tabs">
+                        <?php foreach ($tabArray as $key => $value) : ?>
+                            <li class="<?=$counter === 1 ? 'active' : ''?>"><a href="#tab<?=$key?>"><?=$value?></a></li>
+                            <?php $counter++; ?>
+                        <?php endforeach ; ?>
                     </ul>
                     <select class="dropdown">
-                        <option value="1" selected>Почему мы?</option>
-                        <option value="2">Как мы работаем?</option>
-                        <option value="3">Миссия компании</option>
+                        <?php foreach ($tabArray as $key => $value) : ?>
+                            <option value="<?=$key?>"><?=$value?></option>
+                        <?php endforeach ; ?>
                     </select>
-                    <div class="row">
-                        <div class="col-md-4 col-sm-6 col-xs-6">
-                            <div class="about__img"><img src="/img/img-3.png"></div>
-                            <div class="about__text">
-                                <h6>Аналитика</h6>
-                                <p>Сегментация и персонализация Сокращение сложности Машинное обучение Оптимизация</p>
+                    <?php foreach ($tabArray as $key => $value) : ?>
+                        <div class="tabs--block" id="tab<?=$key?>" <?=($key === 1 ? 'style="display: block"' : '')?>>
+                            <div class="row">
+                                <?php
+                                $loop = new WP_Query([
+                                    'post_type'=>'mainpage_tab_item',
+                                    'posts_per_page' => -1,
+                                    'lang' => pll_current_language(),
+                                    'meta_key' => 'mainpage_tab_category',
+                                    'meta_value' => $key,
+                                ]);
+                                ?>
+                                <?php while ($loop->have_posts()): $loop->the_post(); ?>
+                                    <?php foreach ($loop->posts as $post) : ?>
+                                        <div class="col-md-4 col-sm-6 col-xs-6">
+                                            <div class="about__img">
+                                                <img src="<?=get_the_post_thumbnail_url($post, 'full')?>">
+                                            </div>
+                                            <div class="about__text">
+                                                <h6><?=$post->post_title?></h6>
+                                                <p><?=$post->post_excerpt?></p>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php endwhile; ?>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-6 col-xs-6">
-                            <div class="about__img"><img src="/img/img-4.png"></div>
-                            <div class="about__text">
-                                <h6>Опыт взаимодействия</h6>
-                                <p>HCD подход Отзывчивость пользователей Идеи и инновационные спринты Этнография</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 col-xs-6">
-                            <div class="about__img"><img src="/img/img-5.png"></div>
-                            <div class="about__text">
-                                <h6>Лаборатория дизайна</h6>
-                                <p>Быстрое создание прототипов Дизайн UI/UX CJM Тестирование на удобства</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 col-xs-6">
-                            <div class="about__img"><img src="/img/img-6.png"></div>
-                            <div class="about__text">
-                                <h6>Маркетинг</h6>
-                                <p>Маркетинговый тест и обучение Адаптация технологий Мнение клиентов PMF</p>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 col-xs-6">
-                            <div class="about__img"><img src="/img/img-7.png"></div>
-                            <div class="about__text">
-                                <h6>Лаборатория разработки</h6>
-                                <p>Инновационная структура Готовые цифровые IT решения Разработка инструментов Пригодность концепции</p>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach ; ?>
                 </div>
             </div>
         </div>
