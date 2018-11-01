@@ -18,9 +18,8 @@ $mainBannerHtml = '<img src="/img/img-1.jpg">';
 if ($mainBanner !== '/img/img-1.jpg') {
 
     if (sdc_is_video($mainBanner)) {
-        $mainBannerHtml = '<video id="banner-video" width="100%" controls="false" autoplay="true" playsinline="true" muted="true">
+        $mainBannerHtml = '<video id="banner-video" width="100%" autoplay playsinline muted="muted" loop>
                     <source src="'.$mainBanner.'" type="video/mp4">
-                    <source src="'.$mainBanner.'" type="video/ogg">
                     Your browser does not support the video tag.
             </video>';
     } else {
