@@ -29,6 +29,13 @@ $(function(){
 		return false;
 	});
 
+    $('.tabs a').on('click', function(){
+        var block = $(this).attr('href');
+        $('' + block).show().siblings('.tabs--block').hide();
+        $(this).parent().addClass('active').siblings().removeClass('active');
+        return false;
+    });
+
 	$('.nav li a, .nav--more li a, .logo').on('click', function(){
 		$('.preloader__title').empty();
 		$(this).clone().appendTo('.preloader__title');
