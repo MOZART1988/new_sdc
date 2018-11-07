@@ -10,7 +10,7 @@ $bannerImage = null;
 
 if (!empty(get_post_meta($postId, 'pt_custom_image_one'))) {
     $url = get_post_meta($postId, 'pt_custom_image_one')[0];
-    $bannerImage = wp_get_attachment_image_src($url, 'portfolio-banner')[0];
+    $bannerImage = wp_get_attachment_image_src($url, 'full')[0];
 }
 
 $client = null;
@@ -57,7 +57,9 @@ if (!empty(get_post_meta($postId, 'pt_table'))) {
         <?php the_title('<h1>', '</h1>'); ?>
         <div class="row">
             <div class="col-lg-2 col-md-2 col-sm-3">
-                <img src="<?=get_the_post_thumbnail_url($post, 'client-thumb')?>">
+                <?php if (!empty($client)) : ?>
+                    <img src="<?=get_the_post_thumbnail_url($client, 'client-thumb')?>">
+                <?php endif; ?>
             </div>
             <div class="col-lg-9 col-md-10 col-sm-9">
                 <table>
@@ -90,7 +92,7 @@ if (!empty(get_post_meta($postId, 'pt_table'))) {
             <div class="portfolio--unit__for">
                 <?php foreach ($ids as $id) : ?>
                     <a href="<?=wp_get_attachment_url($id)?>" class="fancy">
-                        <img src="<?=wp_get_attachment_image_src($id, 'slide')[0]?>"
+                        <img src="<?=wp_get_attachment_image_src($id, 'full')[0]?>"
                              alt="<?=wp_get_attachment_image_src($id, 'slide')[0]?>">
                     </a>
                 <?php endforeach; ?>
