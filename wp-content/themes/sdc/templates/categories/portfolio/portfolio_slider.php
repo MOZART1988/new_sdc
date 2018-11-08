@@ -63,8 +63,18 @@ $loop = new WP_Query( $args );
         </div>
         <div class="portfolio__slider--nav" id="portfolio__nav--1">
             <?php foreach ($loop->posts as $post) : ?>
+
+                <?php
+                    $slideText = get_post_meta($post->ID, 'pt_slide_text')[0];
+
+                    if (empty($slideText)) {
+                        $slideText = get_the_category( $post->ID )[0]->name;
+                    }
+
+                ?>
+
                 <div>
-                    <span><?=get_the_category( $post->ID )[0]->name ?></span>
+                    <span><?=$slideText ?></span>
                     <img src="<?=get_the_post_thumbnail_url($post, 'portfolio-slide-small')?>">
                 </div>
             <?php endforeach ; ?>

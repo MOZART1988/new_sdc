@@ -3,10 +3,10 @@
  * template for displaying main menu
  */
 
-$portfolioPage = sdc_get_portfolio_category();
-$contactsPage = sdc_get_contacts_page();
-$eventsPage = sdc_get_events_category();
-$clientsPage = sdc_get_clients_category();
+global $portfolioPage;
+global $contactsPage;
+global $eventsPage;
+global $clientsPage;
 
 /**
  * @var WP_Term $portfolioPage

@@ -6,18 +6,45 @@
  *
  * @package WordPress
  */
+
+global $portfolioPage;
+global $contactsPage;
+global $eventsPage;
+global $clientsPage;
+
+/**
+ * @var WP_Term $portfolioPage
+ * @var WP_Post $contactsPage
+ * @var WP_Term $clientsPage
+ * @var WP_Term $eventsPage
+ */
+
 ?>
 <footer><!-- footer -->
     <div class="container">
         <div class="row">
             <div class="col-md-2 col-sm-6">
-                <h6>Компания</h6>
+                <h6><?=pll__('Компания')?></h6>
                 <ul>
-                    <li class="active"><a href="#">О компании</a></li>
-                    <li><a href="#">События</a></li>
-                    <li><a href="#">Контакты</a></li>
+                    <li class="<?=sdc_is_front_page() ? 'active' : ''?>">
+                        <a href="/"><?=pll__('О компании')?></a>
+                    </li>
+                    <?php if ($eventsPage !== false) : ?>
+                        <li class="<?=(sdc_is_events_page() ? 'active' : '')?>">
+                            <a href="<?=get_category_link($eventsPage->cat_ID)?>"><?=$eventsPage->name?></a>
+                        </li>
+                    <?php endif; ?>
+                    <?php if ($contactsPage !== false) : ?>
+                        <li class="<?=(sdc_is_contacts_page() ? 'active' : '')?>">
+                            <a href="<?=get_permalink($contactsPage)?>"><?=$contactsPage->post_title?></a>
+                        </li>
+                    <?php endif; ?>
                     <li><a href="#">Вакансии</a></li>
-                    <li><a href="#">Клиенты</a></li>
+                    <?php if ($clientsPage !== false) : ?>
+                        <li class="<?=(sdc_is_clients_page() ? 'active' : '')?>">
+                            <a href="<?=get_category_link($clientsPage->cat_ID)?>"><?=$clientsPage->name?></a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
             </div>
             <div class="col-md-3 col-sm-6">

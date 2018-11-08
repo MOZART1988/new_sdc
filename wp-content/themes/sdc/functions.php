@@ -15,7 +15,6 @@ $tabArray = [
     3 => TAB_3,
 ];
 
-
 add_action( 'parse_query','changept' );
 function changept() {
     if( is_category() && !is_admin() )
@@ -871,6 +870,46 @@ function portfolio_client_id_save( $post_id ) {
 }
 
 add_action('save_post', 'portfolio_client_id_save');
+
+
+/**
+ * Текст для слайда на плашке
+ */
+
+function portfolio_slide_text() {
+    add_meta_box(
+        'pt_slide_text',
+        __('Текст для слайда на плашке'),
+        'portfolio_slide_text_callback',
+        'portfolio_item'
+    );
+}
+
+add_action('add_meta_boxes', 'portfolio_slide_text');
+
+function portfolio_slide_text_callback($post) {
+    wp_nonce_field(basename(__FILE__), 'pt_slide_text');
+    $links_stored_meta = get_post_meta( $post->ID );
+    ?>
+    <input required type="text" size="100"
+           name="pt_slide_text"
+           id="pt_slide_text"
+           value="<?php if ( isset ( $links_stored_meta['pt_slide_text'] ) ) echo $links_stored_meta['pt_slide_text'][0]; ?>"/>
+    <?php
+}
+
+/**
+ * Cохранение
+ */
+
+function portfolio_slide_text_save( $post_id ) {
+    if( isset( $_POST[ 'pt_slide_text' ] ) ) {
+        update_post_meta( $post_id, 'pt_slide_text', sanitize_text_field( $_POST[ 'pt_slide_text' ] ) );
+    }
+}
+
+add_action('save_post', 'portfolio_slide_text_save');
+
 
 /**
  * Задача для элемента портфолио
@@ -1745,4 +1784,15 @@ if (! function_exists( 'sdc_is_video' )) :
     }
 
 endif;
+
+
+
+/**
+ * Globals for nav menu on main
+ */
+
+$portfolioPage = sdc_get_portfolio_category();
+$contactsPage = sdc_get_contacts_page();
+$eventsPage = sdc_get_events_category();
+$clientsPage = sdc_get_clients_category();
 
