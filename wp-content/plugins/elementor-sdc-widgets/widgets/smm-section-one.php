@@ -38,7 +38,7 @@ class Smm_Section_One extends Widget_Base {
      * @return string Widget title.
      */
     public function get_title() {
-        return __( 'Smm Section One', 'elementor-smm-section-one' );
+        return __( 'SMM Секция один', 'elementor-smm-section-one' );
     }
 
     /**
@@ -51,7 +51,7 @@ class Smm_Section_One extends Widget_Base {
      * @return string Widget icon.
      */
     public function get_icon() {
-        return 'eicon-posts-ticker';
+        return 'fa-puzzle-piece';
     }
 
     /**
@@ -108,7 +108,7 @@ class Smm_Section_One extends Widget_Base {
             'title',
             [
                 'label' => __( 'Title', 'elementor-smm-section-one' ),
-                'type' => Controls_Manager::TEXT,
+                'type' => Controls_Manager::TEXTAREA,
             ]
         );
 
@@ -155,9 +155,32 @@ class Smm_Section_One extends Widget_Base {
     protected function render() {
         $settings = $this->get_settings_for_display();
 
-        echo '<div class="title">';
-        echo $settings['title'];
-        echo '</div>';
+        ?>
+        <section class="section section1 red">
+            <div class="container">
+                <h2><?=$settings['title']?></h2>
+                <div class="lng__block">
+                    <form class="col">
+                        <h5><?=pll__('Закажите индивидуальный просчет вашего проекта')?></h5>
+                        <input type="text" placeholder="<?=pll__('Имя')?>" required="required">
+                        <input type="email" placeholder="<?=pll__('Электронная почта')?>" required="required">
+                        <input type="text" name="tel" placeholder="<?=pll__('Контактный номер телефона')?>" required="required">
+                        <input type="submit" class="btn" value="<?=pll__('Отправить')?>" data-toggle="modal" data-target="#modal--form">
+                    </form>
+                    <div class="col">
+                        <div class="phones__slider wow fadeInUp" data-wow-offset="0">
+                            <div><img src="/img/img-61.jpg" alt=""></div>
+                            <div><img src="/img/img-61.jpg" alt=""></div>
+                            <div><img src="/img/img-61.jpg" alt=""></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg" data-offset="55"><img src="/img/bg-1.png" alt=""></div>
+            <div class="bg" data-offset="10"><img src="/img/bg-2.png" alt=""></div>
+            <div class="bg" data-offset="25"><img src="/img/bg-3.png" alt=""></div>
+        </section>
+        <?
     }
 
     /**
@@ -171,9 +194,7 @@ class Smm_Section_One extends Widget_Base {
      */
     protected function _content_template() {
         ?>
-        <div class="title">
-            {{{ settings.title }}}
-        </div>
+
         <?php
     }
 }
