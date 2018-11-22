@@ -1,7 +1,6 @@
-
 $(function(){
 
-    $('a.custom-active').parent().addClass('active');
+    new WOW().init();
 
     setTimeout(function(){
         $('.preloader').addClass('load');
@@ -82,6 +81,7 @@ $(function(){
             var destination = $(this).attr('href');
             setTimeout(function() { window.location.href = destination; }, 1500);
         });
+
     } else {
         $('.nav li a, .logo, .nav--more .li a, .nav--more .submenu a').on('click', function(){
             $('.preloader').removeClass('load');
@@ -99,6 +99,70 @@ $(function(){
         });
     }
 
+    if (width > 1281) {
+        new fullpage('#fullpage', {
+            autoScrolling:true,
+            scrollingSpeed: 1200,
+            scrollHorizontally: true,
+            navigation: true,
+            scrollBar:true,
+            onLeave: function(origin, destination, direction){
+                var leavingSection = this;
+                if(origin.index == 3 && direction =='down'){
+                    setTimeout(function(){
+                        $(".section5 .num span").spincrement({
+                            duration: 1500
+                        });
+                    }, 300);
+                }
+
+                if(origin.index == 5 && direction =='up'){
+                    setTimeout(function(){
+                        $(".section5 .num span").spincrement({
+                            duration: 1500
+                        });
+                    }, 300);
+                }
+            }
+        });
+    } else {
+        $(".section5 .num span").spincrement({
+            duration: 1500
+        });
+    }
+
+    if (width < 992) {
+        $('.section8 .lng__block').slick({
+            autoplay: true,
+            slidesToShow: 2,
+            slidesToScroll: 2,
+            responsive: [
+                {
+                    breakpoint: 580,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }
+            ]
+        });
+    }
+
+    $(window).on('mousemove', function(e){
+        var h = $(window).width();
+        var w = $(window).height();
+        var offsetX = 0.5 - e.pageX / w;
+        var offsetY = 0.2 - e.pageY / h;
+
+        $('.bg').each(function(i,el) {
+            var offset = parseInt($(el).data('offset'));
+            var translate = 'translate3d(' + Math.round(offsetX * offset) + 'px,' + Math.round(offsetY * offset) + 'px, 0px';
+            $(el).css({
+                'transform': translate
+            });
+        });
+    });
+
     // $('.nav--more .container > ul > li > a').on('mouseover', function() {
     //     if (width > 1199) {
     //            $(this).siblings().fadeIn();
@@ -110,7 +174,7 @@ $(function(){
     // });
 });
 
-((function(){
+$(function(){
     /* main portfolio sliders */
     $('#portfolio__for').slick({
         autoplay: true,
@@ -387,19 +451,90 @@ $(function(){
     $('input[name="tel"]').inputmask('+7 (999) 999-99-99');
 
     $('.fancy').fancybox();
-})(jQuery));
+});
+
+$(function(){
+    $('.phones__slider').slick({
+        autoplay: true,
+        arrows: false
+    });
+
+    $('.efficacy').slick({
+        speed: 1200,
+        autoplay: true,
+        arrows: false,
+        dots: true,
+    });
+
+    $('.video--for').slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        speed: 1500,
+        arrows: false,
+        fade: true,
+        asNavFor: '.video--nav'
+    });
+    $('.video--nav').slick({
+        slidesToShow: 15,
+        slidesToScroll: 1,
+        asNavFor: '.video--for',
+        arrows: false,
+        centerMode: true,
+        focusOnSelect: true,
+        centerPadding: 0,
+        responsive: [
+            {
+                breakpoint: 991,
+                settings: {
+                    slidesToShow: 10,
+                    arrows: false
+                }
+            },
+            {
+                breakpoint: 767,
+                settings: {
+                    slidesToShow: 3,
+                    centerMode: false,
+                }
+            }
+        ]
+    });
+
+    $('.cases').slick({
+        speed: 1200,
+        autoplay: false,
+        arrows:true,
+        draggable: false
+    });
+    $('.cases__slider').slick({
+        autoplay: true,
+        arrows: false,
+        dots: true,
+        draggable: false
+    });
+
+    $('.nav--lng--cat--btn').on('click', function(){
+        $('.nav--lng--cat').fadeIn();
+        return false;
+    });
+    $('.nav--lng--cat .close').on('click', function(){
+        $(this).parent().fadeOut();
+        return false;
+    });
 
 
-((function(){
+});
+
+
+$(function(){
 
     /* map */
-
     if ($('#map').length) {
         ymaps.ready(init);
 
         var myMap;
 
-        function init () {
+        function init() {
 
             myMap = new ymaps.Map(
                 'map', {
@@ -420,7 +555,7 @@ $(function(){
                 balloonPanelMaxMapArea: 0
             }, {
                 iconLayout: 'default#imageWithContent',
-                iconImageHref: 'img/facebook-placeholder-for-locate-places-on-maps-black.svg',
+                iconImageHref: '/img/facebook-placeholder-for-locate-places-on-maps-black.svg',
                 iconImageSize: [26, 36],
                 iconImageOffset: [-15, -26]
 
@@ -433,4 +568,4 @@ $(function(){
         /* map */
     }
 
-})(jQuery));
+});
