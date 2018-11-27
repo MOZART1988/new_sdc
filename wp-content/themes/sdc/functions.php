@@ -3,7 +3,99 @@
  * functions.php for theme SDC
 */
 
-//flush_rewrite_rules( false );
+/**
+ * TODO hide from here wp_editor throght action
+*/
+
+
+/**
+ * Add custom javascript file to admin
+*/
+
+function admin_custom_scripts($hook) {
+    wp_enqueue_script('admin', get_template_directory_uri() . '/js/admin.js');
+}
+
+add_action('admin_enqueue_scripts', 'admin_custom_scripts');
+
+/**
+ * Add metaboxes to SMM Landing
+*/
+
+/**
+ * Секция СММ
+*/
+add_action( 'add_meta_boxes', 'add_smm_section_name' );
+
+add_action( 'save_post', 'smm_section_save' );
+
+
+function add_smm_section_name() {
+    add_meta_box(
+        'smm-section',
+        'Секция СММ',
+        'smm_section_init',
+        'page');
+}
+
+function smm_section_init() {
+    global $post;
+
+    wp_nonce_field( plugin_basename( __FILE__ ), 'smm_nonce' );
+    ?>
+    <div id="smm-section-item">
+    <?php
+
+    $smmSectionDetails = get_post_meta($post->ID,'smmSectionDetails',true);
+    $c = 0;
+    if (is_array($smmSectionDetails) && count( $smmSectionDetails ) > 0 ) {
+        foreach( $smmSectionDetails as $item ) {
+            if ( isset( $item['number'] ) || isset( $item['text'] ) ) {
+                printf( '<p>Цифра
+                    <input type="text" name="smmSectionDetails[%1$s][number]" value="%2$s" />  
+                    Текст : <input type="text" name="smmSectionDetails[%1$s][text]"  value="%3$s"/>
+                    <a href="#remove-smm-section-item" class="remove-package button">%4$s</a></p>', $c, $item['number'], $item['text'], 'Удалить' );
+                $c++;
+            }
+        }
+    }
+
+    ?>
+    <span id="output-package"></span>
+    <a href="#" class="button add_package button-primary"><?php _e('Добавить элемент'); ?></a>
+    <script>
+        var $ = jQuery.noConflict();
+        $(document).ready(function() {
+            var count = <?php echo $c; ?>;
+            $(".add_package").click(function() {
+                count = count + 1;
+
+                $('#output-package').append('<p> Цифра <input type="text" name="smmSectionDetails['+count+'][number]" value="" />  Текст : <input type="text" name="smmSectionDetails['+count+'][text]"  value=""/><a href="#remove-smm-section-item" class="button remove-package">Удалить</a></p>' );
+                return false;
+            });
+            $(document.body).on('click','.remove-package',function() {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+    </div><?php
+
+}
+
+function smm_section_save( $post_id ) {
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+        return;
+    if ( !isset( $_POST['smm_nonce'] ) )
+        return;
+
+    if ( !wp_verify_nonce( $_POST['smm_nonce'], plugin_basename( __FILE__ ) ) )
+        return;
+    $smmSectionDetails = $_POST['smmSectionDetails'];
+
+    update_post_meta($post_id,'smmSectionDetails',$smmSectionDetails);
+}
+
+
 
 const TAB_1 = 'Почему мы';
 const TAB_2 = 'Как мы работаем';
@@ -14,6 +106,7 @@ $tabArray = [
     2 => TAB_2,
     3 => TAB_3,
 ];
+
 
 add_action( 'parse_query','changept' );
 function changept() {
@@ -619,6 +712,7 @@ function client_item() {
 }
 
 add_action( 'init', 'client_item' );
+
 
 /**
  * Элемент основные направления в админке
@@ -1784,8 +1878,6 @@ if (! function_exists( 'sdc_is_video' )) :
     }
 
 endif;
-
-
 
 /**
  * Globals for nav menu on main
