@@ -7,16 +7,17 @@
  */
 ?>
 <!DOCTYPE html>
-<html <?php language_attributes(); ?> class="no-js">
+<html <?php language_attributes(); ?>>
 <head>
+    <meta charset="UTF-8">
     <meta charset="<?php bloginfo( 'charset' ); ?>">
-    <meta name="viewport" content="width=device-width">
-    <link rel="profile" href="http://gmpg.org/xfn/11">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
-    <link rel="stylesheet" href="<?php echo esc_url( get_template_directory_uri() ); ?>/css/libs.css">
+    <link rel="stylesheet" href="<?=get_template_directory_uri()?>/css/libs.css">
     <?php wp_head(); ?>
 </head>
-<body class="<?php echo sdc_body_class(); ?>">
+<body>
 <header class="header">
     <a href="index.html" class="logo">
         <img class="logo3" src="/img/logo2.png" alt="logo">

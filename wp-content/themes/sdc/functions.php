@@ -13,7 +13,12 @@
 */
 
 function admin_custom_scripts($hook) {
-    wp_enqueue_script('admin', get_template_directory_uri() . '/js/admin.js');
+    wp_enqueue_style('imageSelectStyleChosen', get_template_directory_uri() . '/css/admin/chosen.min.css');
+    wp_enqueue_style('imageSelectStyle', get_template_directory_uri() . '/css/admin/imageSelect.css');
+
+    wp_enqueue_script('imageSelectChosen', get_template_directory_uri() . '/js/admin/chosen.jquery.js');
+    wp_enqueue_script('imageSelectJs', get_template_directory_uri() . '/js/admin/imageSelect.jquery.js');
+    wp_enqueue_script('admin', get_template_directory_uri() . '/js/admin/admin.js');
 }
 
 add_action('admin_enqueue_scripts', 'admin_custom_scripts');
@@ -21,6 +26,113 @@ add_action('admin_enqueue_scripts', 'admin_custom_scripts');
 /**
  * Add metaboxes to SMM Landing
 */
+
+/**
+ * Секция Что мы сделаем для вас
+ */
+add_action( 'add_meta_boxes', 'add_doinglist_section' );
+
+add_action( 'save_post', 'doinglist_save' );
+
+
+function add_doinglist_section() {
+    add_meta_box(
+        'doing-section',
+        'Секция Что мы сделаем для Вас',
+        'doinglist_section_init',
+        'page');
+}
+
+function doinglist_section_init() {
+    global $post;
+
+    wp_nonce_field( plugin_basename( __FILE__ ), 'doinglist_nonce' );
+    ?>
+    <div id="doinglist-section-item">
+    <?php
+
+    $doinglistSectionDetails = get_post_meta($post->ID,'doinglistSectionDetails',true);
+    $c = 0;
+    if (is_array($doinglistSectionDetails) && count( $doinglistSectionDetails ) > 0 ) {
+        foreach( $doinglistSectionDetails as $item ) {
+            if ( isset( $item['icon'] ) || isset( $item['text'] ) ) {
+                printf( '<p>
+                    Иконка :
+                        <select class="imageSelect" name="doinglistSectionDetails[%1$s][icon]">
+                            <option data-img-src="/img/img-63.png" value="1">Иконка 1</option>
+                            <option data-img-src="/img/img-64.png" value="2">Иконка 2</option>
+                            <option data-img-src="/img/img-65.png" value="3">Иконка 3</option>
+                            <option data-img-src="/img/img-66.png" value="4">Иконка 4</option>
+                            <option data-img-src="/img/img-67.png" value="5">Иконка 5</option>
+                            <option data-img-src="/img/img-68.png" value="6">Иконка 6</option>
+                            <option data-img-src="/img/img-69.png" value="7">Иконка 7</option>
+                            <option data-img-src="/img/img-70.png" value="8">Иконка 8</option>
+                        </select> 
+                    Текст : 
+                        <input type="text" name="doinglistSectionDetails[%1$s][text]"  value="%3$s"/>
+                        <a href="#doinglist-section-item-remove" class="remove-package-doinglist button">%4$s</a>
+                    </p>', $c, $item['icon'], $item['text'], 'Удалить'
+                    );
+                $c++;
+            }
+        }
+    }
+
+    ?>
+    <span id="output-package-doinglist"></span>
+    <a href="#" class="button add_package_doinglist button-primary"><?php _e('Добавить элемент'); ?></a>
+    <script>
+        var $ = jQuery.noConflict();
+        $(document).ready(function() {
+            var count = <?php echo $c; ?>;
+            var html = '<p>' +
+                '                    Иконка :' +
+                '                        <select class="imageSelect" name="doinglistSectionDetails['+count+'][icon]">' +
+                '                            <option data-img-src="/img/img-63.png" value="1">Иконка 1</option>' +
+                '                            <option data-img-src="/img/img-64.png" value="2">Иконка 2</option>' +
+                '                            <option data-img-src="/img/img-65.png" value="3">Иконка 3</option>' +
+                '                            <option data-img-src="/img/img-66.png" value="4">Иконка 4</option>' +
+                '                            <option data-img-src="/img/img-67.png" value="5">Иконка 5</option>' +
+                '                            <option data-img-src="/img/img-68.png" value="6">Иконка 6</option>' +
+                '                            <option data-img-src="/img/img-69.png" value="7">Иконка 7</option>' +
+                '                            <option data-img-src="/img/img-70.png" value="8">Иконка 8</option>' +
+                '                        </select>' +
+                '                        Текст :' +
+                '                        <input type="text" name="doinglistSectionDetails['+count+'][text]"  value=""/>' +
+                '                        <a href="#doinglist-section-item-remove" class="remove-package-doinglist button">Удалить</a>' +
+                '                    </p>';
+
+            $(".add_package_doinglist").click(function() {
+                count = count + 1;
+
+                $('#output-package-doinglist')
+                    .append( html );
+
+                $('.imageSelect').chosen({ width:"40%"});
+
+                return false;
+            });
+            $(document.body).on('click','.remove-package-doinglist', function() {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+    </div><?php
+
+}
+
+function doinglist_save( $post_id ) {
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+        return;
+    if ( !isset( $_POST['doinglist_nonce'] ) )
+        return;
+
+    if ( !wp_verify_nonce( $_POST['doinglist_nonce'], plugin_basename( __FILE__ ) ) )
+        return;
+    $doinglistSectionDetails = $_POST['doinglistSectionDetails'];
+
+    update_post_meta($post_id,'doinglistSectionDetails', $doinglistSectionDetails);
+}
 
 /**
  * Секция СММ
@@ -93,6 +205,79 @@ function smm_section_save( $post_id ) {
     $smmSectionDetails = $_POST['smmSectionDetails'];
 
     update_post_meta($post_id,'smmSectionDetails',$smmSectionDetails);
+}
+
+/**
+ * Секция Преимущества
+ */
+add_action( 'add_meta_boxes', 'add_advantages_section' );
+
+add_action( 'save_post', 'advantages_section_save' );
+
+
+function add_advantages_section() {
+    add_meta_box(
+        'advantages-section',
+        'Секция Преимущества',
+        'advantages_section_init',
+        'page');
+}
+
+function advantages_section_init() {
+    global $post;
+
+    wp_nonce_field( plugin_basename( __FILE__ ), 'advantages_nonce' );
+    ?>
+    <div id="advantages-section-item">
+    <?php
+
+    $advantagesSectionDetails = get_post_meta($post->ID,'advantagesSectionDetails',true);
+    $c = 0;
+    if (is_array($advantagesSectionDetails) && count( $advantagesSectionDetails ) > 0 ) {
+        foreach( $advantagesSectionDetails as $item ) {
+            if ( isset( $item['title'] ) || isset( $item['text'] ) ) {
+                printf( '<p>Заголовок :
+                    <input type="text" name="advantagesSectionDetails[%1$s][title]" value="%2$s" />  
+                    Текст : <textarea name="advantagesSectionDetails[%1$s][text]">%3$s</textarea>
+                    <a href="#remove-advantages-section-item" class="remove-package-advantages button">%4$s</a></p>', $c, $item['title'], $item['text'], 'Удалить' );
+                $c++;
+            }
+        }
+    }
+
+    ?>
+    <span id="output-package-advantages"></span>
+    <a href="#" class="button add_advantage button-primary"><?php _e('Добавить элемент'); ?></a>
+    <script>
+        var $ = jQuery.noConflict();
+        $(document).ready(function() {
+            var count = <?php echo $c; ?>;
+            $(".add_advantage").click(function() {
+                count = count + 1;
+
+                $('#output-package-advantages').append('<p> Заголовок : <input type="text" name="advantagesSectionDetails['+count+'][title]" value="" />  Текст : <textarea name="advantagesSectionDetails['+count+'][text]"></textarea><a href="#remove-advantiges-section-item" class="button remove-package">Удалить</a></p>' );
+                return false;
+            });
+            $(document.body).on('click','.remove-package-advantages',function() {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+    </div><?php
+
+}
+
+function advantages_section_save( $post_id ) {
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+        return;
+    if ( !isset( $_POST['advantages_nonce'] ) )
+        return;
+
+    if ( !wp_verify_nonce( $_POST['advantages_nonce'], plugin_basename( __FILE__ ) ) )
+        return;
+    $smmSectionDetails = $_POST['advantagesSectionDetails'];
+
+    update_post_meta($post_id,'advantagesSectionDetails',$smmSectionDetails);
 }
 
 
@@ -1485,6 +1670,13 @@ if ( ! function_exists( 'sdc_setup' ) ) :
         */
 
         pll_register_string('Все работы для компании', 'Все работы для компании', 'SDC');
+
+        /**
+         * Landing SMM
+        */
+
+        pll_register_string('СММ', 'СММ', 'SDC');
+        pll_register_string('Преимущества рекламы в социальных сетях', 'Преимущества рекламы в социальных сетях', 'SDC');
 
     }
 endif; // sdc setup
