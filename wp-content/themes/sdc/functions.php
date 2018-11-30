@@ -14,10 +14,10 @@
 
 function admin_custom_scripts($hook) {
     wp_enqueue_style('imageSelectStyleChosen', get_template_directory_uri() . '/css/admin/chosen.min.css');
-    wp_enqueue_style('imageSelectStyle', get_template_directory_uri() . '/css/admin/imageSelect.css');
+    wp_enqueue_style('imageSelectStyle', get_template_directory_uri() . '/css/admin/imageselect.css');
 
     wp_enqueue_script('imageSelectChosen', get_template_directory_uri() . '/js/admin/chosen.jquery.js');
-    wp_enqueue_script('imageSelectJs', get_template_directory_uri() . '/js/admin/imageSelect.jquery.js');
+    wp_enqueue_script('imageSelectJs', get_template_directory_uri() . '/js/admin/imageselect.jquery.js');
     wp_enqueue_script('admin', get_template_directory_uri() . '/js/admin/admin.js');
 }
 
