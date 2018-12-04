@@ -127,27 +127,7 @@ get_header('smm');
         <div class="bg" data-offset="10"><img src="/img/bg-8.png" alt=""></div>
         <div class="bg" data-offset="25"><img src="/img/bg-9.png" alt=""></div>
     </section>
-    <section class="section section4">
-        <div class="container">
-            <div class="video--for">
-                <!-- <div><iframe width="560" height="315" src="https://www.youtube.com/embed/4CJ3PdHAGjw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div> -->
-                <div><img src="/img/img-62.jpg" alt="img-62"></div>
-                <div><img src="/img/img-62.jpg" alt="img-62"></div>
-                <div><img src="/img/img-62.jpg" alt="img-62"></div>
-                <div><img src="/img/img-62.jpg" alt="img-62"></div>
-            </div>
-            <div class="video--nav not--complete">
-                <!-- <div><img src="img/img-62.jpg" alt="img-62"></div> -->
-                <div><img src="/img/img-62.jpg" alt="img-62"></div>
-                <div><img src="/img/img-62.jpg" alt="img-62"></div>
-                <div><img src="/img/img-62.jpg" alt="img-62"></div>
-                <div><img src="/img/img-62.jpg" alt="img-62"></div>
-            </div>
-        </div>
-        <div class="bg" data-offset="55"><img src="/img/bg-7.png" alt=""></div>
-        <div class="bg" data-offset="10"><img src="/img/bg-8.png" alt=""></div>
-        <div class="bg" data-offset="25"><img src="/img/bg-9.png" alt=""></div>
-    </section>
+    <?php get_template_part('templates/pages/landings/smm/section', 'videoslider') ?>
     <?php get_template_part('templates/pages/landings/smm/section', 'smm') ?>
     <?php get_template_part('templates/pages/landings/smm/section', 'advantages') ?>
     <?php get_template_part('templates/pages/landings/smm/section', 'doinglist') ?>

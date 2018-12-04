@@ -28,6 +28,90 @@ add_action('admin_enqueue_scripts', 'admin_custom_scripts');
 */
 
 /**
+ * Секция Видео слайдера
+*/
+
+add_action( 'add_meta_boxes', 'add_video_section' );
+
+add_action( 'save_post', 'video_save' );
+
+function add_video_section() {
+    add_meta_box(
+        'video-section',
+        'Секция видеослайдера',
+        'video_section_init',
+        'page');
+}
+
+function video_section_init() {
+    global $post;
+
+    wp_nonce_field( plugin_basename( __FILE__ ), 'video_nonce' );
+    ?>
+    <div id="team-section-item">
+    <?php
+
+    $videoSectionDetails = get_post_meta($post->ID,'videoSectionDetails',true);
+    $c = 0;
+
+    if (is_array($videoSectionDetails) && count( $videoSectionDetails ) > 0 ) {
+        foreach( $videoSectionDetails as $item ) {
+            if ( isset( $item['video'] ) ) {
+                printf( '<p>
+                    Видео : 
+                        <input type="text" name="videoSectionDetails[%1$s][video]" value="%2$s" required/>
+                        <a href="#video-section-item-remove" class="remove-package-video button">%3$s</a>
+                    </p>', $c, $item['video'], 'Удалить'
+                );
+                $c++;
+            }
+        }
+    }
+
+    ?>
+    <span id="output-package-video"></span>
+    <a href="#" class="button add_package_video button-primary"><?php _e('Добавить элемент'); ?></a>
+    <script>
+        var $ = jQuery.noConflict();
+        $(document).ready(function() {
+            var count = <?php echo $c; ?>;
+
+            $(".add_package_video").click(function() {
+                count = count + 1;
+
+                var html = '<p>' +
+                    '                        Видео :' +
+                    '                        <input type="text" name="videoSectionDetails['+count+'][video]" required/>' +
+                    '                        <a href="#video-section-item-remove" class="remove-package-video button">Удалить</a>' +
+                    '                    </p>';
+
+                $('#output-package-video')
+                    .append( html );
+                return false;
+            });
+            $(document.body).on('click','.remove-package-video', function() {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+    </div><?php
+
+}
+
+function video_save( $post_id ) {
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+        return;
+    if ( !isset( $_POST['video_nonce'] ) )
+        return;
+
+    if ( !wp_verify_nonce( $_POST['video_nonce'], plugin_basename( __FILE__ ) ) )
+        return;
+    $videoSectionDetails = $_POST['videoSectionDetails'];
+
+    update_post_meta($post_id,'videoSectionDetails',$videoSectionDetails);
+}
+
+/**
  * Секция "Кто будет работать над вашим проектом"
 */
 
@@ -69,7 +153,7 @@ function team_section_init() {
                             <option  value="7" '.((int)$item['member'] === 7 ? 'selected' : '').'>Аналитик</option>
                         </select> 
                     Текст : 
-                        <textarea name="teamSectionDetails[%1$s][text]">%3$s</textarea>
+                        <textarea name="teamSectionDetails[%1$s][text]" required>%3$s</textarea>
                         <a href="#team-section-item-remove" class="remove-package-team button">%4$s</a>
                     </p>', $c, $item['member'], $item['text'], 'Удалить'
                 );
@@ -101,7 +185,7 @@ function team_section_init() {
                     '                            <option  value="7">Аналитик</option>' +
                     '                        </select>' +
                     '                        Текст :' +
-                    '                        <textarea name="teamSectionDetails['+count+'][text]"></textarea>' +
+                    '                        <textarea name="teamSectionDetails['+count+'][text]" required></textarea>' +
                     '                        <a href="#team-section-item-remove" class="remove-package-team button">Удалить</a>' +
                     '                    </p>';
 
@@ -174,7 +258,7 @@ function doinglist_section_init() {
                             <option data-img-src="/img/img-70.png" value="8" '.((int)$item['icon'] === 8 ? 'selected' : '').'>Иконка 8</option>
                         </select> 
                     Текст : 
-                        <input type="text" name="doinglistSectionDetails[%1$s][text]"  value="%3$s"/>
+                        <input type="text" name="doinglistSectionDetails[%1$s][text]"  value="%3$s" required/>
                         <a href="#doinglist-section-item-remove" class="remove-package-doinglist button">%4$s</a>
                     </p>', $c, $item['icon'], $item['text'], 'Удалить'
                     );
@@ -207,7 +291,7 @@ function doinglist_section_init() {
                     '                            <option data-img-src="/img/img-70.png" value="8">Иконка 8</option>' +
                     '                        </select>' +
                     '                        Текст :' +
-                    '                        <input type="text" name="doinglistSectionDetails['+count+'][text]"  value=""/>' +
+                    '                        <input type="text" name="doinglistSectionDetails['+count+'][text]"  value="" required/>' +
                     '                        <a href="#doinglist-section-item-remove" class="remove-package-doinglist button">Удалить</a>' +
                     '                    </p>';
 
