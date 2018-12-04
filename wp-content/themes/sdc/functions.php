@@ -1930,6 +1930,8 @@ if ( ! function_exists( 'sdc_setup' ) ) :
         pll_register_string('Преимущества рекламы в социальных сетях', 'Преимущества рекламы в социальных сетях', 'SDC');
         pll_register_string('Что мы сделаем для вас?', 'Что мы сделаем для вас?', 'SDC');
         pll_register_string('Команда, которая будет работать над вашим проектом', 'Команда, которая будет работать над вашим проектом', 'SDC');
+        pll_register_string('Профессиональное продвижение SMM от Smart Digital', 'Профессиональное продвижение SMM от Smart Digital', 'SDC');
+        pll_register_string('Работаем по технологии Data - driven Marketing', 'Работаем по технологии Data - driven Marketing', 'SDC');
 
     }
 endif; // sdc setup
