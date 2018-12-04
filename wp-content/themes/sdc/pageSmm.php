@@ -263,75 +263,7 @@ get_header('smm');
         <div class="bg" data-offset="10"><img src="/img/bg-2.png" alt=""></div>
         <div class="bg" data-offset="25"><img src="/img/bg-3.png" alt=""></div>
     </section>
-    <section class="section section10 black">
-        <div class="container">
-            <h2>Команда, которая будет работать над вашим проектом</h2>
-            <div class="lng__block">
-                <div class="col wow fadeInRight" data-wow-offset="0" data-wow-delay="0.2s">
-                    <div class="img"><img src="/img/img-73.png" alt=""></div>
-                    <span class="title">Project менеджер</span>
-                    <ul>
-                        <li>Коммуникация с клиентом;</li>
-                        <li>Координация работы команды.</li>
-                    </ul>
-                </div>
-                <div class="col wow fadeInRight" data-wow-offset="0" data-wow-delay="0.3s">
-                    <div class="img"><img src="/img/img-74.png" alt=""></div>
-                    <span class="title">Стратег</span>
-                    <ul>
-                        <li>Разработка стратегии продвижения </li>
-                    </ul>
-                </div>
-                <div class="col wow fadeInRight" data-wow-offset="0" data-wow-delay="0.4s">
-                    <div class="img"><img src="/img/img-75.png" alt=""></div>
-                    <span class="title">Контент менеджер</span>
-                    <ul>
-                        <li>Подготовка контент-плана;</li>
-                        <li>Подготовка рубрик;</li>
-                        <li>Написание контента.</li>
-                    </ul>
-                </div>
-                <div class="col wow fadeInRight" data-wow-offset="0" data-wow-delay="0.5s">
-                    <div class="img"><img src="/img/img-76.png" alt=""></div>
-                    <span class="title">Дизайнер</span>
-                    <ul>
-                        <li>Разработка всей визуальной части проекта.</li>
-                    </ul>
-                </div>
-                <div class="col wow fadeInRight" data-wow-offset="0" data-wow-delay="0.6s">
-                    <div class="img"><img src="/img/img-77.png" alt=""></div>
-                    <span class="title">Модератор</span>
-                    <ul>
-                        <li>Коммуникация с аудиторией;</li>
-                        <li>Публикация контента;</li>
-                        <li>Работа со спамом и негативом;</li>
-                        <li>Ответы на личные сообщения.</li>
-                    </ul>
-                </div>
-                <div class="col wow fadeInRight" data-wow-offset="0" data-wow-delay="0.7s">
-                    <div class="img"><img src="/img/img-78.png" alt=""></div>
-                    <span class="title">Таргетолог</span>
-                    <ul>
-                        <li>Настройка рекламных кампаний по ЦА;</li>
-                        <li>Ежедневное отслеживание результатов;</li>
-                        <li>Корректировка рекламных кампаний.</li>
-                    </ul>
-                </div>
-                <div class="col wow fadeInRight" data-wow-offset="0" data-wow-delay="0.8s">
-                    <div class="img"><img src="/img/img-79.png" alt=""></div>
-                    <span class="title">Аналитик</span>
-                    <ul>
-                        <li>Анализ результатов работы по проекту;</li>
-                        <li>Подготовка отчетов;</li>
-                        <li>Подготовка рекомендаций по проекту;</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="bg" data-offset="55"><img src="/img/bg-4.png" alt=""></div>
-        <div class="bg" data-offset="10"><img src="/img/bg-5.png" alt=""></div>
-        <div class="bg" data-offset="25"><img src="/img/bg-6.png" alt=""></div>
-    </section>
+    <?php get_template_part('templates/pages/landings/smm/section', 'team'); ?>
     <section class="section section11">
         <div class="container">
             <h2>Расскажите о своем проекте</h2>

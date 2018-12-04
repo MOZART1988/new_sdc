@@ -28,6 +28,110 @@ add_action('admin_enqueue_scripts', 'admin_custom_scripts');
 */
 
 /**
+ * Секция "Кто будет работать над вашим проектом"
+*/
+
+add_action( 'add_meta_boxes', 'add_team_section' );
+
+add_action( 'save_post', 'team_section_save' );
+
+function add_team_section() {
+    add_meta_box(
+        'team-section',
+        'Секция Кто будет работать над вашим проектом',
+        'team_section_init',
+        'page');
+}
+
+function team_section_init() {
+    global $post;
+
+    wp_nonce_field( plugin_basename( __FILE__ ), 'team_nonce' );
+    ?>
+    <div id="team-section-item">
+    <?php
+
+    $teamSectionDetails = get_post_meta($post->ID,'teamSectionDetails',true);
+    $c = 0;
+
+    if (is_array($teamSectionDetails) && count( $teamSectionDetails ) > 0 ) {
+        foreach( $teamSectionDetails as $item ) {
+            if ( isset( $item['member'] ) || isset( $item['text'] ) ) {
+                printf( '<p>
+                    Команда :
+                        <select name="teamSectionDetails[%1$s][member]">
+                            <option  value="1" '.((int)$item['member'] === 1 ? 'selected' : '').'>Project Менеджер</option>
+                            <option  value="2" '.((int)$item['member'] === 2 ? 'selected' : '').'>Стратег</option>
+                            <option  value="3" '.((int)$item['member'] === 3 ? 'selected' : '').'>Контент Менеджер</option>
+                            <option  value="4" '.((int)$item['member'] === 4 ? 'selected' : '').'>Дизайнер</option>
+                            <option  value="5" '.((int)$item['member'] === 5 ? 'selected' : '').'>Модератор</option>
+                            <option  value="6" '.((int)$item['member'] === 6 ? 'selected' : '').'>Таргетолог</option>
+                            <option  value="7" '.((int)$item['member'] === 7 ? 'selected' : '').'>Аналитик</option>
+                        </select> 
+                    Текст : 
+                        <textarea name="teamSectionDetails[%1$s][text]">%3$s</textarea>
+                        <a href="#team-section-item-remove" class="remove-package-team button">%4$s</a>
+                    </p>', $c, $item['member'], $item['text'], 'Удалить'
+                );
+                $c++;
+            }
+        }
+    }
+
+    ?>
+    <span id="output-package-team"></span>
+    <a href="#" class="button add_package_team button-primary"><?php _e('Добавить элемент'); ?></a>
+    <script>
+        var $ = jQuery.noConflict();
+        $(document).ready(function() {
+            var count = <?php echo $c; ?>;
+
+            $(".add_package_team").click(function() {
+                count = count + 1;
+
+                var html = '<p>' +
+                    '                    Команда :' +
+                    '                        <select name="teamSectionDetails['+count+'][member]">' +
+                    '                            <option  value="1">Project Менеджер</option>' +
+                    '                            <option  value="2">Стратег</option>' +
+                    '                            <option  value="3">Контент Менеджер</option>' +
+                    '                            <option  value="4">Дизайнер</option>' +
+                    '                            <option  value="5">Модератор</option>' +
+                    '                            <option  value="6">Таргетолог</option>' +
+                    '                            <option  value="7">Аналитик</option>' +
+                    '                        </select>' +
+                    '                        Текст :' +
+                    '                        <textarea name="teamSectionDetails['+count+'][text]"></textarea>' +
+                    '                        <a href="#team-section-item-remove" class="remove-package-team button">Удалить</a>' +
+                    '                    </p>';
+
+                $('#output-package-team')
+                    .append( html );
+                return false;
+            });
+            $(document.body).on('click','.remove-package-team', function() {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+    </div><?php
+
+}
+
+function team_section_save( $post_id ) {
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+        return;
+    if ( !isset( $_POST['team_nonce'] ) )
+        return;
+
+    if ( !wp_verify_nonce( $_POST['team_nonce'], plugin_basename( __FILE__ ) ) )
+        return;
+    $teamSectionDetails = $_POST['teamSectionDetails'];
+
+    update_post_meta($post_id,'teamSectionDetails',$teamSectionDetails);
+}
+
+/**
  * Секция Что мы сделаем для вас
  */
 add_action( 'add_meta_boxes', 'add_doinglist_section' );
@@ -53,20 +157,21 @@ function doinglist_section_init() {
 
     $doinglistSectionDetails = get_post_meta($post->ID,'doinglistSectionDetails',true);
     $c = 0;
+
     if (is_array($doinglistSectionDetails) && count( $doinglistSectionDetails ) > 0 ) {
         foreach( $doinglistSectionDetails as $item ) {
             if ( isset( $item['icon'] ) || isset( $item['text'] ) ) {
                 printf( '<p>
                     Иконка :
                         <select class="imageSelect" name="doinglistSectionDetails[%1$s][icon]">
-                            <option data-img-src="/img/img-63.png" value="1">Иконка 1</option>
-                            <option data-img-src="/img/img-64.png" value="2">Иконка 2</option>
-                            <option data-img-src="/img/img-65.png" value="3">Иконка 3</option>
-                            <option data-img-src="/img/img-66.png" value="4">Иконка 4</option>
-                            <option data-img-src="/img/img-67.png" value="5">Иконка 5</option>
-                            <option data-img-src="/img/img-68.png" value="6">Иконка 6</option>
-                            <option data-img-src="/img/img-69.png" value="7">Иконка 7</option>
-                            <option data-img-src="/img/img-70.png" value="8">Иконка 8</option>
+                            <option data-img-src="/img/img-63.png" value="1" '.((int)$item['icon'] === 1 ? 'selected' : '').'>Иконка 1</option>
+                            <option data-img-src="/img/img-64.png" value="2" '.((int)$item['icon'] === 2 ? 'selected' : '').'>Иконка 2</option>
+                            <option data-img-src="/img/img-65.png" value="3" '.((int)$item['icon'] === 3 ? 'selected' : '').'>Иконка 3</option>
+                            <option data-img-src="/img/img-66.png" value="4" '.((int)$item['icon'] === 4 ? 'selected' : '').'>Иконка 4</option>
+                            <option data-img-src="/img/img-67.png" value="5" '.((int)$item['icon'] === 5 ? 'selected' : '').'>Иконка 5</option>
+                            <option data-img-src="/img/img-68.png" value="6" '.((int)$item['icon'] === 6 ? 'selected' : '').'>Иконка 6</option>
+                            <option data-img-src="/img/img-69.png" value="7" '.((int)$item['icon'] === 7 ? 'selected' : '').'>Иконка 7</option>
+                            <option data-img-src="/img/img-70.png" value="8" '.((int)$item['icon'] === 8 ? 'selected' : '').'>Иконка 8</option>
                         </select> 
                     Текст : 
                         <input type="text" name="doinglistSectionDetails[%1$s][text]"  value="%3$s"/>
@@ -85,25 +190,26 @@ function doinglist_section_init() {
         var $ = jQuery.noConflict();
         $(document).ready(function() {
             var count = <?php echo $c; ?>;
-            var html = '<p>' +
-                '                    Иконка :' +
-                '                        <select class="imageSelect" name="doinglistSectionDetails['+count+'][icon]">' +
-                '                            <option data-img-src="/img/img-63.png" value="1">Иконка 1</option>' +
-                '                            <option data-img-src="/img/img-64.png" value="2">Иконка 2</option>' +
-                '                            <option data-img-src="/img/img-65.png" value="3">Иконка 3</option>' +
-                '                            <option data-img-src="/img/img-66.png" value="4">Иконка 4</option>' +
-                '                            <option data-img-src="/img/img-67.png" value="5">Иконка 5</option>' +
-                '                            <option data-img-src="/img/img-68.png" value="6">Иконка 6</option>' +
-                '                            <option data-img-src="/img/img-69.png" value="7">Иконка 7</option>' +
-                '                            <option data-img-src="/img/img-70.png" value="8">Иконка 8</option>' +
-                '                        </select>' +
-                '                        Текст :' +
-                '                        <input type="text" name="doinglistSectionDetails['+count+'][text]"  value=""/>' +
-                '                        <a href="#doinglist-section-item-remove" class="remove-package-doinglist button">Удалить</a>' +
-                '                    </p>';
 
             $(".add_package_doinglist").click(function() {
                 count = count + 1;
+
+                var html = '<p>' +
+                    '                    Иконка :' +
+                    '                        <select class="imageSelect" name="doinglistSectionDetails['+count+'][icon]">' +
+                    '                            <option data-img-src="/img/img-63.png" value="1">Иконка 1</option>' +
+                    '                            <option data-img-src="/img/img-64.png" value="2">Иконка 2</option>' +
+                    '                            <option data-img-src="/img/img-65.png" value="3">Иконка 3</option>' +
+                    '                            <option data-img-src="/img/img-66.png" value="4">Иконка 4</option>' +
+                    '                            <option data-img-src="/img/img-67.png" value="5">Иконка 5</option>' +
+                    '                            <option data-img-src="/img/img-68.png" value="6">Иконка 6</option>' +
+                    '                            <option data-img-src="/img/img-69.png" value="7">Иконка 7</option>' +
+                    '                            <option data-img-src="/img/img-70.png" value="8">Иконка 8</option>' +
+                    '                        </select>' +
+                    '                        Текст :' +
+                    '                        <input type="text" name="doinglistSectionDetails['+count+'][text]"  value=""/>' +
+                    '                        <a href="#doinglist-section-item-remove" class="remove-package-doinglist button">Удалить</a>' +
+                    '                    </p>';
 
                 $('#output-package-doinglist')
                     .append( html );
@@ -129,6 +235,7 @@ function doinglist_save( $post_id ) {
 
     if ( !wp_verify_nonce( $_POST['doinglist_nonce'], plugin_basename( __FILE__ ) ) )
         return;
+
     $doinglistSectionDetails = $_POST['doinglistSectionDetails'];
 
     update_post_meta($post_id,'doinglistSectionDetails', $doinglistSectionDetails);
@@ -282,6 +389,10 @@ function advantages_section_save( $post_id ) {
 
 
 
+/**
+ * Табы на главной
+*/
+
 const TAB_1 = 'Почему мы';
 const TAB_2 = 'Как мы работаем';
 const TAB_3 = 'Миссия компании';
@@ -290,6 +401,62 @@ $tabArray = [
     1 => TAB_1,
     2 => TAB_2,
     3 => TAB_3,
+];
+
+/**
+ * Иконки в разделе "Что мы сделаем для вас" в лендинге СММ
+*/
+
+const ICON_1 = 1;
+const ICON_2 = 2;
+const ICON_3 = 3;
+const ICON_4 = 4;
+const ICON_5 = 5;
+const ICON_6 = 6;
+const ICON_7 = 7;
+const ICON_8 = 8;
+
+$iconsArray = [
+    ICON_1 => '<img src="/img/img-63.png" alt="">',
+    ICON_2 => '<img src="/img/img-64.png" alt="">',
+    ICON_3 => '<img src="/img/img-65.png" alt="">',
+    ICON_4 => '<img src="/img/img-66.png" alt="">',
+    ICON_5 => '<img src="/img/img-67.png" alt="">',
+    ICON_6 => '<img src="/img/img-68.png" alt="">',
+    ICON_7 => '<img src="/img/img-69.png" alt="">',
+    ICON_8 => '<img src="/img/img-70.png" alt="">'
+];
+
+/**
+ * Иконки в разделе "Кто будет работать над Вашим проектом"
+*/
+
+const MEMBER_1 = 1;
+const MEMBER_2 = 2;
+const MEMBER_3 = 3;
+const MEMBER_4 = 4;
+const MEMBER_5 = 5;
+const MEMBER_6 = 6;
+const MEMBER_7 = 7;
+
+$membersArray = [
+    MEMBER_1 => '<img src="/img/img-73.png" alt="">',
+    MEMBER_2 => '<img src="/img/img-74.png" alt="">',
+    MEMBER_3 => '<img src="/img/img-75.png" alt="">',
+    MEMBER_4 => '<img src="/img/img-76.png" alt="">',
+    MEMBER_5 => '<img src="/img/img-77.png" alt="">',
+    MEMBER_6 => '<img src="/img/img-78.png" alt="">',
+    MEMBER_7 => '<img src="/img/img-79.png" alt="">'
+];
+
+$membersTitlesArray = [
+    MEMBER_1 => pll__('Project менеджер'),
+    MEMBER_2 => pll__('Стратег'),
+    MEMBER_3 => pll__('Контент менеджер'),
+    MEMBER_4 => pll__('Дизайнер'),
+    MEMBER_5 => pll__('Модератор'),
+    MEMBER_6 => pll__('Таргетолог'),
+    MEMBER_7 => pll__('Аналитик'),
 ];
 
 
@@ -1677,6 +1844,8 @@ if ( ! function_exists( 'sdc_setup' ) ) :
 
         pll_register_string('СММ', 'СММ', 'SDC');
         pll_register_string('Преимущества рекламы в социальных сетях', 'Преимущества рекламы в социальных сетях', 'SDC');
+        pll_register_string('Что мы сделаем для вас?', 'Что мы сделаем для вас?', 'SDC');
+        pll_register_string('Команда, которая будет работать над вашим проектом', 'Команда, которая будет работать над вашим проектом', 'SDC');
 
     }
 endif; // sdc setup
