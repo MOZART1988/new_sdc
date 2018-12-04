@@ -1,13 +1,18 @@
 <?php
+
+global $portfolioPage;
+global $contactsPage;
+global $eventsPage;
+global $clientsPage;
+
 /**
- * Created by PhpStorm.
- * User: ivan
- * Date: 22.11.18
- * Time: 12:34
+ * @var WP_Term $portfolioPage
+ * @var WP_Post $contactsPage
+ * @var WP_Term $clientsPage
  */
 ?>
 <!DOCTYPE html>
-<html <?php language_attributes(); ?>>
+<html <?php language_attributes(); ?> class="no-js">
 <head>
     <meta charset="UTF-8">
     <meta charset="<?php bloginfo( 'charset' ); ?>">
@@ -19,19 +24,37 @@
 </head>
 <body>
 <header class="header">
-    <a href="index.html" class="logo">
+    <a href="/smm/" class="logo">
         <img class="logo3" src="/img/logo2.png" alt="logo">
         <img class="logo2" src="/img/logo1.png" alt="logo">
         <img class="logo1" src="/img/logo3.png" alt="logo">
     </a>
     <nav class="nav--lng">
         <ul>
-            <li class="active"><a href="#">О компании</a></li>
-            <li><a href="#">Портфолио</a></li>
+            <li class="<?=sdc_is_front_page() ? 'active' : ''?>">
+                <a href="/"><?=pll__('Компания')?></a>
+            </li>
+            <?php if ($portfolioPage !== false) : ?>
+                <li class="<?=(sdc_is_portfolio_page() ? 'active' : '')?>">
+                    <a href="<?=get_category_link($portfolioPage->cat_ID)?>" id="c_1"><?=$portfolioPage->name?></a>
+                </li>
+            <?php endif; ?>
             <li><a href="#">Услуги</a></li>
-            <li><a href="#">Клиенты</a></li>
-            <li><a href="#">Событиея</a></li>
-            <li><a href="#">Контакты</a></li>
+            <?php if ($clientsPage !== false) : ?>
+                <li class="<?=(sdc_is_clients_page() ? 'active' : '')?>">
+                    <a href="<?=get_category_link($clientsPage->cat_ID)?>"><?=$clientsPage->name?></a>
+                </li>
+            <?php endif; ?>
+            <?php if ($eventsPage !== false) : ?>
+                <li class="<?=(sdc_is_events_page() ? 'active' : '')?>">
+                    <a href="<?=get_category_link($eventsPage->cat_ID)?>"><?=$eventsPage->name?></a>
+                </li>
+            <?php endif; ?>
+            <?php if ($contactsPage !== false) : ?>
+                <li class="<?=(sdc_is_contacts_page() ? 'active' : '')?>">
+                    <a href="<?=get_permalink($contactsPage)?>"><?=$contactsPage->post_title?></a>
+                </li>
+            <?php endif; ?>
         </ul>
     </nav>
     <nav class="nav--lng--cat">
