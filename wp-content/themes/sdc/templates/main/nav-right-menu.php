@@ -7,6 +7,7 @@ global $portfolioPage;
 global $contactsPage;
 global $eventsPage;
 global $clientsPage;
+global $directionPage;
 
 /**
  * @var WP_Term $portfolioPage
@@ -25,7 +26,13 @@ global $clientsPage;
                 <a href="<?=get_category_link($portfolioPage->cat_ID)?>" id="c_1"><?=$portfolioPage->name?></a>
             </li>
         <?php endif; ?>
-        <li><a href="#">Услуги</a></li>
+        <?php if ($directionPage !== false) : ?>
+            <li class="<?=(sdc_is_direction_page() ? 'active' : '')?>">
+                <a href="<?=get_permalink($directionPage->cat_ID)?>">
+                    <?=$directionPage->name?>
+                </a>
+            </li>
+        <?php endif; ?>
         <?php if ($clientsPage !== false) : ?>
             <li class="<?=(sdc_is_clients_page() ? 'active' : '')?>">
                 <a href="<?=get_category_link($clientsPage->cat_ID)?>"><?=$clientsPage->name?></a>

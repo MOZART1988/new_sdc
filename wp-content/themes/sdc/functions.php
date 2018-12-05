@@ -1173,7 +1173,7 @@ function direction_item() {
         ],
         'public' => true,
         'menu_position' => 6,
-        'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'],
+        'supports' => ['title', 'thumbnail'],
         'taxonomies' => ['category'],
         'has_archive' => true,
         'capability_type' => 'post',
@@ -1183,6 +1183,17 @@ function direction_item() {
 }
 
 add_action( 'init', 'direction_item' );
+
+/**
+ * Удалить сео блок из элемента направления
+*/
+
+function direction_item_remove_seo() {
+    remove_meta_box('wpseo_meta', 'direction_item', 'normal');
+}
+add_action('add_meta_boxes', 'direction_item_remove_seo', 100);
+
+
 
 /**
  * Элемент портфолио в админке
@@ -1254,6 +1265,44 @@ function mainpate_tab_item_remove_seo() {
     remove_meta_box('wpseo_meta', 'mainpage_tab_item', 'normal');
 }
 add_action('add_meta_boxes', 'mainpate_tab_item_remove_seo', 100);
+
+/**
+ * Урл страницы для элемента направления
+ */
+
+function direction_landing_url() {
+    add_meta_box(
+        'direction_landing_url',
+        __('URL лэндинга'),
+        'direction_landing_url_callback',
+        'direction_item'
+    );
+}
+
+add_action('add_meta_boxes', 'direction_landing_url');
+
+function direction_landing_url_callback($post) {
+    wp_nonce_field(basename(__FILE__), 'direction_landing_url');
+    $links_stored_meta = get_post_meta( $post->ID );
+    ?>
+    <input required type="text" size="100"
+           name="direction_landing_url"
+           id="direction_landing_url"
+           value="<?php if ( isset ( $links_stored_meta['direction_landing_url'] ) ) echo $links_stored_meta['direction_landing_url'][0]; ?>"/>
+    <?php
+}
+
+/**
+ * Cохранение
+ */
+
+function direction_landing_url_save( $post_id ) {
+    if( isset( $_POST[ 'direction_landing_url' ] ) ) {
+        update_post_meta( $post_id, 'direction_landing_url', $_POST[ 'direction_landing_url' ] );
+    }
+}
+
+add_action('save_post', 'direction_landing_url_save');
 
 /**
  * Выбор категории для табов на главной
@@ -2092,6 +2141,17 @@ if (! function_exists('sdc_is_contacts_page')) :
 
 endif;
 
+if (! function_exists('sdc_is_direction_page')) :
+    /**
+     * Check if contacts page
+     * @return bool
+     */
+    function sdc_is_direction_page() {
+        return strpos($_SERVER['REQUEST_URI'], 'direction') !== false;
+    }
+
+endif;
+
 if (! function_exists('sdc_is_current_category')) :
     /**
      * Check if contacts page
@@ -2334,4 +2394,5 @@ $portfolioPage = sdc_get_portfolio_category();
 $contactsPage = sdc_get_contacts_page();
 $eventsPage = sdc_get_events_category();
 $clientsPage = sdc_get_clients_category();
+$directionPage = sdc_get_direction_category();
 

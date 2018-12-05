@@ -7,6 +7,7 @@ global $portfolioPage;
 global $contactsPage;
 global $eventsPage;
 global $clientsPage;
+global $directionPage;
 
 /**
  * @var WP_Term $portfolioPage
@@ -49,7 +50,11 @@ global $clientsPage;
                 <?php endif; ?>
             <?php endif; ?>
 
-            <li class="li"><a href="pageDirection.html">Услуги</a></li>
+            <?php if ($directionPage !== false) : ?>
+                <li class="li <?=(sdc_is_direction_page() ? 'active' : '')?>">
+                    <a href="<?=get_category_link($directionPage->cat_ID)?>"><?=$directionPage->name?></a>
+                </li>
+            <?php endif; ?>
 
             <?php if ($clientsPage !== false) : ?>
                 <?php if (sdc_is_clients_page() && sdc_check_if_children_exists($clientsPage)) : ?>

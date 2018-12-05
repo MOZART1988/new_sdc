@@ -14,7 +14,7 @@ $counterAnimation = 2;
         <div class="container">
             <h2><?=pll__('Преимущества рекламы в социальных сетях')?></h2>
             <div class="lng__block">
-                <?php foreach (unserialize($advantages) as $item) : ?>
+                <?php foreach ($advantages as $item) : ?>
                     <div class="col wow fadeInLeft" data-wow-offset="0" data-wow-delay="0.<?=$counterAnimation++?>s">
                         <span class="num">0<?=$counter++?></span>
                         <h5><?=$item['title']?></h5>
