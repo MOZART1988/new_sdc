@@ -41,7 +41,7 @@ global $directionPage;
                 </li>
             <?php endif; ?>
             <?php if ($directionPage !== false) : ?>
-                <li class="<?=(sdc_is_direction_page() ? 'active' : '')?>"><a href="<?=get_permalink($directionPage->cat_ID)?>"><?=$directionPage->name?></a></li>
+                <li class="<?=(sdc_is_direction_page() ? 'active' : '')?>"><a href="<?=get_category_link($directionPage->cat_ID)?>"><?=$directionPage->name?></a></li>
             <?php endif; ?>
 
             <?php if ($clientsPage !== false) : ?>
