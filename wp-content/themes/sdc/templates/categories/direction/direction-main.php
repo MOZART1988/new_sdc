@@ -151,29 +151,19 @@ $loop = $template_args['loop'];
         </div>-->
         <div class="slider direction__slider">
             <?php if ($loop->have_posts()) : ?>
-                <?php $counter = 1; $mainDivCounter = 1;  $rowCounter = 1; $result = [];?>
                 <?php $counterPost = wp_count_posts('direction_item'); ?>
-                <?php while($loop->have_posts()) : $loop->the_post();  ?>
-                        <?php if ($counter === 1) : ?>
-            <div><div class="row">
-                    <?php get_template_part( 'templates/categories/direction/direction_item', 'index' );?>
-                       <?php endif; ?>
-                    <?php if ($counter % 2 === 0 && $counter % 4 !== 0): ?>
-                        <?php get_template_part( 'templates/categories/direction/direction_item', 'index' );?>
-                </div><div class="row">
+                <?php $counter = 1; ?>
+                <?php while ($loop->have_posts()) : $loop->the_post(); ?>
+                    <?php if ($counter === 1) : ?>
+                        <div>
                     <?php endif; ?>
-                    <?php if ($counter % 3 === 0 || $counter % 5 === 0) : ?>
-                        <?php get_template_part( 'templates/categories/direction/direction_item', 'index' );?>
-                    <?php endif; ?>
-                    <?php if ($counter % 4 === 0 && $counter !== $counterPost->publish) : ?>
-                        <?php get_template_part( 'templates/categories/direction/direction_item', 'index' );?>
-                        </div></div><div><div class="row">
-                    <?php endif; ?>
-                    <?php if ($counter === $counterPost->publish - 1) : ?>
-                        <?php get_template_part( 'templates/categories/direction/direction_item', 'index' );?>
+                    <?php if ($counter % 4 === 0) : ?>
+                        </div>
+                        <div>
+                    <?php elseif($counter === $counterPost->publish - 1): ?>
                         </div>
                     <?php endif; ?>
-        <?php $counter++; ?>
+                    <?php get_template_part( 'templates/categories/direction/direction_item', 'index' );?>
                 <?php endwhile; ?>
             <?php endif; ?>
         </div>
