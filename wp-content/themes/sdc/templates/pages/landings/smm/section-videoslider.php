@@ -6,7 +6,8 @@
  * Time: 14:21
  */
 
-$videoSectionDetails = get_post_meta(get_post()->ID, 'videoSectionDetails')[0];
+$videoSectionDetails = !empty(get_post_meta(get_post()->ID, 'videoSectionDetails')[0])?
+    get_post_meta(get_post()->ID, 'videoSectionDetails')[0] : null;
 
 ?>
 

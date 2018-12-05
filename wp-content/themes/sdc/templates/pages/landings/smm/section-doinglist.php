@@ -2,7 +2,8 @@
 
 global $iconsArray;
 
-$doinglistSectionDetails = get_post_meta(get_post()->ID, 'doinglistSectionDetails')[0];
+$doinglistSectionDetails = !empty(get_post_meta(get_post()->ID, 'doinglistSectionDetails')[0])
+        ? get_post_meta(get_post()->ID, 'doinglistSectionDetails')[0] : null;
 $counter = 2;
 
 ?>

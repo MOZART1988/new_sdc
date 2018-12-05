@@ -9,7 +9,8 @@
 global $membersArray;
 global $membersTitlesArray;
 
-$teamSectionDetails = get_post_meta(get_post()->ID, 'teamSectionDetails')[0];
+$teamSectionDetails = !empty(get_post_meta(get_post()->ID, 'teamSectionDetails')[0]) ?
+    get_post_meta(get_post()->ID, 'teamSectionDetails')[0] : null;
 $counter = 2;
 ?>
 <?php if (!empty($teamSectionDetails)) : ?>

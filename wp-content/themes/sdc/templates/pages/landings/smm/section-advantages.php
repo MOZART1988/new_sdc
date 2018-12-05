@@ -3,7 +3,8 @@
  * Advantages section for Smm Landing
 */
 
-$advantages = get_post_meta(get_post()->ID)['advantagesSectionDetails'][0];
+$advantages = !empty(get_post_meta(get_post()->ID, 'advantagesSectionDetails')[0]) ?
+    get_post_meta(get_post()->ID, 'advantagesSectionDetails')[0] : null;
 $counter = 1;
 $counterAnimation = 2;
 ?>

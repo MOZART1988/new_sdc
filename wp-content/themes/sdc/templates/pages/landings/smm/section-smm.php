@@ -3,7 +3,8 @@
  * Smm section for landing
  */
 
-$smmSectionDetails = get_post_meta(get_post()->ID)['smmSectionDetails'][0];
+$smmSectionDetails = get_post_meta(get_post()->ID)['smmSectionDetails'][0] ?
+    get_post_meta(get_post()->ID)['smmSectionDetails'][0] : null;
 
 ?>
 
