@@ -27,143 +27,21 @@ $loop = $template_args['loop'];
                 </div>
             </div>
         </div>
-        <!--<div class="slider direction__slider">
-            <div>
-                <div class="row">
-                    <div class="coll">
-                        <a href="#" class="direction__slider__col">
-                            <img src="img/img-23.png">
-                            <h5>Digital – стратегия</h5>
-                        </a>
-                    </div>
-                    <div class="coll">
-                        <a href="#" class="direction__slider__col">
-                            <img src="img/img-24.png">
-                            <h5>SMM-продвижение</h5>
-                        </a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="coll">
-                        <a href="#" class="direction__slider__col">
-                            <img src="img/img-27.png">
-                            <h5>Контент</h5>
-                        </a>
-                    </div>
-                    <div class="coll">
-                        <a href="#" class="direction__slider__col">
-                            <img src="img/img-28.png">
-                            <h5>Видеопродакшен</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="row">
-                    <div class="coll">
-                        <a href="#" class="direction__slider__col">
-                            <img src="img/img-23.png">
-                            <h5>Digital – стратегия</h5>
-                        </a>
-                    </div>
-                    <div class="coll">
-                        <a href="#" class="direction__slider__col">
-                            <img src="img/img-24.png">
-                            <h5>SMM-продвижение</h5>
-                        </a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="coll">
-                        <a href="#" class="direction__slider__col">
-                            <img src="img/img-27.png">
-                            <h5>Контент</h5>
-                        </a>
-                    </div>
-                    <div class="coll">
-                        <a href="#" class="direction__slider__col">
-                            <img src="img/img-28.png">
-                            <h5>Видеопродакшен</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="row">
-                    <div class="coll">
-                        <a href="#" class="direction__slider__col">
-                            <img src="img/img-23.png">
-                            <h5>Digital – стратегия</h5>
-                        </a>
-                    </div>
-                    <div class="coll">
-                        <a href="#" class="direction__slider__col">
-                            <img src="img/img-24.png">
-                            <h5>SMM-продвижение</h5>
-                        </a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="coll">
-                        <a href="#" class="direction__slider__col">
-                            <img src="img/img-27.png">
-                            <h5>Контент</h5>
-                        </a>
-                    </div>
-                    <div class="coll">
-                        <a href="#" class="direction__slider__col">
-                            <img src="img/img-28.png">
-                            <h5>Видеопродакшен</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="row">
-                    <div class="coll">
-                        <a href="#" class="direction__slider__col">
-                            <img src="img/img-23.png">
-                            <h5>Digital – стратегия</h5>
-                        </a>
-                    </div>
-                    <div class="coll">
-                        <a href="#" class="direction__slider__col">
-                            <img src="img/img-24.png">
-                            <h5>SMM-продвижение</h5>
-                        </a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="coll">
-                        <a href="#" class="direction__slider__col">
-                            <img src="img/img-27.png">
-                            <h5>Контент</h5>
-                        </a>
-                    </div>
-                    <div class="coll">
-                        <a href="#" class="direction__slider__col">
-                            <img src="img/img-28.png">
-                            <h5>Видеопродакшен</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>-->
         <div class="slider direction__slider">
             <?php if ($loop->have_posts()) : ?>
                 <?php $counterPost = wp_count_posts('direction_item'); ?>
-                <?php $counter = 1; ?>
+                <?php $counter = 0; ?>
                 <?php while ($loop->have_posts()) : $loop->the_post(); ?>
-                    <?php if ($counter === 1) : ?>
+                    <?php if ($counter === 0) : ?>
                         <div>
-                    <?php endif; ?>
-                    <?php if ($counter % 4 === 0) : ?>
+                    <?php elseif($counter % 4 === 0): ?>
                         </div>
                         <div>
                     <?php elseif($counter === $counterPost->publish - 1): ?>
                         </div>
                     <?php endif; ?>
                     <?php get_template_part( 'templates/categories/direction/direction_item', 'index' );?>
+                    <?php $counter++; ?>
                 <?php endwhile; ?>
             <?php endif; ?>
         </div>
