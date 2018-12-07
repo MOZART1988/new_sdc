@@ -221,56 +221,14 @@ get_header('smm');
         <div class="bg" data-offset="25"><img src="/img/bg-3.png" alt=""></div>
     </section>
     <?php get_template_part('templates/pages/landings/smm/section', 'team'); ?>
-    <section class="section section11">
-        <div class="container">
-            <h2>Расскажите о своем проекте</h2>
-            <div class="row">
-                <div class="col-lg-5 col-md-6 col-sm-12">
-                    <form>
-                        <input type="text" placeholder="Имя" required="required">
-                        <input type="text" name="tel" placeholder="Контактный телефон" required="required">
-                        <input type="email" placeholder="электронная почта" required="required">
-                        <textarea rows="1" placeholder="Опишите ваш проект, либо интересующий вас услугу" required="required"></textarea>
-                        <input type="submit" class="btn" value="Отправить" data-toggle="modal" data-target="#modal--form">
-                    </form>
-                </div>
-                <div class="col-lg-7 col-md-6 col-sm-12">
-                    <ul>
-                        <li>
-                            <span class="name">Телефон:</span>
-                            <a href="tel:+7 727 350-57-60">+7 727 350-57-60</a>
-                        </li>
-                        <li>
-                            <span class="name">Электронная почта:</span>
-                            <a href="mailto:info@smartdigital.kz">info@smartdigital.kz</a>
-                        </li>
-                        <li>
-                            <span class="name">Место нахождения:</span>
-                            Казахстан, г. Алматы пр. Абылай хана 141
-                        </li>
-                        <li>
-                            <span class="name">Порекомендуйте нас своим друзьям:</span>
-                            <ul class="socials">
-                                <li class="vk"><a href="#" target="_blank"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
-                                <li class="face"><a href="#" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                <li class="you"><a href="#" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="bg" data-offset="55"><img src="/img/bg-7.png" alt=""></div>
-        <div class="bg" data-offset="10"><img src="/img/bg-8.png" alt=""></div>
-        <div class="bg" data-offset="25"><img src="/img/bg-9.png" alt=""></div>
-    </section>
+    <?php get_template_part('templates/pages/landings/smm/section', 'footerform')?>
 </div>
 <div id="modal--form" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-                <h4>Ваше письмо отправленно</h4>
+                <h4></h4>
             </div>
         </div>
     </div>

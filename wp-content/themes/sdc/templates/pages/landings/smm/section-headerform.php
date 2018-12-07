@@ -10,12 +10,12 @@
     <div class="container">
         <h2><?=pll__('Профессиональное продвижение SMM от Smart Digital')?> <br> <?=pll__('Работаем по технологии Data - driven Marketing')?></h2>
         <div class="lng__block">
-            <form class="col">
+            <form class="col" id="smmForm">
                 <h5><?=pll__('Закажите индивидуальный просчет вашего проекта')?></h5>
-                <input type="text" placeholder="<?=pll__('Имя')?>" required="required">
-                <input type="email" placeholder="<?=pll__('Электронная почта')?>" required="required">
-                <input type="text" name="tel" placeholder="<?=pll__('Контактный номер телефона')?>" required="required">
-                <input type="submit" class="btn" value="<?=pll__('Отправить')?>" data-toggle="modal" data-target="#modal--form">
+                <input type="text" placeholder="<?=pll__('Имя')?>" name="smmForm[name]" required>
+                <input type="email" placeholder="<?=pll__('Электронная почта')?>" name="smmForm[email]" required>
+                <input type="text" placeholder="<?=pll__('Контактный номер телефона')?>" name="smmForm[phone]" required>
+                <input type="submit" class="btn" value="<?=pll__('Отправить')?>">
             </form>
             <div class="col">
                 <div class="phones__slider wow fadeInUp" data-wow-offset="0">

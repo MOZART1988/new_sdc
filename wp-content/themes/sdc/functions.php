@@ -24,8 +24,165 @@ function admin_custom_scripts($hook) {
 add_action('admin_enqueue_scripts', 'admin_custom_scripts');
 
 /**
- * Add metaboxes to SMM Landing
+ * SMM Landing
 */
+
+/**
+ * Отправка формы из лендинга SMM в футере
+ */
+
+if (wp_doing_ajax()) {
+    add_action('wp_ajax_send_request_footer_smm_form', 'send_request_footer_smm_form_callback');
+    add_action('wp_ajax_nopriv_send_request_footer_smm_form', 'send_request_footer_smm_form_callback');
+}
+
+add_action( 'wp_footer' , 'send_request_footer_smm_form', 99);
+
+function send_request_footer_smm_form() {
+    ?>
+    <script type="text/javascript" >
+        $(document).ready(function($) {
+            $('body').on('submit', '#formFooterSmm', function(e){
+
+                e.preventDefault();
+                var form = $(this);
+                var data = {
+                    action: 'send_request_footer_smm_form',
+                    form: $(this).serialize(),
+                };
+
+                $.ajax({
+                    url: myajax.url,
+                    data: data,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    success: function (data) {
+                        form.find('input[type=text]').val('');
+                        form.find('textarea').val('');
+                        form.find('input[type=email]').val('');
+                        $('#modal--form').find('.modal-content').find('.modal-body').find('h4').html(data.message);
+                        $('#modal--form').modal('show');
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+
+                return false;
+            });
+        });
+    </script>
+    <?php
+}
+
+function send_request_footer_smm_form_callback() {
+    if (!empty($_POST['form'])) {
+        parse_str(urldecode($_POST['form']), $result);
+        $form = $result['formFooterSmm'];
+        if (!empty($form['name']) && !empty($form['phone']) && !empty($form['email']) && !empty($form['message'])) {
+            $body = '
+                <p>Имя - '.$form['name'].'</p>
+                <p>Телефон - '.$form['phone'].'</p>
+                <p>Email - '.$form['email'].'</p>
+                <p>Сообщение - '.$form['message'].'</p>
+            ';
+
+            $to = get_option('admin_email');
+
+
+            if (wp_mail($to, 'Новый запрос - "Расскажите о своем проекте (форма с Лендинга СММ)"', $body)) {
+                wp_send_json(
+                    ['success' => true, 'message' => pll__('Ваше письмо отправленно')]
+                );
+            }
+
+            wp_send_json(
+                ['success' => false, 'message' => pll__('Произошла ошибка, попробуйте позже')]
+            );
+        }
+    } else {
+        wp_send_json(1);
+
+    }
+}
+
+/**
+ * Отправка формы Закажите индивидуальный просчет вашего проекта
+ */
+
+if (wp_doing_ajax()) {
+    add_action('wp_ajax_send_request_smm_form', 'send_request_smm_form_callback');
+    add_action('wp_ajax_nopriv_send_request_smm_form', 'send_request_smm_form_callback');
+}
+
+add_action( 'wp_footer' , 'send_request_smm_form', 99);
+
+function send_request_smm_form() {
+    ?>
+    <script type="text/javascript" >
+        $(document).ready(function($) {
+            $('body').on('submit', '#smmForm', function(e){
+
+                e.preventDefault();
+                var form = $(this);
+                var data = {
+                    action: 'send_request_smm_form',
+                    form: $(this).serialize(),
+                };
+
+                $.ajax({
+                    url: myajax.url,
+                    data: data,
+                    type: 'POST',
+                    dataType: 'JSON',
+                    success: function (data) {
+                        form.find('input[type=text]').val('');
+                        form.find('textarea').val('');
+                        form.find('input[type=email]').val('');
+                        $('#modal--form').find('.modal-content').find('.modal-body').find('h4').html(data.message);
+                        $('#modal--form').modal('show');
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+
+                return false;
+            });
+        });
+    </script>
+    <?php
+}
+
+function send_request_smm_form_callback() {
+    if (!empty($_POST['form'])) {
+        parse_str(urldecode($_POST['form']), $result);
+        $form = $result['smmForm'];
+        if (!empty($form['name']) && !empty($form['phone']) && !empty($form['email'])) {
+            $body = '
+                <p>Имя - '.$form['name'].'</p>
+                <p>Телефон - '.$form['phone'].'</p>
+                <p>Email - '.$form['email'].'</p>
+            ';
+
+            $to = get_option('admin_email');
+
+
+            if (wp_mail($to, 'Новый запрос - "Закажите индивидуальный просчет вашего проекта"', $body)) {
+                wp_send_json(
+                    ['success' => true, 'message' => pll__('Ваше письмо отправленно')]
+                );
+            }
+
+            wp_send_json(
+                ['success' => false, 'message' => pll__('Произошла ошибка, попробуйте позже')]
+            );
+        }
+    } else {
+        wp_send_json(1);
+
+    }
+}
 
 /**
  * Секция Видео слайдера
@@ -1086,15 +1243,16 @@ function send_request_phone_form() {
     <?php
 }
 
-function send_request_phone_form_callback() {
+function send_request_phone_form_callback()
+{
     if (!empty($_POST['form'])) {
         parse_str(urldecode($_POST['form']), $result);
         $form = $result['requestPhoneForm'];
         if (!empty($form['name']) && !empty($form['tel']) && !empty($form['message'])) {
             $body = '
-                <p>Имя - '.$form['name'].'</p>
-                <p>Телефон - '.$form['tel'].'</p>
-                <p>Сообщение - '.$form['message'].'</p>
+                <p>Имя - ' . $form['name'] . '</p>
+                <p>Телефон - ' . $form['tel'] . '</p>
+                <p>Сообщение - ' . $form['message'] . '</p>
             ';
 
             $to = get_option('admin_email');
@@ -1102,7 +1260,10 @@ function send_request_phone_form_callback() {
 
             if (wp_mail($to, 'Новый запрос - перезвоните мне', $body)) {
                 wp_send_json(
-                    ['success' => true, 'message' => pll__('Спасибо за Ваше обращение, мы свяжемся с Вами в ближайшее время')]
+                    [
+                        'success' => true,
+                        'message' => pll__('Спасибо за Ваше обращение, мы свяжемся с Вами в ближайшее время')
+                    ]
                 );
             }
 
