@@ -183,6 +183,96 @@ function send_request_smm_form_callback() {
 
     }
 }
+/**
+ * Секция "Вопросы, которые вас интересует"
+*/
+
+add_action('add_meta_boxes', 'add_smm_section_questions');
+
+add_action('save_post', 'save_smm_section_questions');
+
+function add_smm_section_questions() {
+    add_meta_box(
+        'smm-questions-section',
+        'Секция "Вопросы, которые вас интересуют"',
+        'smm_section_questions_init',
+        'page'
+    );
+}
+
+function smm_section_questions_init() {
+    global $post;
+    wp_nonce_field(basename(__FILE__), 'smm_section_questions');
+    $links_stored_meta = get_post_meta($post->ID, 'smm_section_questions', true);
+    ?>
+    <input placeholder="Заголовок" required type="text" size="100"
+           name="smm_section_questions[header]"
+           id="smm_section_questions-header"
+           value="<?php if ( isset ( $links_stored_meta['header'] ) ) echo $links_stored_meta['header']; ?>"/>
+    <p>================================================================================</p>
+    <div id="smm-questions-section">
+        <?php
+        $smmSectionQuestionsItems = !empty($links_stored_meta['items']) ? $links_stored_meta['items'] : '';
+        $c = 0;
+
+        if (is_array($smmSectionQuestionsItems) && count( $smmSectionQuestionsItems ) > 0 ) {
+            foreach( $smmSectionQuestionsItems as $item ) {
+                if ( isset( $item['number'] ) || isset( $item['text'] ) || isset( $item['title'] ) ) {
+                    printf( '<p>
+                        <p><input type="text" placeholder="Цифра" name="smm_section_questions[items][%1$s][number]" value="%2$s" /></p>
+                        
+                        <p><textarea rows="5" style="width: 400px;" placeholder="Первый блок" name="smm_section_questions[items][%1$s][title]">%3$s</textarea></p>
+                        
+                        <p><textarea rows="5" style="width: 400px;" placeholder="Второй блок" name="smm_section_questions[items][%1$s][text]">%4$s</textarea></p>
+                        <a href="#section-questions-remove" class="remove-questions-item button">%5$s</a>
+                        
+                    </p>', $c, $item['number'], $item['title'], $item['text'], 'Удалить'
+                    );
+                    $c++;
+                }
+            }
+        }
+        ?>
+
+        <span id="output-package-section-questions"></span>
+        <a href="#" class="button add_package_section_questions button-primary"><?php _e('Добавить элемент'); ?></a>
+        <script>
+            var $ = jQuery.noConflict();
+            $(document).ready(function() {
+                var count = <?php echo $c; ?>;
+
+                $(".add_package_section_questions").click(function() {
+                    count = count + 1;
+
+                    var html = '<p>' +
+                        '<p><input type="text" placeholder="Цифра" name="smm_section_questions[items]['+count+'][number]" /></p>' +
+                        '<p><textarea placeholder="Первый блок" rows="5" style="width: 400px;" name="smm_section_questions[items]['+count+'][title]" ></textarea></p>' +
+                        '<p><textarea placeholder="Второй блок" rows="5" style="width: 400px;" name="smm_section_questions[items]['+count+'][text]"  ></textarea></p>' +
+
+                        '<a href="#section-questions-remove" class="remove-questions-item button">Удалить</a>' +
+                        '</p>';
+
+                    $('#output-package-section-questions')
+                        .append( html );
+                    return false;
+                });
+                $(document.body).on('click','.remove-questions-item', function() {
+                    $(this).parent().remove();
+                });
+            });
+        </script>
+    </div>
+    <?php
+}
+
+/**
+ * Сохранение
+ */
+function save_smm_section_questions($post_id) {
+    if( isset( $_POST[ 'smm_section_questions' ] ) ) {
+        update_post_meta( $post_id, 'smm_section_questions', $_POST[ 'smm_section_questions' ] );
+    }
+}
 
 /**
  * Секция "Как представляют СММ в Казахстане"
@@ -206,27 +296,23 @@ function smm_section_kazakhstan_init() {
     wp_nonce_field(basename(__FILE__), 'smm_section_kazakhstan');
     $links_stored_meta = get_post_meta( $post->ID , 'smm_section_kazakhstan', true);
     ?>
-    <h2>Заголовок 1</h2>
-    <input required type="text" size="100"
+    <input placeholder="Заголовок 1" required type="text" size="100"
            name="smm_section_kazakhstan[header_one]"
            id="smm-section-kazakhstan-header-one"
            value="<?php if ( isset ( $links_stored_meta['header_one'] ) ) echo $links_stored_meta['header_one']; ?>"/>
-    <h2>Заголовок 2</h2>
-    <input required type="text" size="100"
+    <input placeholder="Заголовок 2" required type="text" size="100"
            name="smm_section_kazakhstan[header_two]"
            id="smm-section-kazakhstan-header-two"
            value="<?php if ( isset ( $links_stored_meta['header_two'] ) ) echo $links_stored_meta['header_two']; ?>"/>
-    <h2>Результат 1</h2>
-    <input required type="text" size="100"
+    <input placeholder="Результат 1" required type="text" size="100"
            name="smm_section_kazakhstan[result_one]"
            id="smm-section-kazakhstan-result-one"
            value="<?php if ( isset ( $links_stored_meta['result_one'] ) ) echo $links_stored_meta['result_one']; ?>"/>
-    <h2>Результат 2</h2>
-    <input required type="text" size="100"
+    <input placeholder="Результат 2" required type="text" size="100"
            name="smm_section_kazakhstan[result_two]"
            id="smm-section-kazakhstan-result-two"
            value="<?php if ( isset ( $links_stored_meta['result_two'] ) ) echo $links_stored_meta['result_two']; ?>"/>
-    <p></p>
+    <p>================================================================================</p>
     <div id="smm-kazakhstan-section-item">
         <?php
             $smmKazakhstanSectionItems = !empty($links_stored_meta['items']) ? $links_stored_meta['items'] : '';
