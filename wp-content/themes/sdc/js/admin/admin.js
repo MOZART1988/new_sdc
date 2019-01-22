@@ -20,7 +20,7 @@ $(function(){
 
         } else {
 
-            $('#smm-section, #advantages-section, #doing-section, #team-section, #header-smm-section, #smm-kazakhstan-section, #smm-questions-section').removeClass('hidden');
+            $('#smm-section, #advantages-section, #doing-section, #team-section, #header-smm-section, #smm-kazakhstan-section, #smm-questions-section   ').removeClass('hidden');
             $('#postdivrich').addClass('hidden');
 
         }
