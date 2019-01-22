@@ -4,52 +4,7 @@ get_header('smm');
 ?>
 <div class="lng" id="fullpage">
     <?php get_template_part('templates/pages/landings/smm/section', 'headerform')?>
-    <section class="section section2 black">
-        <div class="container">
-            <h2>Как представляют SMM в Казахстане?</h2>
-            <div class="row">
-                <div class="col-sm-6 wow fadeIn" data-wow-offset="0" data-wow-delay="0.3">
-                    <h3>Заблуждения об SMM</h3>
-                    <ul class="close--list">
-                        <li>СММ – это просто</li>
-                        <li>СММ менеджер является маркетологом</li>
-                        <li>Один человек может делать все. Он и жнец, и швец и на дуде игрец,</li>
-                        <li>Можно работать без стратегии</li>
-                        <li>Разрабатывать контент — легко</li>
-                        <li>Заводить рекламу можно без навыков</li>
-                        <li>Отслеживать результаты и аналитику не обязательно</li>
-                        <li>Навыки дизайнера не требуются</li>
-                        <li>Долго отвечают либо не отвечают на комментарии</li>
-                    </ul>
-                    <div class="result">
-                        <span class="stiker red">Результат</span>
-                        <p>Негативный опыт или «я больше не верю в SEO, Context и SMM». Пустая трата денег, времени и нервов.</p>
-                    </div>
-                </div>
-                <div class="col-sm-6 wow fadeIn" data-wow-offset="0" data-wow-delay="0.6s">
-                    <h3>Реальный SMM от Smart Digital</h3>
-                    <ul class="check--list">
-                        <li>Над проектом работает команда минимум из 7 специалистов</li>
-                        <li>В компании работают несколько маркетологов</li>
-                        <li>За каждый аспект отвечает отдельный специалист</li>
-                        <li>Создается стратегия, отвечающая потребностям вашего бизнеса</li>
-                        <li>Контент-план учитывает все тренды и инструменты SMM</li>
-                        <li>Рекламой занимается сертифицированный специалист</li>
-                        <li>Ежемесячные отчеты с анализом ключевых показателей статистики</li>
-                        <li>Дизайнеры с большим опытом</li>
-                        <li>Мониторинг комментариев каждый час</li>
-                    </ul>
-                    <div class="result">
-                        <span class="stiker green">Результат</span>
-                        <p>Вложенные средства окупаются в разы!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="bg" data-offset="55"><img src="/img/bg-4.png" alt=""></div>
-        <div class="bg" data-offset="10"><img src="/img/bg-5.png" alt=""></div>
-        <div class="bg" data-offset="25"><img src="/img/bg-6.png" alt=""></div>
-    </section>
+    <?php get_template_part('templates/pages/landings/smm/section', 'smmKazakhstan')?>
     <section class="section section3 red">
         <div class="container">
             <h2>Для кого SMM эффективен</h2>

@@ -185,6 +185,158 @@ function send_request_smm_form_callback() {
 }
 
 /**
+ * Секция "Как представляют СММ в Казахстане"
+*/
+
+add_action('add_meta_boxes', 'add_smm_section_kazakhstan');
+
+add_action('save_post', 'save_smm_section_kazakhstan');
+
+function add_smm_section_kazakhstan() {
+    add_meta_box(
+        'smm-kazakhstan-section',
+        'Секция "Как представляют СММ в Казахстане"',
+        'smm_section_kazakhstan_init',
+        'page'
+    );
+}
+
+function smm_section_kazakhstan_init() {
+    global $post;
+    wp_nonce_field(basename(__FILE__), 'smm_section_kazakhstan');
+    $links_stored_meta = get_post_meta( $post->ID , 'smm_section_kazakhstan', true);
+    ?>
+    <h2>Заголовок 1</h2>
+    <input required type="text" size="100"
+           name="smm_section_kazakhstan[header_one]"
+           id="smm-section-kazakhstan-header-one"
+           value="<?php if ( isset ( $links_stored_meta['header_one'] ) ) echo $links_stored_meta['header_one']; ?>"/>
+    <h2>Заголовок 2</h2>
+    <input required type="text" size="100"
+           name="smm_section_kazakhstan[header_two]"
+           id="smm-section-kazakhstan-header-two"
+           value="<?php if ( isset ( $links_stored_meta['header_two'] ) ) echo $links_stored_meta['header_two']; ?>"/>
+    <h2>Результат 1</h2>
+    <input required type="text" size="100"
+           name="smm_section_kazakhstan[result_one]"
+           id="smm-section-kazakhstan-result-one"
+           value="<?php if ( isset ( $links_stored_meta['result_one'] ) ) echo $links_stored_meta['result_one']; ?>"/>
+    <h2>Результат 2</h2>
+    <input required type="text" size="100"
+           name="smm_section_kazakhstan[result_two]"
+           id="smm-section-kazakhstan-result-two"
+           value="<?php if ( isset ( $links_stored_meta['result_two'] ) ) echo $links_stored_meta['result_two']; ?>"/>
+    <p></p>
+    <div id="smm-kazakhstan-section-item">
+        <?php
+            $smmKazakhstanSectionItems = !empty($links_stored_meta['items']) ? $links_stored_meta['items'] : '';
+            $c = 0;
+
+        if (is_array($smmKazakhstanSectionItems) && count( $smmKazakhstanSectionItems ) > 0 ) {
+            foreach( $smmKazakhstanSectionItems as $item ) {
+                if ( isset( $item['type'] ) || isset( $item['text'] ) ) {
+                    printf( '<p>
+                        Тип :
+                        <select name="smm_section_kazakhstan[items][%1$s][type]">
+                            <option  value="1" '.((int)$item['type'] === 1 ? 'selected' : '').'>Первая колонка</option>
+                            <option  value="2" '.((int)$item['type'] === 2 ? 'selected' : '').'>Вторая колонка</option>
+                        </select>
+                        Текст : 
+                        <input type="text" name="smm_section_kazakhstan[items][%1$s][text]" value="%2$s" />
+                        <a href="#section-kazakhstan-remove" class="remove-kazakhstan-item button">%3$s</a>
+                    </p>', $c, $item['text'], 'Удалить'
+                    );
+                    $c++;
+                }
+            }
+        }
+        ?>
+        <span id="output-package-section-kazakhstan"></span>
+        <a href="#" class="button add_package_section_kazakhstan button-primary"><?php _e('Добавить элемент'); ?></a>
+        <script>
+            var $ = jQuery.noConflict();
+            $(document).ready(function() {
+                var count = <?php echo $c; ?>;
+
+                $(".add_package_section_kazakhstan").click(function() {
+                    count = count + 1;
+
+                    var html = '<p>' +
+                        'Тип :' +
+                        '<select name="smm_section_kazakhstan[items]['+count+'][type]">' +
+                            '<option  value="1">Первая колонка</option>' +
+                            '<option  value="2">Вторая колонка</option>' +
+                        '</select>' +
+                        'Текст :' +
+                        '<input type="text" name="smm_section_kazakhstan[items]['+count+'][text]" />' +
+                        '<a href="#section-kazakhstan-remove" class="remove-kazakhstan-item button">Удалить</a>' +
+                        '</p>';
+
+                    $('#output-package-section-kazakhstan')
+                        .append( html );
+                    return false;
+                });
+                $(document.body).on('click','.remove-kazakhstan-item', function() {
+                    $(this).parent().remove();
+                });
+            });
+        </script>
+    </div>
+    <?php
+}
+
+/**
+ * Сохранение
+*/
+function save_smm_section_kazakhstan($post_id) {
+    if( isset( $_POST[ 'smm_section_kazakhstan' ] ) ) {
+        update_post_meta( $post_id, 'smm_section_kazakhstan', $_POST[ 'smm_section_kazakhstan' ] );
+    }
+}
+
+/**
+ * Секция формы из лэндинга CMM
+ */
+
+add_action( 'add_meta_boxes', 'add_header_smm_section' );
+
+add_action( 'save_post', 'header_smm_section_save' );
+
+function add_header_smm_section() {
+    add_meta_box(
+        'header-smm-section',
+        'Секция с формой',
+        'header_smm_section_init',
+        'page'
+    );
+}
+
+
+function header_smm_section_init() {
+    global $post;
+    wp_nonce_field(basename(__FILE__), 'header_smm_section_title');
+    $links_stored_meta = get_post_meta( $post->ID );
+    ?>
+    <h2>Заголовок</h2>
+    <textarea rows="5" style="width: 100%"
+              name="header_smm_section_title"
+              id="header_smm_section_title"><?php if ( isset ( $links_stored_meta['header_smm_section_title'] ) ) echo $links_stored_meta['header_smm_section_title'][0]; ?></textarea>
+    <?php
+
+}
+
+/**
+ * Cохранение
+ */
+
+function header_smm_section_save( $post_id ) {
+    if( isset( $_POST[ 'header_smm_section_title' ] ) ) {
+        update_post_meta( $post_id, 'header_smm_section_title', $_POST[ 'header_smm_section_title' ] );
+    }
+}
+
+
+/**
  * Секция Видео слайдера
 */
 

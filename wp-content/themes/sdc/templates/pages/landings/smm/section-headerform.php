@@ -1,14 +1,15 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: ivan
- * Date: 04.12.18
- * Time: 15:20
+ *
+ *
  */
+
+$headerSectionTitle = !empty(get_post_meta(get_post()->ID)['header_smm_section_title'][0]) ?
+    get_post_meta(get_post()->ID)['header_smm_section_title'][0] : null;
 ?>
 <section class="section section1 red">
     <div class="container">
-        <h2><?=pll__('Профессиональное продвижение SMM от Smart Digital')?> <br> <?=pll__('Работаем по технологии Data - driven Marketing')?></h2>
+        <h2><?=$headerSectionTitle?></h2>
         <div class="lng__block">
             <form class="col" id="smmForm">
                 <h5><?=pll__('Закажите индивидуальный просчет вашего проекта')?></h5>
