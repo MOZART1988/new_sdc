@@ -5,7 +5,7 @@ get_header('smm');
 <div class="lng" id="fullpage">
     <?php get_template_part('templates/pages/landings/smm/section', 'headerform')?>
     <?php get_template_part('templates/pages/landings/smm/section', 'smmKazakhstan')?>
-    <?php get_template_part('tempaltes/pages/landings/smm/section', 'questions') ?>
+    <?php get_template_part('templates/pages/landings/smm/section', 'questions') ?>
     <?php get_template_part('templates/pages/landings/smm/section', 'videoslider') ?>
     <?php get_template_part('templates/pages/landings/smm/section', 'smm') ?>
     <?php get_template_part('templates/pages/landings/smm/section', 'advantages') ?>
