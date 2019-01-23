@@ -1,21 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: ivan
- * Date: 07.12.18
- * Time: 10:15
- */
+$footerFormData = get_post_meta( $post->ID , 'footer_smm_section', true);
 ?>
 <section class="section section11">
     <div class="container">
         <h2><?=pll__('Расскажите о своем проекте')?></h2>
         <div class="row">
             <div class="col-lg-5 col-md-6 col-sm-12">
-                <form id="formFooterSmm">
+                <form id="++++">
                     <input type="text" placeholder="<?=pll__('Имя')?>" required name="formFooterSmm[name]">
                     <input type="text" placeholder="<?=pll__('Контактный телефон')?>" required name="formFooterSmm[phone]">
                     <input type="email" placeholder="<?=pll__('электронная почта')?>" required name="formFooterSmm[email]">
-                    <textarea rows="1" placeholder="<?=pll__('Опишите ваш проект, либо интересующий вас услугу')?>" name="formFooterSmm[message]" required></textarea>
+                    <textarea rows="1" placeholder="<?=pll__('Опишите ваш проект, либо интересующую вас услугу')?>" name="formFooterSmm[message]" required></textarea>
                     <input type="submit" class="btn" value="<?=pll__('Отправить')?>">
                 </form>
             </div>
@@ -23,15 +18,15 @@
                 <ul>
                     <li>
                         <span class="name"><?=pll__('Телефон:')?></span>
-                        <a href="tel:+7 727 350-57-60">+7 727 350-57-60</a>
+                        <a href="tel:+7 727 350-57-60"><?=!empty($footerFormData) ? $footerFormData : ''?></a>
                     </li>
                     <li>
                         <span class="name"><?=pll__('Электронная почта:')?></span>
-                        <a href="mailto:info@smartdigital.kz">info@smartdigital.kz</a>
+                        <a href="mailto:info@smartdigital.kz"><?=!empty($footerFormData['email']) ? $footerFormData['email'] : ''?></a>
                     </li>
                     <li>
                         <span class="name"><?=pll__('Место нахождения:')?></span>
-                        <?=pll__('Казахстан, г. Алматы пр. Абылай хана 141')?>
+                        <?=!empty($footerFormData['adress']) ? $footerFormData : ''?>
                     </li>
                     <li>
                         <span class="name"><?=pll__('Порекомендуйте нас своим друзьям:')?></span>
