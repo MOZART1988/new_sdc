@@ -74,6 +74,7 @@ get_header('smm');
         <div class="bg" data-offset="10"><img src="/img/bg-8.png" alt=""></div>
         <div class="bg" data-offset="25"><img src="/img/bg-9.png" alt=""></div>
     </section>
+    <?php get_template_part('templates/pages/landings/smm/section', 'cases')?>
     <?php get_template_part('templates/pages/landings/smm/section', 'team'); ?>
     <?php get_template_part('templates/pages/landings/smm/section', 'footerform')?>
 </div>

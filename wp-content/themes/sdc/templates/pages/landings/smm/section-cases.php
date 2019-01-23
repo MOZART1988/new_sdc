@@ -7,6 +7,7 @@ $args = [
 
 $loop = new WP_Query( $args );
 
+
 ?>
 <section class="section section9 red">
     <div class="container">
