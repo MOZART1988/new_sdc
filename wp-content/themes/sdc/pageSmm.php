@@ -74,54 +74,6 @@ get_header('smm');
         <div class="bg" data-offset="10"><img src="/img/bg-8.png" alt=""></div>
         <div class="bg" data-offset="25"><img src="/img/bg-9.png" alt=""></div>
     </section>
-    <section class="section section9 red">
-        <div class="container">
-            <h2>Кейсы</h2>
-        </div>
-        <div class="cases">
-            <div>
-                <div class="container">
-                    <div class="col">
-                        <div class="cases__name">
-                            <div class="cases__name__img"><img src="/img/img-71.png" alt=""></div>
-                            <span class="cases__name__title">smm</span>
-                        </div>
-                        <p><strong>Задача:</strong> разработать концепцию продвижения в соц. сетях и повысить показатели. </p>
-                        <p>Увеличить узнаваемость бренда и лояльность покупателей.</p>
-                        <a href="#" class="btn">Просмотреть результат</a>
-                    </div>
-                    <div class="col cases__slider">
-                        <div><img src="/img/img-72.jpg" alt=""></div>
-                        <div><img src="/img/img-72.jpg" alt=""></div>
-                        <div><img src="/img/img-72.jpg" alt=""></div>
-                        <div><img src="/img/img-72.jpg" alt=""></div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="container">
-                    <div class="col">
-                        <div class="cases__name">
-                            <div class="cases__name__img"><img src="/img/img-71.png" alt=""></div>
-                            <span class="cases__name__title">smm</span>
-                        </div>
-                        <p><strong>Задача:</strong> разработать концепцию продвижения в соц. сетях и повысить показатели. </p>
-                        <p>Увеличить узнаваемость бренда и лояльность покупателей.</p>
-                        <a href="#" class="btn">Просмотреть результат</a>
-                    </div>
-                    <div class="col cases__slider">
-                        <div><img src="/img/img-72.jpg" alt=""></div>
-                        <div><img src="/img/img-72.jpg" alt=""></div>
-                        <div><img src="/img/img-72.jpg" alt=""></div>
-                        <div><img src="/img/img-72.jpg" alt=""></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="bg" data-offset="55"><img src="/img/bg-1.png" alt=""></div>
-        <div class="bg" data-offset="10"><img src="/img/bg-2.png" alt=""></div>
-        <div class="bg" data-offset="25"><img src="/img/bg-3.png" alt=""></div>
-    </section>
     <?php get_template_part('templates/pages/landings/smm/section', 'team'); ?>
     <?php get_template_part('templates/pages/landings/smm/section', 'footerform')?>
 </div>

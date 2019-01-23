@@ -2394,6 +2394,9 @@ if ( ! function_exists( 'sdc_setup' ) ) :
 
         add_image_size('slide', 187, 103, true);
 
+        add_image_size('smm_cases_main', 205, 57, true);
+        add_image_size('smm_cases_slide', 625, 397, true);
+
         /**
          * removes autop from single content
          */
