@@ -381,7 +381,44 @@ function save_smm_section_kazakhstan($post_id) {
 }
 
 /**
- * Секция формы из лэндинга CMM
+ * Секция нижней формы из лэндинга СММ
+*/
+
+add_action( 'add_meta_boxes', 'add_footer_smm_section' );
+
+add_action( 'save_post', 'footer_smm_section_save' );
+
+function add_footer_smm_section() {
+    add_meta_box(
+        'footer-smm-section',
+        'Секция с формой (нижней)',
+        'footer_smm_section_init',
+        'page'
+    );
+}
+
+function footer_smm_section_init() {
+    global $post;
+    $links_stored_meta = get_post_meta( $post->ID , 'footer_smm_section', true);
+    ?>
+    <p><input name="footer_smm_section[phone]" style="width:400px" placeholder="Телефон" required value="<?=$links_stored_meta['phone'] ? $links_stored_meta['phone'] : ''?>"></p>
+    <p><input name="footer_smm_section[email]" type="email" style="width:400px" placeholder="Email" required value="<?=$links_stored_meta['email'] ? $links_stored_meta['email'] : ''?>"></p>
+    <p><textarea name="footer_smm_section[adress]" require><?=$links_stored_meta['adress'] ? $links_stored_meta['adress'] : ''?></textarea></p>
+    <?php
+}
+
+/**
+ * Сохранение
+*/
+
+function footer_smm_section_save($post_id) {
+    if( isset( $_POST[ 'footer_smm_section' ] ) ) {
+        update_post_meta( $post_id, 'footer_smm_section', $_POST[ 'footer_smm_section' ] );
+    }
+}
+
+/**
+ * Секция верхней формы из лэндинга CMM
  */
 
 add_action( 'add_meta_boxes', 'add_header_smm_section' );
