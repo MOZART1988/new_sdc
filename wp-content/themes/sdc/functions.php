@@ -218,15 +218,15 @@ function smm_section_questions_init() {
         if (is_array($smmSectionQuestionsItems) && count( $smmSectionQuestionsItems ) > 0 ) {
             foreach( $smmSectionQuestionsItems as $item ) {
                 if ( isset( $item['number'] ) || isset( $item['text'] ) || isset( $item['title'] ) ) {
-                    printf( '<p>
-                        <p><input type="text" placeholder="Цифра" name="smm_section_questions[items][%1$s][number]" value="%2$s" /></p>
+                    printf( '<div class="item-question">
+                        <p><input required type="text" placeholder="Цифра" name="smm_section_questions[items][%1$s][number]" value="%2$s" /></p>
                         
-                        <p><textarea rows="5" style="width: 400px;" placeholder="Первый блок" name="smm_section_questions[items][%1$s][title]">%3$s</textarea></p>
+                        <p><textarea required rows="5" style="width: 400px;" placeholder="Первый блок" name="smm_section_questions[items][%1$s][title]">%3$s</textarea></p>
                         
-                        <p><textarea rows="5" style="width: 400px;" placeholder="Второй блок" name="smm_section_questions[items][%1$s][text]">%4$s</textarea></p>
+                        <p><textarea required rows="5" style="width: 400px;" placeholder="Второй блок" name="smm_section_questions[items][%1$s][text]">%4$s</textarea></p>
                         <a href="#section-questions-remove" class="remove-questions-item button">%5$s</a>
                         
-                    </p>', $c, $item['number'], $item['title'], $item['text'], 'Удалить'
+                    </div>', $c, $item['number'], $item['title'], $item['text'], 'Удалить'
                     );
                     $c++;
                 }
@@ -235,7 +235,7 @@ function smm_section_questions_init() {
         ?>
 
         <span id="output-package-section-questions"></span>
-        <a href="#" class="button add_package_section_questions button-primary"><?php _e('Добавить элемент'); ?></a>
+        <p><a href="#" class="button add_package_section_questions button-primary"><?php _e('Добавить элемент'); ?></a></p>
         <script>
             var $ = jQuery.noConflict();
             $(document).ready(function() {
@@ -244,13 +244,13 @@ function smm_section_questions_init() {
                 $(".add_package_section_questions").click(function() {
                     count = count + 1;
 
-                    var html = '<p>' +
-                        '<p><input type="text" placeholder="Цифра" name="smm_section_questions[items]['+count+'][number]" /></p>' +
-                        '<p><textarea placeholder="Первый блок" rows="5" style="width: 400px;" name="smm_section_questions[items]['+count+'][title]" ></textarea></p>' +
-                        '<p><textarea placeholder="Второй блок" rows="5" style="width: 400px;" name="smm_section_questions[items]['+count+'][text]"  ></textarea></p>' +
+                    var html = '<div class="item-question">' +
+                        '<p><input required type="text" placeholder="Цифра" name="smm_section_questions[items]['+count+'][number]" /></p>' +
+                        '<p><textarea required placeholder="Первый блок" rows="5" style="width: 400px;" name="smm_section_questions[items]['+count+'][title]" ></textarea></p>' +
+                        '<p><textarea required placeholder="Второй блок" rows="5" style="width: 400px;" name="smm_section_questions[items]['+count+'][text]"  ></textarea></p>' +
 
                         '<a href="#section-questions-remove" class="remove-questions-item button">Удалить</a>' +
-                        '</p>';
+                        '</div>';
 
                     $('#output-package-section-questions')
                         .append( html );
@@ -328,7 +328,7 @@ function smm_section_kazakhstan_init() {
                             <option  value="2" '.((int)$item['type'] === 2 ? 'selected' : '').'>Вторая колонка</option>
                         </select>
                         Текст : 
-                        <input type="text" name="smm_section_kazakhstan[items][%1$s][text]" value="%2$s" />
+                        <input required type="text" name="smm_section_kazakhstan[items][%1$s][text]" value="%2$s" />
                         <a href="#section-kazakhstan-remove" class="remove-kazakhstan-item button">%3$s</a>
                     </p>', $c, $item['text'], 'Удалить'
                     );
@@ -354,7 +354,7 @@ function smm_section_kazakhstan_init() {
                             '<option  value="2">Вторая колонка</option>' +
                         '</select>' +
                         'Текст :' +
-                        '<input type="text" name="smm_section_kazakhstan[items]['+count+'][text]" />' +
+                        '<input required type="text" name="smm_section_kazakhstan[items]['+count+'][text]" />' +
                         '<a href="#section-kazakhstan-remove" class="remove-kazakhstan-item button">Удалить</a>' +
                         '</p>';
 
@@ -535,22 +535,24 @@ function team_section_init() {
 
     if (is_array($teamSectionDetails) && count( $teamSectionDetails ) > 0 ) {
         foreach( $teamSectionDetails as $item ) {
-            if ( isset( $item['member'] ) || isset( $item['text'] ) ) {
-                printf( '<p>
-                    Команда :
-                        <select name="teamSectionDetails[%1$s][member]">
-                            <option  value="1" '.((int)$item['member'] === 1 ? 'selected' : '').'>Project Менеджер</option>
-                            <option  value="2" '.((int)$item['member'] === 2 ? 'selected' : '').'>Стратег</option>
-                            <option  value="3" '.((int)$item['member'] === 3 ? 'selected' : '').'>Контент Менеджер</option>
-                            <option  value="4" '.((int)$item['member'] === 4 ? 'selected' : '').'>Дизайнер</option>
-                            <option  value="5" '.((int)$item['member'] === 5 ? 'selected' : '').'>Модератор</option>
-                            <option  value="6" '.((int)$item['member'] === 6 ? 'selected' : '').'>Таргетолог</option>
-                            <option  value="7" '.((int)$item['member'] === 7 ? 'selected' : '').'>Аналитик</option>
-                        </select> 
-                    Текст : 
-                        <textarea name="teamSectionDetails[%1$s][text]" required>%3$s</textarea>
-                        <a href="#team-section-item-remove" class="remove-package-team button">%4$s</a>
-                    </p>', $c, $item['member'], $item['text'], 'Удалить'
+            if ( isset( $item['member'] ) || isset( $item['text'] ) || isset( $item['title'] ) ) {
+                printf( '<div class="member-item">
+                        <p><select name="teamSectionDetails[%1$s][member]">
+                            <option  value="1" '.((int)$item['member'] === 1 ? 'selected' : '').'>Иконка Project Менеджер</option>
+                            <option  value="2" '.((int)$item['member'] === 2 ? 'selected' : '').'>Иконка Стратег</option>
+                            <option  value="3" '.((int)$item['member'] === 3 ? 'selected' : '').'>Иконка Контент Менеджер</option>
+                            <option  value="4" '.((int)$item['member'] === 4 ? 'selected' : '').'>Иконка Дизайнер</option>
+                            <option  value="5" '.((int)$item['member'] === 5 ? 'selected' : '').'>Иконка Модератор</option>
+                            <option  value="6" '.((int)$item['member'] === 6 ? 'selected' : '').'>Иконка Таргетолог</option>
+                            <option  value="7" '.((int)$item['member'] === 7 ? 'selected' : '').'>Иконка Аналитик</option>
+                        </select></p>
+                         
+                        <p><input style="width:400px" type="text" name="teamSectionDetails[%1$s][title]" required value="%2$s" placeholder="Заголовок"></p>
+                             
+                        <p><textarea style="width:400px;" rows="5" name="teamSectionDetails[%1$s][text]" placeholder="Текст" required>%3$s</textarea></p>
+                        
+                        <a href="#team-section-item-remove" class="remove-package-team button">%4$s</a></div>
+                    ', $c, @$item['title'], $item['text'], 'Удалить'
                 );
                 $c++;
             }
@@ -559,35 +561,36 @@ function team_section_init() {
 
     ?>
     <span id="output-package-team"></span>
-    <a href="#" class="button add_package_team button-primary"><?php _e('Добавить элемент'); ?></a>
+    <p><a href="#" class="button add_package_team button-primary"><?php _e('Добавить элемент'); ?></a></p>
     <script>
         var $ = jQuery.noConflict();
         $(document).ready(function() {
             var count = <?php echo $c; ?>;
 
             $(".add_package_team").click(function() {
+
                 count = count + 1;
 
-                var html = '<p>' +
-                    '                    Команда :' +
-                    '                        <select name="teamSectionDetails['+count+'][member]">' +
-                    '                            <option  value="1">Project Менеджер</option>' +
-                    '                            <option  value="2">Стратег</option>' +
-                    '                            <option  value="3">Контент Менеджер</option>' +
-                    '                            <option  value="4">Дизайнер</option>' +
-                    '                            <option  value="5">Модератор</option>' +
-                    '                            <option  value="6">Таргетолог</option>' +
-                    '                            <option  value="7">Аналитик</option>' +
-                    '                        </select>' +
-                    '                        Текст :' +
-                    '                        <textarea name="teamSectionDetails['+count+'][text]" required></textarea>' +
+                var html = '<div class="member-item">' +
+                    '                        <p><select name="teamSectionDetails['+count+'][member]">' +
+                    '                            <option  value="1">Иконка Project Менеджер</option>' +
+                    '                            <option  value="2">Иконка Стратег</option>' +
+                    '                            <option  value="3">Иконка Контент Менеджер</option>' +
+                    '                            <option  value="4">Иконка Дизайнер</option>' +
+                    '                            <option  value="5">Иконка Модератор</option>' +
+                    '                            <option  value="6">Иконка Таргетолог</option>' +
+                    '                            <option  value="7">Мконка Аналитик</option>' +
+                    '                        </select></p>' +
+                    '                        <p><input style="width:400px" type="text" name="teamSectionDetails['+count+'][title]" required placeholder="Заголовок"></p>' +
+                    '                        <p><textarea placeholder="Текст" style="width:400px" rows="5" name="teamSectionDetails['+count+'][text]" required></textarea></p>' +
                     '                        <a href="#team-section-item-remove" class="remove-package-team button">Удалить</a>' +
-                    '                    </p>';
+                    '                    </div>';
 
-                $('#output-package-team')
-                    .append( html );
+                $('#output-package-team').append( html );
+
                 return false;
             });
+
             $(document.body).on('click','.remove-package-team', function() {
                 $(this).parent().remove();
             });
