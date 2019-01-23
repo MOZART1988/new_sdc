@@ -15,30 +15,30 @@ $loop = new WP_Query( $args );
     </div>
     <?php if ($loop->have_posts()) : $loop->the_post(); ?>
     <div class="cases">
-        <?php foreach ($loop->posts as $post) : ?>
+        <?php foreach ($loop->posts as $item) : ?>
             <?php
                 /**
                  * @var WP_Post $post
                 */
 
-                $url = get_post_meta($post->ID, 'case_smm_landing_url', true);
+                $url = get_post_meta($item->ID, 'case_smm_landing_url', true);
             ?>
             <div>
                 <div class="container">
                     <div class="col">
                         <div class="cases__name">
-                            <div class="cases__name__img"><img src="<?=get_the_post_thumbnail_url($post, 'smm_cases_main')?>" alt=""></div>
-                            <span class="cases__name__title"><?=$post->post_title?></span>
+                            <div class="cases__name__img"><img src="<?=get_the_post_thumbnail_url($item, 'smm_cases_main')?>" alt=""></div>
+                            <span class="cases__name__title"><?=$item->post_title?></span>
                         </div>
                         <div class="content-case">
-                            <?=$post->post_content?>
+                            <?=$item->post_content?>
                         </div>
                         <a href="<?=!empty($url) ? $url : ''?>" class="btn"><?=pll__('Просмотреть результат')?></a>
                     </div>
 
-                    <?php if (!empty(get_post_gallery_ids($post->ID))) : ?>
+                    <?php if (!empty(get_post_gallery_ids($item->ID))) : ?>
                         <?php
-                            $ids = get_post_gallery_ids($post->ID);
+                            $ids = get_post_gallery_ids($item->ID);
                         ?>
                         <div class="col cases__slider">
                             <?php foreach ($ids as $id) : ?>
@@ -55,4 +55,5 @@ $loop = new WP_Query( $args );
     <div class="bg" data-offset="10"><img src="/img/bg-2.png" alt=""></div>
     <div class="bg" data-offset="25"><img src="/img/bg-3.png" alt=""></div>
     <?php endif; ?>
+    <?php wp_reset_postdata(); ?>
 </section>

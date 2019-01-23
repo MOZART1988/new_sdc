@@ -1,5 +1,7 @@
 <?php
 $footerFormData = get_post_meta( $post->ID , 'footer_smm_section', true);
+
+
 ?>
 <section class="section section11">
     <div class="container">
