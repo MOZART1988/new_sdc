@@ -507,7 +507,7 @@ function video_save( $post_id ) {
 }
 
 /**
- * Секция "Кто будет работать над вашим проектом"
+ * Секция "Почему СММ?"
 */
 
 add_action( 'add_meta_boxes', 'add_team_section' );
@@ -517,7 +517,7 @@ add_action( 'save_post', 'team_section_save' );
 function add_team_section() {
     add_meta_box(
         'team-section',
-        'Секция Кто будет работать над вашим проектом',
+        'Секция "Почему СММ"',
         'team_section_init',
         'page');
 }
