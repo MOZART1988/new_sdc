@@ -15,7 +15,7 @@ $smmSectionDetails = !empty(get_post_meta(get_post()->ID)['smmSectionDetails'][0
             <div class="lng__block">
                 <?php foreach (unserialize($smmSectionDetails) as $item) : ?>
                     <div class="col">
-                        <span class="num"><span><?=$item['number']?></span>%</span>
+                        <span class="num"><span><?=$item['number']?></span><?=$item['sign']?></span>
                         <p><?=$item['text']?></p>
                     </div>
                 <?php endforeach ; ?>
