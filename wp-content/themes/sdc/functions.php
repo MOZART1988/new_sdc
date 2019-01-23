@@ -1699,13 +1699,81 @@ function mainpage_tab_item() {
 add_action( 'init', 'mainpage_tab_item' );
 
 /**
+ * Элемент Кейс для Лендинга СММ
+ * @return WP_Post_Type
+ */
+
+function case_smm_landing() {
+    register_post_type( 'case_smm_landing', [
+        'labels' => [
+            'name'            => __( 'Кейсы (Лэндинг CMM)' ),
+            'singular_name'   => __( 'Кейсы (Лэндинг CMM)' ),
+            'add_new'         => __( 'Добавить' ),
+            'add_new_item'    => __( 'Добавить кейс' ),
+            'edit'            => __( 'Редактировать' ),
+            'edit_item'       => __( 'Редактировать кейс' ),
+            'new_item'        => __( 'Новый кейс' ),
+            'all_items'       => __( 'Кейсы (Лэндинг CMM)' ),
+            'view'            => __( 'Просмотреть' ),
+            'view_item'       => __( 'Просмотреть кейс' ),
+            'search_items'    => __( 'Поиск' ),
+            'not_found'       => __( 'Не удалось найти' ),
+        ],
+        'public' => true,
+        'menu_position' => 7,
+        'supports' => ['title', 'editor', 'thumbnail', 'custom-fields'],
+        'has_archive' => false,
+        'capability_type' => 'post',
+        'menu_icon'   => 'dashicons-portfolio',
+    ]);
+}
+
+add_action( 'init', 'case_smm_landing' );
+
+/**
  * Удалить seo метабокс для этого post_type
  */
 
 function mainpate_tab_item_remove_seo() {
-    remove_meta_box('wpseo_meta', 'mainpage_tab_item', 'normal');
+    remove_meta_box('wpseo_meta', 'case_smm_landing', 'normal');
 }
 add_action('add_meta_boxes', 'mainpate_tab_item_remove_seo', 100);
+
+/**
+ * Урл для элемента кейса на странице лендинга смм
+*/
+
+function case_smm_landing_url() {
+    add_meta_box(
+        'case-smm-landing-url',
+        'URL',
+        'case_smm_landing_url_init',
+        'case_smm_landing'
+    );
+}
+
+add_action('add_meta_boxes', 'case_smm_landing_url');
+
+function case_smm_landing_url_init($post) {
+    wp_nonce_field(basename(__FILE__), 'case_smm_landing_url');
+    $stored_meta = get_post_meta($post->ID, 'case_smm_landing_url', true);
+    ?>
+    <input required type="text" style="width:400px;" id="case-smm-landing-url"
+    name="case_smm_landing_url" value="<?=!empty($stored_meta) ? $stored_meta : ''?>" placeholder="URL">
+    <?php
+}
+
+/**
+ * Cохранение
+ */
+
+function case_smm_landing_url_save( $post_id ) {
+    if( isset( $_POST[ 'case_smm_landing_url' ] ) ) {
+        update_post_meta( $post_id, 'case_smm_landing_url', $_POST[ 'case_smm_landing_url' ] );
+    }
+}
+
+add_action('save_post', 'case_smm_landing_url_save');
 
 /**
  * Урл страницы для элемента направления

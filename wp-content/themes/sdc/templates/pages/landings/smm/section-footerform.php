@@ -18,7 +18,7 @@ $footerFormData = get_post_meta( $post->ID , 'footer_smm_section', true);
                 <ul>
                     <li>
                         <span class="name"><?=pll__('Телефон:')?></span>
-                        <a href="tel:+7 727 350-57-60"><?=!empty($footerFormData) ? $footerFormData : ''?></a>
+                        <a href="tel:+7 727 350-57-60"><?=!empty($footerFormData['phone']) ? $footerFormData['phone'] : ''?></a>
                     </li>
                     <li>
                         <span class="name"><?=pll__('Электронная почта:')?></span>
@@ -26,7 +26,7 @@ $footerFormData = get_post_meta( $post->ID , 'footer_smm_section', true);
                     </li>
                     <li>
                         <span class="name"><?=pll__('Место нахождения:')?></span>
-                        <?=!empty($footerFormData['adress']) ? $footerFormData : ''?>
+                        <?=!empty($footerFormData['adress']) ? $footerFormData['adress'] : ''?>
                     </li>
                     <li>
                         <span class="name"><?=pll__('Порекомендуйте нас своим друзьям:')?></span>

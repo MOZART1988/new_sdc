@@ -40,7 +40,7 @@ class FG_Controller {
 
 			// LOAD THE LIST OF POST TYPES THAT FUNCTIONAL GALLERIES IS ATTACHED TO
 
-			$post_types	= apply_filters( 'fg_post_types', [ 'post', 'page', 'portfolio_item' ] );
+			$post_types	= apply_filters( 'fg_post_types', [ 'post', 'page', 'portfolio_item', 'case_smm_landing' ] );
 
 			// LOAD THE CURRENT POST
 
@@ -84,7 +84,7 @@ class FG_Controller {
 
 		// LOAD THE VALUES THAT WE HAVE FILTERS FOR
 
-		$post_types	= apply_filters( 'fg_post_types', [ 'post', 'page', 'portfolio_item' ] );
+		$post_types	= apply_filters( 'fg_post_types', [ 'post', 'page', 'portfolio_item', 'case_smm_landing' ] );
 		$context	= apply_filters( 'fg_context', 'side' );
 		$priority	= apply_filters( 'fg_priority', 'default' );
 
