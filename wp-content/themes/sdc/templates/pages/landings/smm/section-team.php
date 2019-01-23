@@ -13,10 +13,10 @@ $teamSectionDetails = !empty(get_post_meta(get_post()->ID, 'teamSectionDetails')
     get_post_meta(get_post()->ID, 'teamSectionDetails')[0] : null;
 $counter = 2;
 ?>
-<?php if (!empty($teamSectionDetails)) : ?>
+<?php if (!empty($teamSectionDetails) && is_array($teamSectionDetails)) : ?>
     <section class="section section10 black">
         <div class="container">
-            <h2><?=pll__('Команда, которая будет работать над вашим проектом')?></h2>
+            <h2><?=pll__('Почему SMM?')?></h2>
             <div class="lng__block">
                 <?php foreach ($teamSectionDetails as $item) : ?>
                     <div class="col wow fadeInRight" data-wow-offset="0" data-wow-delay="0.<?=$counter++?>s">
