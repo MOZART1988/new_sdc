@@ -21,7 +21,7 @@ $counter = 2;
                 <?php foreach ($teamSectionDetails as $item) : ?>
                     <div class="col wow fadeInRight" data-wow-offset="0" data-wow-delay="0.<?=$counter++?>s">
                         <div class="img"><?=$membersArray[$item['member']]?></div>
-                        <span class="title"><?=$membersTitlesArray[$item['member']]?></span>
+                        <span class="title"><?=$item['title']?></span>
                         <div>
                             <?=$item['text']?>
                         </div>

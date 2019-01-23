@@ -751,11 +751,12 @@ function smm_section_init() {
     $c = 0;
     if (is_array($smmSectionDetails) && count( $smmSectionDetails ) > 0 ) {
         foreach( $smmSectionDetails as $item ) {
-            if ( isset( $item['number'] ) || isset( $item['text'] ) ) {
+            if ( isset( $item['number'] ) || isset( $item['text'] ) || isset( $item['sign'] ) ) {
                 printf( '<p>Цифра
-                    <input type="text" name="smmSectionDetails[%1$s][number]" value="%2$s" />  
-                    Текст : <input type="text" name="smmSectionDetails[%1$s][text]"  value="%3$s"/>
-                    <a href="#remove-smm-section-item" class="remove-package button">%4$s</a></p>', $c, $item['number'], $item['text'], 'Удалить' );
+                        <input type="text" name="smmSectionDetails[%1$s][number]" value="%2$s" />
+                    Знак :   <input type="text" name="smmSectionDetails[%1$s][sign]" value="%3$s" />
+                    Текст : <input type="text" name="smmSectionDetails[%1$s][text]"  value="%4$s"/>
+                    <a href="#remove-smm-section-item" class="remove-package button">%5$s</a></p>', $c, $item['number'], @$item['sign'], $item['text'], 'Удалить' );
                 $c++;
             }
         }
@@ -771,7 +772,7 @@ function smm_section_init() {
             $(".add_package").click(function() {
                 count = count + 1;
 
-                $('#output-package').append('<p> Цифра <input type="text" name="smmSectionDetails['+count+'][number]" value="" />  Текст : <input type="text" name="smmSectionDetails['+count+'][text]"  value=""/><a href="#remove-smm-section-item" class="button remove-package">Удалить</a></p>' );
+                $('#output-package').append('<p> Цифра <input type="text" name="smmSectionDetails['+count+'][number]" value="" /> Знак :   <input type="text" name="smmSectionDetails['+count+'][sign]" /> Текст : <input type="text" name="smmSectionDetails['+count+'][text]"  value=""/><a href="#remove-smm-section-item" class="button remove-package">Удалить</a></p>' );
                 return false;
             });
             $(document.body).on('click','.remove-package',function() {
