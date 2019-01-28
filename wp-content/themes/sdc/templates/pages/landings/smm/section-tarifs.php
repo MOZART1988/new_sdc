@@ -8,8 +8,8 @@
 
 $counter = 2;
 
-$smmSectionTarifs = !empty(get_post_meta(get_post()->ID)['smmSectionTarifs'][0]) ?
-    get_post_meta(get_post()->ID)['smmSectionTarifs'][0] : null;
+
+$smmSectionTarifs = get_post_meta(get_post()->ID, 'smmSectionTarifs', true);
 
 ?>
 
@@ -27,6 +27,7 @@ $smmSectionTarifs = !empty(get_post_meta(get_post()->ID)['smmSectionTarifs'][0])
                             <a href="#" class="btn"><?=pll__('Выбрать')?></a>
                         </div>
                     </div>
+                    <?php $counter+=2; ?>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
