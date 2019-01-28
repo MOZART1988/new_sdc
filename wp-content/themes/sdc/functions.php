@@ -836,6 +836,79 @@ function smm_section_save( $post_id ) {
 }
 
 /**
+ * Секция СММ Тарифоф
+ */
+add_action( 'add_meta_boxes', 'add_smm_section_tarifs' );
+
+add_action( 'save_post', 'smm_section_tarifs_save' );
+
+
+function add_smm_section_tarifs() {
+    add_meta_box(
+        'smm-section-tarifs',
+        'Секция Тарифы',
+        'smm_section_tarifs_init',
+        'page');
+}
+
+function smm_section_tarifs_init() {
+    global $post;
+
+    wp_nonce_field( plugin_basename( __FILE__ ), 'smm_tarifs' );
+    ?>
+    <div id="smm-section-item">
+    <?php
+
+    $smmSectionTarifs = get_post_meta($post->ID,'smmSectionTarifs',true);
+    $c = 0;
+    if (is_array($smmSectionTarifs) && count( $smmSectionTarifs ) > 0 ) {
+        foreach( $smmSectionTarifs as $item ) {
+            if ( isset( $item['prise'] ) || isset( $item['text'] ) || isset( $item['name'] ) ) {
+                printf( '<div class="section-tarifs">
+                        <p><input style="width: 400px" placeholder="Название" required type="text" name="smmSectionTarifs[%1$s][name]" value="%2$s" /></p>
+                        <p><textarea style="width: 400px" required placeholder="Текст" rows="5" name="smmSectionTarifs[%1$s][text]">%3$s</textarea></p>
+                        <p><input style="width: 400px" required placeholder="Цена" type="text" name="smmSectionTarifs[%1$s][prise]"  value="%4$s"/></p>
+                        <a href="#remove-smm-section-item" class="remove-package-tarifs button">%5$s</a></div>', $c, $item['name'], $item['text'], $item['prise'], 'Удалить' );
+
+                $c++;
+            }
+        }
+    }
+
+    ?>
+    <span id="output-package-tarifs"></span>
+    <a href="#" class="button add_package_tarifs button-primary"><?php _e('Добавить элемент'); ?></a>
+    <script>
+        var $ = jQuery.noConflict();
+        $(document).ready(function() {
+            var count = <?php echo $c; ?>;
+            $(".add_package_tarifs").click(function() {
+                count = count + 1;
+
+                $('#output-package-tarifs').append('<div class="section-tarifs">' +
+                    '<p><input style="width: 400px" placeholder="Название" required type="text" name="smmSectionTarifs['+count+'][name]" /></p>' +
+                    '<p><textarea style="width: 400px" rows="5" required placeholder="Текст" name="smmSectionTarifs['+count+'][text]"></textarea></p>' +
+                    '<p><input style="width: 400px" required placeholder="Цена" type="text" name="smmSectionTarifs['+count+'][prise]" /></p>' +
+                    '<a href="#remove-smm-section-item" class="remove-package-tarifs button">Удалить</a></div>' );
+                return false;
+            });
+
+            $(document.body).on('click','.remove-package-tarifs',function() {
+                $(this).parent().remove();
+            });
+        });
+    </script>
+    </div><?php
+
+}
+
+function smm_section_tarifs_save( $post_id ) {
+
+    $smmSectionTarifs = $_POST['smmSectionTarifs'];
+    update_post_meta($post_id,'smmSectionTarifs',$smmSectionTarifs);
+}
+
+/**
  * Секция Преимущества
  */
 add_action( 'add_meta_boxes', 'add_advantages_section' );
