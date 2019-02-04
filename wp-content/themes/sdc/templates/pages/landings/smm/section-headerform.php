@@ -13,9 +13,9 @@ $headerSectionTitle = !empty(get_post_meta(get_post()->ID)['header_smm_section_t
         <div class="lng__block">
             <form class="col" id="smmForm">
                 <h5><?=pll__('Закажите индивидуальный просчет вашего проекта')?></h5>
-                <input type="text" placeholder="<?=pll__('Имя')?>" name="smmForm[name]" required>
-                <input type="email" placeholder="<?=pll__('Электронная почта')?>" name="smmForm[email]" required>
-                <input type="text" placeholder="<?=pll__('Контактный номер телефона')?>" name="smmForm[phone]" required>
+                <input type="text" placeholder="<?=!empty($headerSectionTitle['name']) ? $headerSectionTitle['name'] : pll__('Имя')?>" name="smmForm[name]" required>
+                <input type="email" placeholder="<?=$headerSectionTitle['email'] ? $headerSectionTitle['email'] : pll__('Электронная почта')?>" name="smmForm[email]" required>
+                <input type="text" placeholder="<?=$headerSectionTitle['phone'] ? $headerSectionTitle['phone'] : pll__('Контактный номер телефона')?>" name="smmForm[phone]" required>
                 <input type="submit" class="btn" value="<?=pll__('Отправить')?>">
             </form>
             <div class="col">

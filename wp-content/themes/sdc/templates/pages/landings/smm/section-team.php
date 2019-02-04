@@ -21,9 +21,9 @@ $counter = 2;
                 <?php foreach ($teamSectionDetails as $item) : ?>
                     <div class="col wow fadeInRight" data-wow-offset="0" data-wow-delay="0.<?=$counter++?>s">
                         <div class="img">
-                            <?=!empty(($item['member']) && !empty(wp_get_attachment_image_src($item['member']))) ? wp_get_attachment_image_src($item['member'])[0] : ''?>
+                            <img src="<?=!empty(($item['member']) && !empty(wp_get_attachment_image_src($item['member']))) ? wp_get_attachment_image_src($item['member'])[0] : ''?>" />
                         </div>
-                        <span class="title"><?=$item['title']?></span>
+                        <span class="title"><?=!empty($item['title']) ? $item['title'] : ''?></span>
                         <div>
                             <?=$item['text']?>
                         </div>

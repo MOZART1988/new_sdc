@@ -9,10 +9,10 @@ $footerFormData = get_post_meta( $post->ID , 'footer_smm_section', true);
         <div class="row">
             <div class="col-lg-5 col-md-6 col-sm-12">
                 <form id="++++">
-                    <input type="text" placeholder="<?=pll__('Имя')?>" required name="formFooterSmm[name]">
-                    <input type="text" placeholder="<?=pll__('Контактный телефон')?>" required name="formFooterSmm[phone]">
-                    <input type="email" placeholder="<?=pll__('электронная почта')?>" required name="formFooterSmm[email]">
-                    <textarea rows="1" placeholder="<?=pll__('Опишите ваш проект, либо интересующую вас услугу')?>" name="formFooterSmm[message]" required></textarea>
+                    <input type="text" placeholder="<?=!empty($footerFormData['placeholder_name']) ? $footerFormData['placeholder_name'] : pll__('Имя')?>" required name="formFooterSmm[name]">
+                    <input type="text" placeholder="<?=!empty($footerFormData['placeholder_phone']) ? $footerFormData['placeholder_phone'] : pll__('Контактный телефон')?>" required name="formFooterSmm[phone]">
+                    <input type="email" placeholder="<?=!empty($footerFormData['placeholder_email']) ? $footerFormData['placeholder_email'] : pll__('электронная почта')?>" required name="formFooterSmm[email]">
+                    <textarea rows="1" placeholder="<?=!empty($footerFormData['placeholder_text']) ? $footerFormData['placeholder_text'] : pll__('Опишите ваш проект, либо интересующую вас услугу')?>" name="formFooterSmm[message]" required></textarea>
                     <input type="submit" class="btn" value="<?=pll__('Отправить')?>">
                 </form>
             </div>

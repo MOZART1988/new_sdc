@@ -402,6 +402,10 @@ function footer_smm_section_init() {
     wp_nonce_field(basename(__FILE__), 'footer_smm_section');
     $links_stored_meta = get_post_meta( $post->ID , 'footer_smm_section', true);
     ?>
+    <p><input name="footer_smm_section[placeholder_name]" style="width:400px" placeholder="Строчка в поле Имя" required value="<?=!empty($links_stored_meta['placeholder_name']) ? $links_stored_meta['placeholder_name'] : ''?>"></p>
+    <p><input name="footer_smm_section[placeholder_phone]" style="width:400px" placeholder="Строчка в поле Контактный телефон" required value="<?=!empty($links_stored_meta['placeholder_phone']) ? $links_stored_meta['placeholder_phone'] : ''?>"></p>
+    <p><input name="footer_smm_section[placeholder_email]" style="width:400px" placeholder="Строчка в поле Электронная почта" required value="<?=!empty($links_stored_meta['placeholder_email']) ? $links_stored_meta['placeholder_email'] : ''?>"></p>
+    <p><input name="footer_smm_section[placeholder_text]" style="width:400px" placeholder="Строчка в поле Опишите ваш проект" required value="<?=!empty($links_stored_meta['placeholder_text']) ? $links_stored_meta['placeholder_text'] : ''?>"></p>
     <p><input name="footer_smm_section[phone]" style="width:400px" placeholder="Телефон" required value="<?=!empty($links_stored_meta['phone']) ? $links_stored_meta['phone'] : ''?>"></p>
     <p><input name="footer_smm_section[email]" type="email" style="width:400px" placeholder="Email" required value="<?=!empty($links_stored_meta['email']) ? $links_stored_meta['email'] : ''?>"></p>
     <p><textarea style="width:400px" rows="5" placeholder="Адрес" name="footer_smm_section[adress]" required ><?=!empty($links_stored_meta['adress']) ? $links_stored_meta['adress'] : ''?></textarea></p>
@@ -441,8 +445,10 @@ function header_smm_section_init() {
     wp_nonce_field(basename(__FILE__), 'header_smm_section_title');
     $links_stored_meta = get_post_meta( $post->ID );
     ?>
-    <h2>Заголовок</h2>
-    <textarea rows="5" style="width: 100%"
+    <input name="header_smm_section_title[name]" placeholder="Текст в поле Имя" style="width: 400px" type="text" value="<?=!empty($links_stored_meta['header_smm_section_title']['name']) ? $links_stored_meta['header_smm_section_title']['name'] : ''?>" />
+    <input name="header_smm_section_title[email]" placeholder="Текст в поле Электронная почта" style="width: 400px" type="text" value="<?=!empty($links_stored_meta['header_smm_section_title']['email']) ? $links_stored_meta['header_smm_section_title']['email'] : ''?>" />
+    <input name="header_smm_section_title[phone]" placeholder="Текст в поле Контактный номер телефона" style="width: 400px" type="text" value="<?=!empty($links_stored_meta['header_smm_section_title']['phone']) ? $links_stored_meta['header_smm_section_title']['phone'] : ''?>" />
+    <textarea placeholder="Текст в начале формы" rows="5" style="width: 100%"
               name="header_smm_section_title"
               id="header_smm_section_title"><?php if ( isset ( $links_stored_meta['header_smm_section_title'] ) ) echo $links_stored_meta['header_smm_section_title'][0]; ?></textarea>
     <?php
@@ -575,7 +581,7 @@ function team_section_init() {
         foreach( $teamSectionDetails as $item ) {
             if ( isset( $item['member'] ) || isset( $item['text'] ) || isset( $item['title'] ) ) {
                 printf( '<div class="member-item">
-                                    <p><input class="icon-member-image" name="doinglistSectionDetails[%1$s][member]" type="hidden" value="'.$item['member'].'" required  /></p>
+                                    <p><input class="icon-member-image" name="teamSectionDetails[%1$s][member]" type="hidden" value="'.(!empty($item['member']) ? $item['member'] : '').'" required  /></p>
                                     <p><a href="#" class="icon-member-image-upload">Загрузите иконку</a></p>
                                     <p><img src="'.(!empty($item['member']) ? wp_get_attachment_image_src($item['member'], 'portfolio')[0] : '') .'"
                                         style="width:200px;" class="icon-member-src" /></p>
@@ -602,7 +608,7 @@ function team_section_init() {
                 count = count + 1;
 
                 var html = '<div class="member-item">' +
-                    '                        <p><input class="icon-member-image" name="doinglistSectionDetails['+count+'][member]" type="hidden" value="" required  /></p>' +
+                    '                        <p><input class="icon-member-image" name="teamSectionDetails['+count+'][member]" type="hidden" value="" required  /></p>' +
                     '                        <p><a href="#" class="icon-member-image-upload">Загрузите иконку</a></p>' +
                     '                        <p><img src="" style="width:200px;" class="icon-member-src" /></p>' +
                     '                        <p><input style="width:400px" type="text" name="teamSectionDetails['+count+'][title]" required placeholder="Заголовок"></p>' +
