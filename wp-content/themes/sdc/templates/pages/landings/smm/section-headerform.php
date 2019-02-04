@@ -4,12 +4,11 @@
  *
  */
 
-$headerSectionTitle = !empty(get_post_meta(get_post()->ID)['header_smm_section_title'][0]) ?
-    get_post_meta(get_post()->ID)['header_smm_section_title'][0] : null;
+$headerSectionTitle = get_post_meta($post->ID, 'header_smm_section_title', true);
 ?>
 <section class="section section1 red">
     <div class="container">
-        <h2><?=$headerSectionTitle?></h2>
+        <h2><?=!empty($headerSectionTitle['text']) ? $headerSectionTitle['text'] : ''?></h2>
         <div class="lng__block">
             <form class="col" id="smmForm">
                 <h5><?=pll__('Закажите индивидуальный просчет вашего проекта')?></h5>

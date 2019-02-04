@@ -443,14 +443,14 @@ function add_header_smm_section() {
 function header_smm_section_init() {
     global $post;
     wp_nonce_field(basename(__FILE__), 'header_smm_section_title');
-    $links_stored_meta = get_post_meta( $post->ID );
+    $links_stored_meta = get_post_meta( $post->ID, 'header_smm_section_title', true );
     ?>
-    <input name="header_smm_section_title[name]" placeholder="Текст в поле Имя" style="width: 400px" type="text" value="<?=!empty($links_stored_meta['header_smm_section_title']['name']) ? $links_stored_meta['header_smm_section_title']['name'] : ''?>" />
-    <input name="header_smm_section_title[email]" placeholder="Текст в поле Электронная почта" style="width: 400px" type="text" value="<?=!empty($links_stored_meta['header_smm_section_title']['email']) ? $links_stored_meta['header_smm_section_title']['email'] : ''?>" />
-    <input name="header_smm_section_title[phone]" placeholder="Текст в поле Контактный номер телефона" style="width: 400px" type="text" value="<?=!empty($links_stored_meta['header_smm_section_title']['phone']) ? $links_stored_meta['header_smm_section_title']['phone'] : ''?>" />
+    <input name="header_smm_section_title[name]" placeholder="Текст в поле Имя" style="width: 400px" type="text" value="<?=!empty($links_stored_meta['name']) ? $links_stored_meta['name'] : ''?>" />
+    <input name="header_smm_section_title[email]" placeholder="Текст в поле Электронная почта" style="width: 400px" type="text" value="<?=!empty($links_stored_meta['email']) ? $links_stored_meta['email'] : ''?>" />
+    <input name="header_smm_section_title[phone]" placeholder="Текст в поле Контактный номер телефона" style="width: 400px" type="text" value="<?=!empty($links_stored_meta['phone']) ? $links_stored_meta['phone'] : ''?>" />
     <textarea placeholder="Текст в начале формы" rows="5" style="width: 100%"
-              name="header_smm_section_title"
-              id="header_smm_section_title"><?php if ( isset ( $links_stored_meta['header_smm_section_title'] ) ) echo $links_stored_meta['header_smm_section_title'][0]; ?></textarea>
+              name="header_smm_section_title[text]"
+              id="header_smm_section_title"><?php if ( isset ( $links_stored_meta['text'] ) ) echo $links_stored_meta['text']; ?></textarea>
     <?php
 
 }
