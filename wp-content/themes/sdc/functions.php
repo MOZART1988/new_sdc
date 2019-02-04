@@ -575,21 +575,13 @@ function team_section_init() {
         foreach( $teamSectionDetails as $item ) {
             if ( isset( $item['member'] ) || isset( $item['text'] ) || isset( $item['title'] ) ) {
                 printf( '<div class="member-item">
-                        <p><select name="teamSectionDetails[%1$s][member]">
-                            <option  value="1" '.((int)$item['member'] === 1 ? 'selected' : '').'>Иконка Project Менеджер</option>
-                            <option  value="2" '.((int)$item['member'] === 2 ? 'selected' : '').'>Иконка Стратег</option>
-                            <option  value="3" '.((int)$item['member'] === 3 ? 'selected' : '').'>Иконка Контент Менеджер</option>
-                            <option  value="4" '.((int)$item['member'] === 4 ? 'selected' : '').'>Иконка Дизайнер</option>
-                            <option  value="5" '.((int)$item['member'] === 5 ? 'selected' : '').'>Иконка Модератор</option>
-                            <option  value="6" '.((int)$item['member'] === 6 ? 'selected' : '').'>Иконка Таргетолог</option>
-                            <option  value="7" '.((int)$item['member'] === 7 ? 'selected' : '').'>Иконка Аналитик</option>
-                        </select></p>
-                         
-                        <p><input style="width:400px" type="text" name="teamSectionDetails[%1$s][title]" required value="%2$s" placeholder="Заголовок"></p>
-                             
-                        <p><textarea style="width:400px;" rows="5" name="teamSectionDetails[%1$s][text]" placeholder="Текст" required>%3$s</textarea></p>
-                        
-                        <a href="#team-section-item-remove" class="remove-package-team button">%4$s</a></div>
+                                    <p><input class="icon-member-image" name="doinglistSectionDetails[%1$s][member]" type="hidden" value="'.$item['member'].'" required  /></p>
+                                    <p><a href="#" class="icon-member-image-upload">Загрузите иконку</a></p>
+                                    <p><img src="'.(!empty($item['member']) ? wp_get_attachment_image_src($item['member'], 'portfolio')[0] : '') .'"
+                                        style="width:200px;" class="icon-member-src" /></p>
+                                    <p><input style="width:400px" type="text" name="teamSectionDetails[%1$s][title]" required value="%2$s" placeholder="Заголовок"></p>
+                                    <p><textarea style="width:400px;" rows="5" name="teamSectionDetails[%1$s][text]" placeholder="Текст" required>%3$s</textarea></p>
+                                    <a href="#team-section-item-remove" class="remove-package-team button">%4$s</a></div>
                     ', $c, @$item['title'], $item['text'], 'Удалить'
                 );
                 $c++;
@@ -610,15 +602,9 @@ function team_section_init() {
                 count = count + 1;
 
                 var html = '<div class="member-item">' +
-                    '                        <p><select name="teamSectionDetails['+count+'][member]">' +
-                    '                            <option  value="1">Иконка Project Менеджер</option>' +
-                    '                            <option  value="2">Иконка Стратег</option>' +
-                    '                            <option  value="3">Иконка Контент Менеджер</option>' +
-                    '                            <option  value="4">Иконка Дизайнер</option>' +
-                    '                            <option  value="5">Иконка Модератор</option>' +
-                    '                            <option  value="6">Иконка Таргетолог</option>' +
-                    '                            <option  value="7">Мконка Аналитик</option>' +
-                    '                        </select></p>' +
+                    '                        <p><input class="icon-member-image" name="doinglistSectionDetails['+count+'][member]" type="hidden" value="" required  /></p>' +
+                    '                        <p><a href="#" class="icon-member-image-upload">Загрузите иконку</a></p>' +
+                    '                        <p><img src="" style="width:200px;" class="icon-member-src" /></p>' +
                     '                        <p><input style="width:400px" type="text" name="teamSectionDetails['+count+'][title]" required placeholder="Заголовок"></p>' +
                     '                        <p><textarea placeholder="Текст" style="width:400px" rows="5" name="teamSectionDetails['+count+'][text]" required></textarea></p>' +
                     '                        <a href="#team-section-item-remove" class="remove-package-team button">Удалить</a>' +
@@ -631,6 +617,26 @@ function team_section_init() {
 
             $(document.body).on('click','.remove-package-team', function() {
                 $(this).parent().remove();
+            });
+
+            $(document.body).on('click', '.icon-member-image-upload', function (){
+                metaImageFrame = wp.media.frames.metaImageFrame = wp.media({
+                    title: 'Изображение иконки',
+                    button: { text:  'Загрузите изображение иконки' },
+                });
+
+                var button = $(this);
+
+                metaImageFrame.on('select', function() {
+
+                    var media_attachment = metaImageFrame.state().get('selection').first().toJSON();
+
+                    button.parent().next().find('.icon-member-src').attr('src', media_attachment.link);
+                    button.parent().prev().find('.icon-member-image').val(media_attachment.id);
+
+                });
+
+                metaImageFrame.open();
             });
         });
     </script>
@@ -681,22 +687,14 @@ function doinglist_section_init() {
     if (is_array($doinglistSectionDetails) && count( $doinglistSectionDetails ) > 0 ) {
         foreach( $doinglistSectionDetails as $item ) {
             if ( isset( $item['icon'] ) || isset( $item['text'] ) ) {
-                printf( '<p>
-                    Иконка :
-                        <select class="imageSelect" name="doinglistSectionDetails[%1$s][icon]">
-                            <option data-img-src="/img/img-63.png" value="1" '.((int)$item['icon'] === 1 ? 'selected' : '').'>Иконка 1</option>
-                            <option data-img-src="/img/img-64.png" value="2" '.((int)$item['icon'] === 2 ? 'selected' : '').'>Иконка 2</option>
-                            <option data-img-src="/img/img-65.png" value="3" '.((int)$item['icon'] === 3 ? 'selected' : '').'>Иконка 3</option>
-                            <option data-img-src="/img/img-66.png" value="4" '.((int)$item['icon'] === 4 ? 'selected' : '').'>Иконка 4</option>
-                            <option data-img-src="/img/img-67.png" value="5" '.((int)$item['icon'] === 5 ? 'selected' : '').'>Иконка 5</option>
-                            <option data-img-src="/img/img-68.png" value="6" '.((int)$item['icon'] === 6 ? 'selected' : '').'>Иконка 6</option>
-                            <option data-img-src="/img/img-69.png" value="7" '.((int)$item['icon'] === 7 ? 'selected' : '').'>Иконка 7</option>
-                            <option data-img-src="/img/img-70.png" value="8" '.((int)$item['icon'] === 8 ? 'selected' : '').'>Иконка 8</option>
-                        </select> 
-                    Текст : 
-                        <input type="text" name="doinglistSectionDetails[%1$s][text]"  value="%3$s" required/>
-                        <a href="#doinglist-section-item-remove" class="remove-package-doinglist button">%4$s</a>
-                    </p>', $c, $item['icon'], $item['text'], 'Удалить'
+                printf( '<div class="doing-section-item">
+                                    <p><input class="icon-image" name="doinglistSectionDetails[%1$s][icon]" type="hidden" value="'.$item['icon'].'" required  /></p>
+                                    <p><a href="#" class="icon-image-upload">Загрузите иконку</a></p>
+                                    <p><img src="'.(!empty($item['icon']) ? wp_get_attachment_image_src($item['icon'], 'portfolio')[0] : '') .'"
+                                        style="width:200px;" class="icon-src" /></p>
+                                    <p><input type="text" name="doinglistSectionDetails[%1$s][text]" style="width: 400px" placeholder="Текст"  value="%3$s" required/></p>
+                                    <a href="#doinglist-section-item-remove" class="remove-package-doinglist button">%4$s</a>
+                                </div>', $c, $item['icon'], $item['text'], 'Удалить'
                     );
                 $c++;
             }
@@ -714,33 +712,46 @@ function doinglist_section_init() {
             $(".add_package_doinglist").click(function() {
                 count = count + 1;
 
-                var html = '<p>' +
-                    '                    Иконка :' +
-                    '                        <select class="imageSelect" name="doinglistSectionDetails['+count+'][icon]">' +
-                    '                            <option data-img-src="/img/img-63.png" value="1">Иконка 1</option>' +
-                    '                            <option data-img-src="/img/img-64.png" value="2">Иконка 2</option>' +
-                    '                            <option data-img-src="/img/img-65.png" value="3">Иконка 3</option>' +
-                    '                            <option data-img-src="/img/img-66.png" value="4">Иконка 4</option>' +
-                    '                            <option data-img-src="/img/img-67.png" value="5">Иконка 5</option>' +
-                    '                            <option data-img-src="/img/img-68.png" value="6">Иконка 6</option>' +
-                    '                            <option data-img-src="/img/img-69.png" value="7">Иконка 7</option>' +
-                    '                            <option data-img-src="/img/img-70.png" value="8">Иконка 8</option>' +
-                    '                        </select>' +
-                    '                        Текст :' +
-                    '                        <input type="text" name="doinglistSectionDetails['+count+'][text]"  value="" required/>' +
-                    '                        <a href="#doinglist-section-item-remove" class="remove-package-doinglist button">Удалить</a>' +
-                    '                    </p>';
+                var html = '<div class="doing-section-item">' +
+                    '           <p><input class="icon-image" name="doinglistSectionDetails['+count+'][icon]" type="hidden" value="" required  /></p>' +
+                    '           <p><a href="#" class="icon-image-upload">Загрузите иконку</a></p>' +
+                    '           <p><img src="" style="width:200px;" class="icon-src" /></p>' +
+                    '           <p><input type="text" name="doinglistSectionDetails['+count+'][text]" style="width: 400px;" placeholder="Текст"  value="" required/></p>' +
+                    '           <a href="#doinglist-section-item-remove" class="remove-package-doinglist button">Удалить</a>' +
+                    '       </div>';
 
                 $('#output-package-doinglist')
                     .append( html );
 
-                $('.imageSelect').chosen({ width:"40%"});
-
                 return false;
             });
+
             $(document.body).on('click','.remove-package-doinglist', function() {
                 $(this).parent().remove();
             });
+
+            $(document.body).on('click', '.icon-image-upload', function (){
+                metaImageFrame = wp.media.frames.metaImageFrame = wp.media({
+                    title: 'Изображение иконки',
+                    button: { text:  'Загрузите изображение иконки' },
+                });
+
+                var button = $(this);
+
+                metaImageFrame.on('select', function() {
+
+                    var media_attachment = metaImageFrame.state().get('selection').first().toJSON();
+
+                    button.parent().next().find('.icon-src').attr('src', media_attachment.link);
+                    button.parent().prev().find('.icon-image').val(media_attachment.id);
+
+                });
+
+                metaImageFrame.open();
+            });
+
+
+
         });
     </script>
     </div><?php

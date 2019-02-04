@@ -14,7 +14,7 @@ $counter = 2;
             <div class="lng__block">
                 <?php foreach ($doinglistSectionDetails as $item) : ?>
                 <div class="col wow fadeIn" data-wow-offset="0" data-wow-delay="0.<?=$counter++?>s">
-                    <?=$iconsArray[$item['icon']];?>
+                    <img src="<?=!empty(($item['icon']) && !empty(wp_get_attachment_image_src($item['icon']))) ? wp_get_attachment_image_src($item['icon'])[0] : ''?>" />
                     <p><?=$item['text']?></p>
                 </div>
                 <?php endforeach; ?>
