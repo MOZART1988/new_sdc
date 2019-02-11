@@ -34,13 +34,15 @@ if ($columnsData !== null && is_array($columnsData)) {
         <h2><?=pll__('Как представляют SMM в Казахстане?')?></h2>
         <div class="row">
             <div class="col-sm-6 wow fadeIn" data-wow-offset="0" data-wow-delay="0.3">
-                <h3><?=$headerOne?></h3>
                 <?php if (!empty($columnsDataOne) && is_array($columnsDataOne)) : ?>
-                    <ul class="check--list">
-                        <?php foreach ($columnsDataOne as $item) : ?>
-                            <li><?=$item?></li>
-                        <?php endforeach ; ?>
-                    </ul>
+                    <div class="col">
+                        <h3><?=$headerOne?></h3>
+                        <ul class="check--list">
+                            <?php foreach ($columnsDataOne as $item) : ?>
+                                <li><?=$item?></li>
+                            <?php endforeach ; ?>
+                        </ul>
+                    </div>
                     <div class="result">
                         <span class="stiker green"><?=pll__('Результат')?></span>
                         <p><?=$resultOne?></p>
@@ -48,17 +50,20 @@ if ($columnsData !== null && is_array($columnsData)) {
                 <?php endif; ?>
             </div>
             <div class="col-sm-6 wow fadeIn" data-wow-offset="0" data-wow-delay="0.6s">
-                <h3><?=$headerTwo?></h3>
                 <?php if (!empty($columnsDataTwo) && is_array($columnsDataTwo)) : ?>
-                <ul class="check--list">
-                    <?php foreach ($columnsDataTwo as $item) : ?>
-                        <li><?=$item?></li>
-                    <?php endforeach; ?>
-                </ul>
-                <div class="result">
-                    <span class="stiker green"><?=pll__('Результат')?></span>
-                    <p><?=$resultTwo?></p>
-                </div>
+                    <div class="col">
+                        <h3><?=$headerTwo?></h3>
+                        <ul class="check--list">
+                            <?php foreach ($columnsDataTwo as $item) : ?>
+                                <li><?=$item?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+
+                    <div class="result">
+                        <span class="stiker green"><?=pll__('Результат')?></span>
+                        <p><?=$resultTwo?></p>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
