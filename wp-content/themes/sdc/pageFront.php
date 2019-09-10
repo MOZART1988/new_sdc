@@ -19,6 +19,7 @@ if ($mainBanner !== '/img/img-1.jpg') {
     }
 }
 
+
 get_header(); ?>
 <div class="main"><!-- main content -->
     <section class="banner"><!-- main banner -->
@@ -29,16 +30,16 @@ get_header(); ?>
         <div class="container">
             <div class="row">
                 <div class="col-lg-3 col-md-4 left">
-                    <h2 class="title"><?=pll__('О компании')?></h2>
+                    <h2 class="title"><?=get_theme_mod('about_title_' . pll_current_language(), '')?></h2>
                 </div>
                 <div class="col-lg-9 col-md-8 right">
-                    <h3><?=pll__('У нас работаю фанаты своего дела. Профессиональная команда, которая способна справиться с самой сложной задачей.')?></h3>
+                    <h3><?=get_theme_mod('about_description_' . pll_current_language(), '')?></h3>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-4 left">
-                    <img src="/img/img-2.jpg">
-                    <span><?=pll__('Мы сформируем вам правильную стратегию ведения рекламы и продвижению сайта  в интернете, что обеспечивает максимальное увеличение продаж на любом уровне. Благодаря продвижению сайта и интернет рекламе вы получите стабильный поток клиентов.Мы сформируем вам правильную стратегию ведения рекламы и продвижению сайта  в интернете, что обеспечивает максимальное увеличение продаж на любом уровне. Благодаря продвижению сайта и интернет рекламе вы получите стабильный поток клиентов.Мы сформируем вам правильную стратегию ведения рекламы и продвижению сайта  в интернете, что обеспечивает максимальное увеличение продаж на любом уровне. Благодаря продвижению сайта и интернет рекламе вы получите стабильный поток клиентов.')?></span>
+                    <img src="<?=get_theme_mod('about_image', '/img/img-2.png')?>">
+                    <span><?=get_theme_mod('about_text_' . pll_current_language(), '')?></span>
                 </div>
                 <div class="col-lg-9 col-md-8 right">
                     <ul class="about__nav tabs">

@@ -2776,6 +2776,108 @@ add_action('customize_register', function($customizer) {
         'settings' => 'mainBanner',
     ]));
 
+    $customizer->add_section(
+        'block_about', [
+            'title' => 'Блок "О компании"',
+            'description' => '',
+            'priority' => 11
+        ]
+    );
+
+    $customizer->add_setting('about_image');
+
+    $customizer->add_control(new WP_Customize_Image_Control($customizer, 'about_image', [
+        'label'    => 'Картинка',
+        'section'  => 'block_about',
+        'settings' => 'about_image',
+    ]));
+
+    //RU
+
+    $customizer->add_setting('about_title_ru');
+
+    $customizer->add_control(new WP_Customize_Control($customizer, 'about_title_ru', [
+        'label' => 'Заголовок RU',
+        'section' => 'block_about',
+        'setting' => 'about_title_ru',
+        'type' => 'text'
+    ]));
+
+    $customizer->add_setting('about_description_ru');
+
+    $customizer->add_control(new WP_Customize_Control($customizer, 'about_description_ru', [
+        'label' => 'Описание RU',
+        'section' => 'block_about',
+        'setting' => 'about_description_ru',
+        'type' => 'textarea'
+    ]));
+
+    $customizer->add_setting('about_text_ru');
+
+    $customizer->add_control(new WP_Customize_Control($customizer, 'about_text_ru', [
+        'label' => 'Текст RU',
+        'section' => 'block_about',
+        'setting' => 'about_text_ru',
+        'type' => 'textarea'
+    ]));
+
+    //EN
+
+    $customizer->add_setting('about_title_en');
+
+    $customizer->add_control(new WP_Customize_Control($customizer, 'about_title_en', [
+        'label' => 'Заголовок EN',
+        'section' => 'block_about',
+        'setting' => 'about_title_en',
+        'type' => 'text'
+    ]));
+
+    $customizer->add_setting('about_description_en');
+
+    $customizer->add_control(new WP_Customize_Control($customizer, 'about_description_en', [
+        'label' => 'Описание EN',
+        'section' => 'block_about',
+        'setting' => 'about_description_en',
+        'type' => 'textarea'
+    ]));
+
+    $customizer->add_setting('about_text_en');
+
+    $customizer->add_control(new WP_Customize_Control($customizer, 'about_text_en', [
+        'label' => 'Текст EN',
+        'section' => 'block_about',
+        'setting' => 'about_text_en',
+        'type' => 'textarea'
+    ]));
+
+    //KK
+
+    $customizer->add_setting('about_title_kk');
+
+    $customizer->add_control(new WP_Customize_Control($customizer, 'about_title_kk', [
+        'label' => 'Заголовок KK',
+        'section' => 'block_about',
+        'setting' => 'about_title_kk',
+        'type' => 'text'
+    ]));
+
+    $customizer->add_setting('about_description_kk');
+
+    $customizer->add_control(new WP_Customize_Control($customizer, 'about_description_kk', [
+        'label' => 'Описание KK',
+        'section' => 'block_about',
+        'setting' => 'about_description_kk',
+        'type' => 'textarea'
+    ]));
+
+    $customizer->add_setting('about_text_kk');
+
+    $customizer->add_control(new WP_Customize_Control($customizer, 'about_text_kk', [
+        'label' => 'Текст KK',
+        'section' => 'block_about',
+        'setting' => 'about_text_kk',
+        'type' => 'textarea'
+    ]));
 });
 
 
