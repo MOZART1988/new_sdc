@@ -30,7 +30,7 @@ $loop = new WP_Query( $args );
                 <?php foreach ($loop->posts as $post) : ?>
                     <a href="<?=get_permalink($post)?>" class="recommended__slider__col">
                         <img src="<?=get_the_post_thumbnail_url($post, 'client-others')?>"">
-                        <span><?=$post->post_title?></span>
+                        <span class="<?=@get_post_meta($post->ID)['cl_title_color_original'][0]?>"><?=$post->post_title?></span>
                     </a>
                 <?php endforeach ; ?>
             </div>

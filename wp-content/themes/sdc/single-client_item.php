@@ -7,6 +7,13 @@
  */
 
 get_header();
+$postId = get_post()->ID;
+
+if (!empty(get_post_meta($postId, 'client_item_logo'))) {
+    $url = get_post_meta($postId, 'client_item_logo')[0];
+    $logo = wp_get_attachment_image_src($url, 'client-thumb')[0];
+}
+
 ?>
 <div class="page portfolio--unit"><!-- page content -->
     <?php while(have_posts()) : the_post()?>
@@ -20,9 +27,11 @@ get_header();
                         <?php the_title('<h1>', '</h1>'); ?>
                         <p><?php the_content(); ?></p>
                     </div>
-                    <div class="col-lg-2 col-md-3 col-sm-3">
-                        <img src="<?=get_the_post_thumbnail_url($post, 'client-thumb')?>">
-                    </div>
+                    <?php if (!empty($logo)) : ?>
+                        <div class="col-lg-2 col-md-3 col-sm-3">
+                            <img src="<?=$logo?>">
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
             <h3 class="text-center"><?=pll__('Все работы для компании')?> <?=$post->post_title?></h3>

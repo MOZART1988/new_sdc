@@ -67,6 +67,7 @@ if (!empty(sdc_get_events_category_from_request())) {
 if (!empty(sdc_get_clients_category_from_request())) {
     $category = sdc_get_clients_category();
     $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+
     $args = [
         'post_type'=>'client_item',
         'posts_per_page' => 10,

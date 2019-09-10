@@ -3,6 +3,44 @@
  * functions.php for theme SDC
 */
 
+function generate_taxonomy_rewrite_rules( $wp_rewrite ) {
+
+    $rules = array();
+
+    $post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'objects' );
+    $taxonomies = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'objects' );
+
+    foreach ( $post_types as $post_type ) {
+        $post_type_name = $post_type->name;
+        $post_type_slug = $post_type->rewrite['slug'];
+
+        foreach ( $taxonomies as $taxonomy ) {
+            if ( $taxonomy->object_type[0] == $post_type_name ) {
+                $terms = get_categories( array( 'type' => $post_type_name, 'taxonomy' => $taxonomy->name, 'hide_empty' => 0 ) );
+                foreach ( $terms as $term ) {
+                    $rules[$post_type_slug . '/' . $term->slug . '/?$'] = 'index.php?' . $term->taxonomy . '=' . $term->slug;
+                    $rules[$post_type_slug . '/' . $term->slug . '/page/?([0-9]{1,})/?$'] = 'index.php?' . $term->taxonomy . '=' . $term->slug . '&paged=' . $wp_rewrite->preg_index( 1 );
+                }
+            }
+        }
+    }
+
+    $wp_rewrite->rules = $rules + $wp_rewrite->rules;
+
+}
+
+add_action('generate_rewrite_rules', 'generate_taxonomy_rewrite_rules');
+
+function custom_pre_get_posts($query)
+{
+    if ($query->is_main_query() && !$query->is_feed() && !is_admin() && is_category()) {
+        $query->set('page_val', get_query_var('paged'));
+        $query->set('paged', 0);
+    }
+}
+
+add_action('pre_get_posts', 'custom_pre_get_posts');
+
 /**
  * TODO hide from here wp_editor throght action
 */
@@ -921,8 +959,11 @@ function smm_section_tarifs_init() {
 
 function smm_section_tarifs_save( $post_id ) {
 
-    $smmSectionTarifs = $_POST['smmSectionTarifs'];
-    update_post_meta($post_id,'smmSectionTarifs',$smmSectionTarifs);
+    if (!empty($_POST['smmSectionTarifs'])) {
+        $smmSectionTarifs = $_POST['smmSectionTarifs'];
+        update_post_meta($post_id,'smmSectionTarifs',$smmSectionTarifs);
+    }
+
 }
 
 /**
@@ -1670,8 +1711,8 @@ function client_item() {
         ],
         'public' => true,
         'menu_position' => 7,
-        'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'custom-fields'],
-        'has_archive' => false,
+        'supports' => ['title', 'editor', 'thumbnail', 'excerpt'],
+        'has_archive' => true,
         'capability_type' => 'post',
         'taxonomies' => ['category'],
         'menu_icon'   => 'dashicons-admin-users',
@@ -1828,6 +1869,126 @@ function mainpate_tab_item_remove_seo() {
     remove_meta_box('wpseo_meta', 'case_smm_landing', 'normal');
 }
 add_action('add_meta_boxes', 'mainpate_tab_item_remove_seo', 100);
+
+
+/**
+ * Поле логотипа в типе клиент
+ */
+function client_item_logo() {
+    add_meta_box(
+        'client_item_logo',
+        __('Логотип'),
+        'client_item_logo_callback',
+        'client_item'
+    );
+}
+
+add_action('add_meta_boxes', 'client_item_logo');
+
+function client_item_logo_callback($post) {
+
+    $attachmentId = get_post_meta($post->ID, 'client_item_logo');
+    ?>
+
+    <input id="client_item_logo_input" name="client_item_logo" type="hidden"
+           value="<?=isset($attachmentId[0]) ? $attachmentId[0] : '';?>"  />
+
+    <p>
+        <a href="#" id="client_item_logo_link">Загрузите изображение</a>
+    </p>
+
+    <br/>
+
+    <img src="<?= !empty($attachmentId[0]) ? wp_get_attachment_image_src($attachmentId[0], 'portfolio')[0] : ''?>"
+         style="width:200px;" id="picsrc" />
+    <script>
+        $(document).ready( function($) {
+            $('#client_item_logo_link').click(function() {
+
+                metaImageFrame = wp.media.frames.metaImageFrame = wp.media({
+                    title: 'Изображения',
+                    button: { text:  'Загрузите изображение' },
+                });
+
+                metaImageFrame.on('select', function() {
+
+                    var media_attachment = metaImageFrame.state().get('selection').first().toJSON();
+
+                    $( '#picsrc' ).attr('src', media_attachment.link);
+                    console.log(media_attachment.id);
+
+                    $('#client_item_logo_input').val(media_attachment.id);
+
+                });
+
+                metaImageFrame.open();
+
+            });
+        });
+    </script>
+    <?php
+}
+
+/**
+ * Сохранение
+ */
+
+function client_logo_save($post_id) {
+    if (isset($_POST['client_item_logo'])){
+        update_post_meta($post_id, 'client_item_logo', $_POST['client_item_logo']);
+    }
+}
+
+add_action('save_post', 'client_logo_save');
+
+/**
+ * Dыбор цвета заголовка в клиентах на странице всех клиентов и в других клиентах
+ */
+
+function client_title_color() {
+    add_meta_box(
+        'cl_title_color',
+        __('Цвет заголовка'),
+        'client_title_color_callback',
+        'client_item'
+    );
+}
+
+add_action('add_meta_boxes', 'client_title_color');
+
+
+function client_title_color_callback($post) {
+    wp_nonce_field(basename(__FILE__), 'cl_title_color');
+    $links_stored_meta = get_post_meta( $post->ID );
+    ?>
+    <select name="cl_title_color_original" id="cl_title_color_original">
+        <option value="white" <?=(isset($links_stored_meta['cl_title_color_original']) &&
+        ($links_stored_meta['cl_title_color_original'][0] === 'white') ? 'selected' : '')?>>Светлый заголовок</option>
+        <option value="dark" <?=(isset($links_stored_meta['cl_title_color_original']) &&
+        ($links_stored_meta['cl_title_color_original'][0] === 'dark') ? 'selected' : '')?>>Темный заголовок</option>
+    </select>
+
+    <?php
+}
+
+/**
+ * Cохранение
+ */
+
+function client_title_color_save( $post_id ) {
+    $is_autosave = wp_is_post_autosave( $post_id );
+    $is_revision = wp_is_post_revision( $post_id );
+    $is_valid_nonce = ( isset( $_POST[ 'cl_title_color' ] ) && wp_verify_nonce( $_POST[ 'cl_title_color' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
+        return;
+    }
+    if( isset( $_POST[ 'cl_title_color_original' ] ) ) {
+        update_post_meta( $post_id, 'cl_title_color_original', sanitize_text_field( $_POST[ 'cl_title_color_original' ] ) );
+    }
+}
+
+add_action('save_post', 'client_title_color_save');
+
 
 /**
  * Урл для элемента кейса на странице лендинга смм
