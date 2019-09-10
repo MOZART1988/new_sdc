@@ -2745,6 +2745,16 @@ if ( ! function_exists( 'sdc_setup' ) ) :
         pll_register_string('Профессиональное продвижение SMM от Smart Digital', 'Профессиональное продвижение SMM от Smart Digital', 'SDC');
         pll_register_string('Работаем по технологии Data - driven Marketing', 'Работаем по технологии Data - driven Marketing', 'SDC');
 
+
+        /**
+         * Footer
+        */
+
+        pll_register_string('Скачать презентацию по маркетинговому консалтингу', 'Скачать презентацию по маркетинговому консалтингу', 'SDC');
+        pll_register_string('Скачать презентацию по разработке сайтов', 'Скачать презентацию по разработке сайтов', 'SDC');
+        pll_register_string('Скачать презентацию по СММ', 'Скачать презентацию по СММ', 'SDC');
+        pll_register_string('Полезная информация', 'Полезная информация', 'SDC');
+
     }
 endif; // sdc setup
 
@@ -2758,7 +2768,13 @@ add_action('admin_menu', function(){
     add_theme_page('Настроить тему SDC', 'Настроить тему SDC', 'edit_theme_options', 'customize.php');
 });
 
-add_action('customize_register', function($customizer) {
+
+
+
+/**
+ * Custom functions for customize
+*/
+add_action('customize_register', function(WP_Customize_Manager $customizer) {
 
     $customizer->add_section(
         'section_one', [
@@ -2774,6 +2790,24 @@ add_action('customize_register', function($customizer) {
         'label'    => 'Главный баннер',
         'section'  => 'section_one',
         'settings' => 'mainBanner',
+    ]));
+
+    $customizer->add_setting('phone_code');
+
+    $customizer->add_control(new WP_Customize_Control($customizer, 'phone_code', [
+        'label' => 'Код телефона в хедере',
+        'section' => 'section_one',
+        'setting' => 'phone_code',
+        'type' => 'text'
+    ]));
+
+    $customizer->add_setting('phone');
+
+    $customizer->add_control(new WP_Customize_Control($customizer, 'phone', [
+        'label' => 'Телефон в хедере',
+        'section' => 'section_one',
+        'setting' => 'phone',
+        'type' => 'text'
     ]));
 
     $customizer->add_section(
@@ -2877,6 +2911,40 @@ add_action('customize_register', function($customizer) {
         'section' => 'block_about',
         'setting' => 'about_text_kk',
         'type' => 'textarea'
+    ]));
+
+    //Презентации
+
+    $customizer->add_section(
+        'block_presentations', [
+            'title' => 'Блок "Презентации"',
+            'description' => '',
+            'priority' => 11
+        ]
+    );
+
+    $customizer->add_setting('smm_presentation');
+
+    $customizer->add_control(new WP_Customize_Image_Control($customizer, 'smm_presentation', [
+        'label'    => 'Презентация СММ',
+        'section'  => 'block_presentations',
+        'settings' => 'smm_presentation',
+    ]));
+
+    $customizer->add_setting('website_presentation');
+
+    $customizer->add_control(new WP_Customize_Image_Control($customizer, 'website_presentation', [
+        'label'    => 'Презентация по разработке сайтов',
+        'section'  => 'block_presentations',
+        'settings' => 'website_presentation',
+    ]));
+
+    $customizer->add_setting('marketing_presentation');
+
+    $customizer->add_control(new WP_Customize_Image_Control($customizer, 'marketing_presentation', [
+        'label'    => 'Презентация по маркетинговому консалтингу',
+        'section'  => 'block_presentations',
+        'settings' => 'marketing_presentation',
     ]));
 });
 
@@ -3250,6 +3318,42 @@ if (! function_exists( 'sdc_is_video' )) :
     }
 
 endif;
+
+if (!function_exists('get_remote_filesize')) :
+    function get_remote_filesize($file_url, $formatSize = true)
+    {
+        $head = array_change_key_case(get_headers($file_url, 1));
+        // content-length of download (in bytes), read from Content-Length: field
+
+        $clen = isset($head['content-length']) ? $head['content-length'] : 0;
+
+        // cannot retrieve file size, return "-1"
+        if (!$clen) {
+            return -1;
+        }
+
+        if (!$formatSize) {
+            return $clen;
+            // return size in bytes
+        }
+
+        $size = $clen;
+        switch ($clen) {
+            case $clen < 1024:
+                $size = $clen .' B'; break;
+            case $clen < 1048576:
+                $size = round($clen / 1024, 2) .' Кб'; break;
+            case $clen < 1073741824:
+                $size = round($clen / 1048576, 2) . ' Мб'; break;
+            case $clen < 1099511627776:
+                $size = round($clen / 1073741824, 2) . ' Гб'; break;
+        }
+
+        return $size;
+        // return formatted size
+    }
+endif;
+
 
 /**
  * Globals for nav menu on main

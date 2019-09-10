@@ -63,11 +63,26 @@ global $clientsPage;
                 </ul>
             </div>
             <div class="col-md-4 col-sm-12 col--files">
-                <h6>Полезная информация</h6>
+                <h6><?=pll__('Полезная информация')?></h6>
                 <ul>
-                    <li><a href="#">Скачать презентацию по СММ <span>195 кб</span></a></li>
-                    <li><a href="#">Скачать презентацию по разработке сайтов <span>85 кб</span></a></li>
-                    <li><a href="#">Скачать презентацию по маркетинговому консалтингу <span>150 кб</span></a></li>
+                    <li>
+                        <a href="<?=get_theme_mod('smm_presentation', '#')?>" target="_blank">
+                            <?=pll__('Скачать презентацию по СММ')?>
+                            <span><?=get_remote_filesize(get_theme_mod('smm_presentation', '#'))?> кб</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?=get_theme_mod('website_presentation', '#')?>" target="_blank">
+                            <?=pll__('Скачать презентацию по разработке сайтов')?>
+                            <span><?=get_remote_filesize(get_theme_mod('website_presentation', '#'))?></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?=get_theme_mod('marketing_presentation', '#')?>" target="_blank">
+                            <?=pll__('Скачать презентацию по маркетинговому консалтингу')?>
+                            <span><?=get_remote_filesize(get_theme_mod('website_presentation', '#'))?></span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="col-md-3 col-sm-12 col--logo">

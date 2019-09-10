@@ -34,9 +34,14 @@
     </div><!-- header langs -->
     <div class="phones"><!-- header phones -->
         <ul>
-            <li><a href="tel:+7 (727)350-57-60"><span>(+7 727)</span> 350-57-60</a></li>
+            <li>
+                <a href="#" data-toggle="modal" data-target="#modal--call">
+                    <span><?=get_theme_mod('phone_code', '(+7 727)')?></span>
+                    <?=get_theme_mod('phone', '350-57-60')?>
+                </a>
+            </li>
         </ul>
-        <a href="tel:+7 (727)350-57-60" class="call"><?=pll__('Перезвонить?')?></a>
+        <a href="#" data-toggle="modal" data-target="#modal--call" class="call"><?=pll__('Перезвонить?')?></a>
     </div><!-- header phones -->
     <?php get_template_part('templates/main/nav-main', 'menu') ?>
     <?php get_template_part('templates/main/nav-right', 'menu')?>
