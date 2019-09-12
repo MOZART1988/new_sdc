@@ -61,22 +61,25 @@ get_header(); ?>
                                     'post_type'=>'mainpage_tab_item',
                                     'posts_per_page' => -1,
                                     'lang' => pll_current_language(),
-                                    'meta_key' => 'mainpage_tab_category',
-                                    'meta_value' => $key,
+                                    'meta_query' => [
+                                        [
+                                            'key' => 'mainpage_tab_category',
+                                            'value' => $key,
+                                            'compare' => '='
+                                        ]
+                                    ],
                                 ]);
                                 ?>
                                 <?php while ($loop->have_posts()): $loop->the_post(); ?>
-                                    <?php foreach ($loop->posts as $post) : ?>
-                                        <div class="col-md-4 col-sm-6 col-xs-6">
-                                            <div class="about__img">
-                                                <img src="<?=get_the_post_thumbnail_url($post, 'full')?>">
-                                            </div>
-                                            <div class="about__text">
-                                                <h6><?=$post->post_title?></h6>
-                                                <p><?=$post->post_excerpt?></p>
-                                            </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-6">
+                                        <div class="about__img">
+                                            <img src="<?=get_the_post_thumbnail_url($post, 'full')?>">
                                         </div>
-                                    <?php endforeach; ?>
+                                        <div class="about__text">
+                                            <h6><?=$post->post_title?></h6>
+                                            <p><?=$post->post_excerpt?></p>
+                                        </div>
+                                    </div>
                                 <?php endwhile; ?>
                             </div>
                         </div>

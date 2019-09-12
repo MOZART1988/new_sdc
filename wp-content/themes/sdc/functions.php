@@ -1820,7 +1820,7 @@ function mainpage_tab_item() {
         ],
         'public' => true,
         'menu_position' => 2,
-        'supports' => ['title', 'thumbnail', 'excerpt', 'custom-fields'],
+        'supports' => ['title', 'thumbnail', 'excerpt'],
         'has_archive' => false,
         'capability_type' => 'post',
         'menu_icon'   => 'dashicons-admin-page',
