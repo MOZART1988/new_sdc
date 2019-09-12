@@ -28,16 +28,16 @@ $loop = $template_args['loop'];
             </div>
         </div>
         <div class="slider direction__slider">
+            <?php $counter = 0; ?>
             <?php if ($loop->have_posts()) : ?>
                 <?php $counterPost = wp_count_posts('direction_item'); ?>
-                <?php $counter = 0; ?>
                 <?php while ($loop->have_posts()) : $loop->the_post(); ?>
                     <?php if ($counter === 0) : ?>
                         <div>
                     <?php elseif($counter % 4 === 0): ?>
                         </div>
                         <div>
-                    <?php elseif($counter === $counterPost->publish - 1): ?>
+                    <?php elseif($counter == $counterPost->publish): ?>
                         </div>
                     <?php endif; ?>
                     <?php get_template_part( 'templates/categories/direction/direction_item', 'index' );?>
