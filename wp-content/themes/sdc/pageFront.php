@@ -68,6 +68,8 @@ get_header(); ?>
                                             'compare' => '='
                                         ]
                                     ],
+                                    'orderby'=>'menu_order',
+                                    'order' => 'ASC'
                                 ]);
                                 ?>
                                 <?php while ($loop->have_posts()): $loop->the_post(); ?>

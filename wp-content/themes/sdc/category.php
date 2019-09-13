@@ -22,7 +22,9 @@ if (!empty(sdc_get_portfolio_category_from_request())) {
         'post_type'=>'portfolio_item',
         'posts_per_page' => 9,
         'paged' => $paged,
-        'lang' => pll_current_language()
+        'lang' => pll_current_language(),
+        'orderby' => 'menu_order',
+        'order' => 'ASC'
     ];
 
     $loop = new WP_Query( $args );
@@ -39,7 +41,9 @@ if (!empty(sdc_get_direction_category_from_request())) {
         'post_type'=>'direction_item',
         'posts_per_page' => 50,
         'paged' => $paged,
-        'lang' => pll_current_language()
+        'lang' => pll_current_language(),
+        'orderby' => 'menu_order',
+        'order' => 'ASC'
     ];
 
     $loop = new WP_Query( $args );
@@ -55,7 +59,9 @@ if (!empty(sdc_get_events_category_from_request())) {
         'post_type'=>'post',
         'posts_per_page' => 10,
         'paged' => $paged,
-        'lang' => pll_current_language()
+        'lang' => pll_current_language(),
+        'orderby' => 'menu_order',
+        'order' => 'ASC'
     ];
 
     $loop = new WP_Query( $args );
@@ -72,7 +78,9 @@ if (!empty(sdc_get_clients_category_from_request())) {
         'post_type'=>'client_item',
         'posts_per_page' => 10,
         'paged' => $paged,
-        'lang' => pll_current_language()
+        'lang' => pll_current_language(),
+        'orderby' => 'menu_order',
+        'order' => 'ASC'
     ];
 
     $loop = new WP_Query( $args );
