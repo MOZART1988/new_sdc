@@ -6,6 +6,7 @@
 
 $category = $template_args['category'];
 $loop = $template_args['loop'];
+$paged = $template_args['paged'];
 
 /**
  * @var WP_Query $loop
@@ -45,7 +46,7 @@ $loop = $template_args['loop'];
 
                     if ($total_pages > 1){
 
-                        $current_page = max(1, get_query_var('paged'));
+                        $current_page = max(1, $paged);
 
                         $params = [
                             'current' => $current_page,

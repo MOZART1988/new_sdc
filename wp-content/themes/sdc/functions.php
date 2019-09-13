@@ -3,43 +3,18 @@
  * functions.php for theme SDC
 */
 
-function generate_taxonomy_rewrite_rules( $wp_rewrite ) {
 
-    $rules = array();
 
-    $post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'objects' );
-    $taxonomies = get_taxonomies( array( 'public' => true, '_builtin' => false ), 'objects' );
-
-    foreach ( $post_types as $post_type ) {
-        $post_type_name = $post_type->name;
-        $post_type_slug = $post_type->rewrite['slug'];
-
-        foreach ( $taxonomies as $taxonomy ) {
-            if ( $taxonomy->object_type[0] == $post_type_name ) {
-                $terms = get_categories( array( 'type' => $post_type_name, 'taxonomy' => $taxonomy->name, 'hide_empty' => 0 ) );
-                foreach ( $terms as $term ) {
-                    $rules[$post_type_slug . '/' . $term->slug . '/?$'] = 'index.php?' . $term->taxonomy . '=' . $term->slug;
-                    $rules[$post_type_slug . '/' . $term->slug . '/page/?([0-9]{1,})/?$'] = 'index.php?' . $term->taxonomy . '=' . $term->slug . '&paged=' . $wp_rewrite->preg_index( 1 );
-                }
-            }
-        }
+function custom_request($query_string ) {
+    if( isset( $query_string['paged'] ) ) {
+        $page = $query_string['paged'];
+        $query_string['page'] = $page;
+        unset($query_string['paged']);
     }
-
-    $wp_rewrite->rules = $rules + $wp_rewrite->rules;
-
+    return $query_string;
 }
 
-add_action('generate_rewrite_rules', 'generate_taxonomy_rewrite_rules');
-
-function custom_pre_get_posts($query)
-{
-    if ($query->is_main_query() && !$query->is_feed() && !is_admin() && is_category()) {
-        $query->set('page_val', get_query_var('paged'));
-        $query->set('paged', 0);
-    }
-}
-
-add_action('pre_get_posts', 'custom_pre_get_posts');
+add_filter('request', 'custom_request');
 
 /**
  * TODO hide from here wp_editor throght action
@@ -1115,7 +1090,7 @@ $membersTitlesArray = [
 add_action( 'parse_query','changept' );
 function changept() {
     if( is_category() && !is_admin() )
-        set_query_var( 'post_type', ['post', 'portfolio_item'] );
+        set_query_var( 'post_type', ['post', 'portfolio_item', 'client_item'] );
     return;
 }
 
@@ -1712,7 +1687,7 @@ function client_item() {
         'public' => true,
         'menu_position' => 7,
         'supports' => ['title', 'editor', 'thumbnail', 'excerpt'],
-        'has_archive' => true,
+        'has_archive' => false,
         'capability_type' => 'post',
         'taxonomies' => ['category'],
         'menu_icon'   => 'dashicons-admin-users',

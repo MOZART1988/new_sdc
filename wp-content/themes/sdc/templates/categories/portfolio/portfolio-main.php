@@ -55,7 +55,7 @@ $loop = $template_args['loop'];
 
                     if ($total_pages > 1){
 
-                        $current_page = max(1, get_query_var('paged'));
+                        $current_page = max(1, get_query_var('page'));
 
                         echo '<div class="pagination">
                                 <a href="'.get_category_link(sdc_get_portfolio_category()->cat_ID).'" class="back">'.pll__('в самое начало').'</a>' . paginate_links(
