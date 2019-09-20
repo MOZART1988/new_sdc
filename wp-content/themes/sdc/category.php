@@ -20,7 +20,7 @@ if (!empty(sdc_get_clients_category_from_request())) {
 
     $args = [
         'post_type'=>'client_item',
-        'posts_per_page' => 10,
+        'posts_per_page' => 16,
         'paged' => $paged,
         'lang' => pll_current_language(),
         'orderby' => 'menu_order',

@@ -39,7 +39,6 @@ global $clientsPage;
                             <a href="<?=get_permalink($contactsPage)?>"><?=$contactsPage->post_title?></a>
                         </li>
                     <?php endif; ?>
-                    <li><a href="#">Вакансии</a></li>
                     <?php if ($clientsPage !== false) : ?>
                         <li class="<?=(sdc_is_clients_page() ? 'active' : '')?>">
                             <a href="<?=get_category_link($clientsPage->cat_ID)?>"><?=$clientsPage->name?></a>

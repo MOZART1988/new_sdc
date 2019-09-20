@@ -271,7 +271,7 @@ window.wp = window.wp || {};
 			else if ( ! response.success )
 				return error( response.data && response.data.message, response.data, file );
 
-			_.each(['file','loaded','size','percent'], function( key ) {
+			_.each(['file','loaded','size','percent'], function(key ) {
 				file.attachment.unset( key );
 			});
 

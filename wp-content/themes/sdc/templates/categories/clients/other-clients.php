@@ -13,7 +13,7 @@ $mainPost = $template_args['mainPost'];
 
 
 $args = [
-    'limit' => 5,
+    'posts_per_page' => 16,
     'orderby' => 'rand',
     'post__not_in' => [$mainPost->ID],
     'post_type' => 'client_item',
@@ -37,3 +37,4 @@ $loop = new WP_Query( $args );
         </div>
     </div>
 <?php endif; ?>
+<?php wp_reset_postdata(); ?>

@@ -13,3 +13,18 @@ blockquote {
     margin: 70px 0;
     border-left: none;
 }
+
+.pagination ul li span {
+    display: block;
+    height: 100%;
+    font-family: UbuntuBold;
+    font-size: 18px;
+    text-decoration: none;
+    text-align: center;
+    padding-top: 11px;
+    border: 1px solid transparent;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #363432;
+    background-color: #ffd200;
+}
