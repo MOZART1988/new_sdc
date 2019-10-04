@@ -383,18 +383,21 @@ $(function(){
     /* recommended slider */
     $('#recommended__slider--1').slick({
         slidesToShow: 4,
+        slidesToScroll: 4,
         autoplay: true,
         responsive: [
             {
                 breakpoint: 991,
                 settings: {
-                    slidesToShow: 2
+                    slidesToShow: 2,
+                    slidesToScroll: 2
                 }
             },
             {
                 breakpoint: 680,
                 settings: {
-                    slidesToShow: 1
+                    slidesToShow: 1,
+                    slidesToScroll: 1
                 }
             }
         ]
