@@ -4,8 +4,8 @@
  */
 ?>
 <li>
-    <a href="<?=get_the_post_thumbnail_url($post, 'full')?>" target="_blank">
+    <a href="<?=wp_get_attachment_url(get_post_thumbnail_id())?>" target="_blank">
         <?=$post->post_title?>
-        <span><?=get_remote_filesize(get_the_post_thumbnail_url($post, 'full'))?> кб</span>
+        <span><?=get_remote_filesize(wp_get_attachment_url(get_post_thumbnail_id()))?> кб</span>
     </a>
 </li>

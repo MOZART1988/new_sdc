@@ -4,7 +4,6 @@
  */
 $url = !empty(get_post_meta($post->ID, 'direction_landing_url')[0])
     ? get_post_meta($post->ID, 'direction_landing_url')[0] : '#';
-var_dump(get_the_ID() == $post->ID);
 ?>
 
 <li>

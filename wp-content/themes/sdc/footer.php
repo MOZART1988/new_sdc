@@ -20,7 +20,7 @@ global $clientsPage;
  */
 
 $presentationsLoop = new WP_Query( [
-    'post_type'=>'direction_item',
+    'post_type'=>'presentation',
     'posts_per_page' => -1,
     'lang' => pll_current_language(),
     'orderby' => 'menu_order',
@@ -84,29 +84,6 @@ $directionsLoop = new WP_Query(  [
             </div>
             <?php endif; ?>
             <?php wp_reset_postdata() ?>
-            <div class="col-md-4 col-sm-12 col--files">
-                <h6><?=pll__('Полезная информация')?></h6>
-                <ul>
-                    <li>
-                        <a href="<?=get_theme_mod('smm_presentation', '#')?>" target="_blank">
-                            <?=pll__('Скачать презентацию по СММ')?>
-                            <span><?=get_remote_filesize(get_theme_mod('smm_presentation', '#'))?> кб</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?=get_theme_mod('website_presentation', '#')?>" target="_blank">
-                            <?=pll__('Скачать презентацию по разработке сайтов')?>
-                            <span><?=get_remote_filesize(get_theme_mod('website_presentation', '#'))?></span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?=get_theme_mod('marketing_presentation', '#')?>" target="_blank">
-                            <?=pll__('Скачать презентацию по маркетинговому консалтингу')?>
-                            <span><?=get_remote_filesize(get_theme_mod('website_presentation', '#'))?></span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
             <div class="col-md-3 col-sm-12 col--logo">
                 <?=sdc_footer_logo()?>
                 <p><?php _e('© 2012–2018 Рекламное агентство', 'SDC'); ?> <br> <?php _e('Smart Digital Consulting', 'SDC'); ?></p>

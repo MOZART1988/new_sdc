@@ -30,11 +30,11 @@ global $directionPage;
             </li>
 
             <?php if ($portfolioPage !== false) : ?>
-                <?php if (sdc_is_portfolio_page() && sdc_check_if_children_exists($portfolioPage)) : ?>
+                <?php if (sdc_check_if_children_exists($portfolioPage)) : ?>
                     <li class="submenu <?=sdc_is_portfolio_page() ? 'active' : ''?>">
                         <a href="<?=get_category_link($portfolioPage->cat_ID)?>"><?=$portfolioPage->name?></a>
                         <?php $children = get_term_children($portfolioPage->term_id, 'category'); ?>
-                        <ul>
+                        <ul <?=!sdc_is_portfolio_page() ? "style='display:none'" : ''?>>
                             <?php foreach ($children as $term_id) : ?>
                                 <?php $category = get_term($term_id); ?>
                                 <li class="<?=sdc_is_current_category($category->slug) ? 'active' : ''?>">
@@ -57,11 +57,11 @@ global $directionPage;
             <?php endif; ?>
 
             <?php if ($clientsPage !== false) : ?>
-                <?php if (sdc_is_clients_page() && sdc_check_if_children_exists($clientsPage)) : ?>
+                <?php if (sdc_check_if_children_exists($clientsPage)) : ?>
                     <li class="submenu <?=sdc_is_clients_page() ? 'active' : ''?>">
                         <a href="<?=get_category_link($clientsPage->cat_ID)?>"><?=$clientsPage->name?></a>
                         <?php $children = get_term_children($clientsPage->term_id, 'category'); ?>
-                        <ul>
+                        <ul <?=!sdc_is_clients_page() ? "style='display:none'" : ''?>>
                             <?php foreach ($children as $term_id) : ?>
                                 <?php $category = get_term($term_id); ?>
                                 <li class="<?=sdc_is_current_category($category->slug) ? 'active' : ''?>">
@@ -78,11 +78,11 @@ global $directionPage;
             <?php endif; ?>
 
             <?php if ($eventsPage !== false) : ?>
-                <?php if (sdc_is_events_page() && sdc_check_if_children_exists($eventsPage)) : ?>
+                <?php if (sdc_check_if_children_exists($eventsPage)) : ?>
                     <li class="submenu <?=sdc_is_events_page() ? 'active' : ''?>">
                         <a href="<?=get_category_link($eventsPage->cat_ID)?>"><?=$eventsPage->name?></a>
                         <?php $children = get_term_children($eventsPage->term_id, 'category'); ?>
-                        <ul>
+                        <ul <?=!sdc_is_events_page() ? "style='display:none'" : ''?>>
                             <?php foreach ($children as $term_id) : ?>
                                 <?php $category = get_term($term_id); ?>
                                 <li class="<?=sdc_is_current_category($category->slug) ? 'active' : ''?>">

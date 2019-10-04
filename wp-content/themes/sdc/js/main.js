@@ -1,5 +1,4 @@
 $(function(){
-
 	new WOW().init();
 
 	setTimeout(function(){
@@ -168,15 +167,18 @@ $(function(){
 	});
 
 	$('.nav--more .container > ul > li > a').on('mouseover', function() {
+
 		if (width > 1199) {
-				$(this).siblings().fadeIn();
-			}
+			$('.submenu').find('ul').hide();
+			$(this).siblings().fadeIn();
+		}
+
 		$('.submenu').on('mouseleave', function() {
-				$(this).children('ul').fadeOut();
-			});
-			return true;
+			$(this).children('ul').fadeOut();
 		});
+		return true;
 	});
+});
 
 $(function(){
 	/* main portfolio sliders */
