@@ -1232,6 +1232,7 @@ class WP_Query {
 		 *
 		 * @param WP_Query $this The WP_Query instance.
 		 */
+
 		do_action( 'parse_tax_query', $this );
 	}
 
@@ -3489,8 +3490,9 @@ class WP_Query {
 	 * @return bool
 	 */
 	public function is_category( $category = '' ) {
+
 		if ( !$this->is_category )
-			return false;
+            return false;
 
 		if ( empty($category) )
 			return true;
