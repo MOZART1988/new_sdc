@@ -1805,6 +1805,36 @@ function mainpage_tab_item() {
 add_action( 'init', 'mainpage_tab_item' );
 
 /**
+ * Загружаемые презентации в футере
+ */
+
+function presentation() {
+    register_post_type('presentation', [
+        'labels' => [
+            'name'            => __( 'Презентации' ),
+            'singular_name'   => __( 'Элементы' ),
+            'add_new'         => __( 'Добавить' ),
+            'add_new_item'    => __( 'Добавить новый элемент' ),
+            'edit'            => __( 'Редактировать' ),
+            'edit_item'       => __( 'Редактировать элемент' ),
+            'new_item'        => __( 'Новый элемент' ),
+            'all_items'       => __( 'Все презентации' ),
+            'view'            => __( 'Просмотреть' ),
+            'view_item'       => __( 'Просмотреть элемент' ),
+            'search_items'    => __( 'Поиск' ),
+            'not_found'       => __( 'Не удалось найти' ),
+        ],
+        'public' => true,
+        'menu_position' => 2,
+        'supports' => ['title', 'thumbnail'],
+        'capability_type' => 'post',
+        'menu_icon'   => 'dashicons-admin-page',
+    ]);
+}
+
+add_action( 'init', 'presentation' );
+
+/**
  * Элемент Кейс для Лендинга СММ
  * @return WP_Post_Type
  */

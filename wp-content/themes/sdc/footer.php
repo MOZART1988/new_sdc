@@ -19,6 +19,22 @@ global $clientsPage;
  * @var WP_Term $eventsPage
  */
 
+$presentationsLoop = new WP_Query( [
+    'post_type'=>'direction_item',
+    'posts_per_page' => -1,
+    'lang' => pll_current_language(),
+    'orderby' => 'menu_order',
+    'order' => 'ASC'
+] );
+
+$directionsLoop = new WP_Query(  [
+    'post_type'=>'direction_item',
+    'posts_per_page' => -1,
+    'lang' => pll_current_language(),
+    'orderby' => 'menu_order',
+    'order' => 'ASC'
+] );
+
 ?>
 <footer><!-- footer -->
     <div class="container">
@@ -46,21 +62,28 @@ global $clientsPage;
                     <?php endif; ?>
                 </ul>
             </div>
-            <div class="col-md-3 col-sm-6">
-                <h6>Услуги</h6>
+            <?php if (!empty($directionsLoop->have_posts())) : ?>
+                <div class="col-md-3 col-sm-6">
+                    <h6><?=pll__('Услуги')?></h6>
+                    <ul>
+                    <?php while($directionsLoop->have_posts()) : $directionsLoop->the_post();  ?>
+                        <?php get_template_part( 'templates/categories/direction/direction_footer_item', 'index' );?>
+                    <?php endwhile;?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+            <?php wp_reset_postdata() ?>
+            <?php if (!empty($presentationsLoop->have_posts())) : ?>
+            <div class="col-md-4 col-sm-12 col--files">
+                <h6><?=pll__('Полезная информация')?></h6>
                 <ul>
-                    <li class="active"><a href="#">СММ</a></li>
-                    <li><a href="#">Таргетированная реклама</a></li>
-                    <li><a href="#">Email рассылка или же Email маркетинг</a></li>
-                    <li><a href="#">Баннерная реклама</a></li>
-                    <li><a href="#">Контекстная реклама</a></li>
-                    <li><a href="#">SEO</a></li>
-                    <li><a href="#">Копирайтинг</a></li>
-                    <li><a href="#">Создание сайтов</a></li>
-                    <li><a href="#">Поддержка сайта</a></li>
-                    <li><a href="#">Создание видеороликов</a></li>
+                    <?php while($presentationsLoop->have_posts()): $presentationsLoop->the_post(); ?>
+                        <?php get_template_part('templates/main/presentation-link', 'menu')?>
+                    <?php endwhile; ?>
                 </ul>
             </div>
+            <?php endif; ?>
+            <?php wp_reset_postdata() ?>
             <div class="col-md-4 col-sm-12 col--files">
                 <h6><?=pll__('Полезная информация')?></h6>
                 <ul>
