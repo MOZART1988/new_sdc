@@ -61,10 +61,14 @@ $(function(){
 
 	$('.submenu > a').on('click', function() {
 	    if (width < 1025) {
-	        $(this).next().slideToggle();
+			$(this).next().slideToggle();
             return false;
 	    }
-    });
+	});
+	
+	if(width < 1025) {
+		$('.nav--more .submenu > a').attr('href', '#');
+	}
 
     if (width < 1025) {
     	$('.nav li a, .logo, .nav--more .li a').on('click', function(){
@@ -163,16 +167,16 @@ $(function(){
 	    });
 	});
 
-	// $('.nav--more .container > ul > li > a').on('mouseover', function() {
-	//     if (width > 1199) {
- //            $(this).siblings().fadeIn();
- //   		}
-	// 	$('.submenu').on('mouseleave', function() {
- //       		$(this).children('ul').fadeOut();
-	// 	});
-	// 	return true;
-	// });
-});
+	$('.nav--more .container > ul > li > a').on('mouseover', function() {
+		if (width > 1199) {
+				$(this).siblings().fadeIn();
+			}
+		$('.submenu').on('mouseleave', function() {
+				$(this).children('ul').fadeOut();
+			});
+			return true;
+		});
+	});
 
 $(function(){
 	/* main portfolio sliders */
