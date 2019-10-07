@@ -5,6 +5,9 @@
  * Date: 25.09.18
  * Time: 14:38
  */
+$xCoord = get_theme_mod('map_x_coordinate', 43.244768);
+$yCoord = get_theme_mod('map_y_coordinate', 76.942429);
+$description = get_theme_mod('address', 'Республика Казастан 050000<br>г.Алматы, ул.Абылай Хана 141,<br>офис 320');
 ?>
 <div class="col-lg-3 col-md-4">
     <form class="form" name="sendContactForm" id="sendContactForm">
@@ -33,7 +36,10 @@
         </div>
         <div class="col-md-6">
             <h6><?=pll__('Карта проезда:')?></h6>
-            <div class="map" id="map" style="height: 270px;"></div>
+            <div class="map" data-x="<?=$xCoord?>" data-y="<?=$yCoord?>" id="map" style="height: 270px;"></div>
+            <div id="map-address" style="display: none;">
+                <?=$description?>
+            </div>
         </div>
     </div>
 </div>

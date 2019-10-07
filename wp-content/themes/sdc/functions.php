@@ -2598,7 +2598,7 @@ if (! function_exists('sdc_main_scripts')) :
         wp_register_script( 'jquery', get_template_directory_uri() . '/js/jquery.js', false, NULL, true );
         wp_enqueue_script( 'jquery' );
         wp_enqueue_script('libs', get_template_directory_uri() . '/js/libs.js', [], false, true);
-        wp_enqueue_script('ymaps', get_template_directory_uri() . '/js/ymaps.js', [], false, true);
+        wp_enqueue_script('ymaps', 'https://api-maps.yandex.ru/2.1/?lang=ru_RU', [], true, true);
         wp_enqueue_script( 'main', get_template_directory_uri() . '/js/main.js', [], false, true );
     }
 
@@ -2918,38 +2918,41 @@ add_action('customize_register', function(WP_Customize_Manager $customizer) {
         'type' => 'textarea'
     ]));
 
-    //Презентации
+    //Карта
 
     $customizer->add_section(
-        'block_presentations', [
-            'title' => 'Блок "Презентации"',
+        'block_contacts', [
+            'title' => 'Блок "Контакты"',
             'description' => '',
             'priority' => 11
         ]
     );
 
-    $customizer->add_setting('smm_presentation');
+    $customizer->add_setting('map_x_coordinate');
 
-    $customizer->add_control(new WP_Customize_Image_Control($customizer, 'smm_presentation', [
-        'label'    => 'Презентация СММ',
-        'section'  => 'block_presentations',
-        'settings' => 'smm_presentation',
+    $customizer->add_control(new WP_Customize_Control($customizer, 'map_x_coordinate', [
+        'label' => 'Координата X',
+        'section' => 'block_contacts',
+        'setting' => 'map_x_coordinate',
+        'type' => 'text'
     ]));
 
-    $customizer->add_setting('website_presentation');
+    $customizer->add_setting('map_y_coordinate');
 
-    $customizer->add_control(new WP_Customize_Image_Control($customizer, 'website_presentation', [
-        'label'    => 'Презентация по разработке сайтов',
-        'section'  => 'block_presentations',
-        'settings' => 'website_presentation',
+    $customizer->add_control(new WP_Customize_Control($customizer, 'map_y_coordinate', [
+        'label' => 'Координата Y',
+        'section' => 'block_contacts',
+        'setting' => 'map_y_coordinate',
+        'type' => 'text'
     ]));
 
-    $customizer->add_setting('marketing_presentation');
+    $customizer->add_setting('address');
 
-    $customizer->add_control(new WP_Customize_Image_Control($customizer, 'marketing_presentation', [
-        'label'    => 'Презентация по маркетинговому консалтингу',
-        'section'  => 'block_presentations',
-        'settings' => 'marketing_presentation',
+    $customizer->add_control(new WP_Customize_Control($customizer, 'address', [
+        'label' => 'Координата Y',
+        'section' => 'block_contacts',
+        'setting' => 'address',
+        'type' => 'textarea'
     ]));
 });
 

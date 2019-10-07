@@ -537,41 +537,48 @@ $(function(){
 
 $(function(){
 
+	var map = $('#map');
+
 	/* map */
+	if (map.length) {
+		ymaps.ready(init);
 
-	ymaps.ready(init);
-	
-	var myMap;
-	
-	function init () {
+		var myMap;
 
-	    myMap = new ymaps.Map(
-	        'map', {
-	            center: [43.245494, 76.940240],
-	            zoom: 16,
-	      		controls: ['zoomControl', 'typeSelector', 'geolocationControl', 'fullscreenControl']
-	        }, {
-		        geoObjectBalloonAutoPan: false
-		    }
-	    );
+		var xCoord = map.data('x');
+		var yCoord = map.data('y');
+		var description = $('#map-address').html();
 
-	    myMap.behaviors.disable('scrollZoom'); 
-	  	myGeoObject1 = new ymaps.Placemark([43.244768, 76.942429], {
-	        balloonContentBody: [
-	           '<div class="map__block"><img src="img/img-44.jpg" alt="img-44" /><span><p>Республика Казастан 050000<br>г.Алматы, ул.Абылай Хана 141,<br>офис 320</p></span></div>'
-	        ]
-	    }, {
-	    	balloonPanelMaxMapArea: 0
-	    }, {
-	    	iconLayout: 'default#imageWithContent',
-	        iconImageHref: 'img/facebook-placeholder-for-locate-places-on-maps-black.svg',
-	        iconImageSize: [26, 36],
-	        iconImageOffset: [-15, -26]
+		function init () {
 
-	    });
+			myMap = new ymaps.Map(
+				'map', {
+					center: [43.245494, 76.940240],
+					zoom: 16,
+					controls: ['zoomControl', 'typeSelector', 'geolocationControl', 'fullscreenControl']
+				}, {
+					geoObjectBalloonAutoPan: false
+				}
+			);
 
-		myMap.geoObjects.add(myGeoObject1);
-		myGeoObject1.balloon.open();
+			myMap.behaviors.disable('scrollZoom');
+			myGeoObject1 = new ymaps.Placemark([xCoord, yCoord], {
+				balloonContentBody: [
+					'<div class="map__block"><img src="/img/img-44.jpg" alt="img-44" /><span><p>'+description+'</p></span></div>'
+				]
+			}, {
+				balloonPanelMaxMapArea: 0
+			}, {
+				iconLayout: 'default#imageWithContent',
+				iconImageHref: 'img/facebook-placeholder-for-locate-places-on-maps-black.svg',
+				iconImageSize: [26, 36],
+				iconImageOffset: [-15, -26]
+
+			});
+
+			myMap.geoObjects.add(myGeoObject1);
+			myGeoObject1.balloon.open();
+		}
 	}
 
 	/* map */
