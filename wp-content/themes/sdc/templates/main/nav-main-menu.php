@@ -152,3 +152,7 @@ global $directionPage;
         <span></span>
     </a>
 </nav><!-- header nav more -->
+<?php
+wp_reset_query();
+wp_reset_postdata();
+?>

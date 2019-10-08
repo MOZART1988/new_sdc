@@ -2,6 +2,7 @@
 /**
  * Template for single portfolio item
  */
+
 get_header();
 
 $postId = get_post()->ID;
