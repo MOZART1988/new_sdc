@@ -218,7 +218,7 @@ function smm_section_questions_init() {
     wp_nonce_field(basename(__FILE__), 'smm_section_questions');
     $links_stored_meta = get_post_meta($post->ID, 'smm_section_questions', true);
     ?>
-    <input placeholder="Заголовок" required type="text" size="100"
+    <input placeholder="Заголовок"  type="text" size="100"
            name="smm_section_questions[header]"
            id="smm_section_questions-header"
            value="<?php if ( isset ( $links_stored_meta['header'] ) ) echo $links_stored_meta['header']; ?>"/>
@@ -309,19 +309,19 @@ function smm_section_kazakhstan_init() {
     wp_nonce_field(basename(__FILE__), 'smm_section_kazakhstan');
     $links_stored_meta = get_post_meta( $post->ID , 'smm_section_kazakhstan', true);
     ?>
-    <input placeholder="Заголовок 1" required type="text" size="100"
+    <input placeholder="Заголовок 1"  type="text" size="100"
            name="smm_section_kazakhstan[header_one]"
            id="smm-section-kazakhstan-header-one"
            value="<?php if ( isset ( $links_stored_meta['header_one'] ) ) echo $links_stored_meta['header_one']; ?>"/>
-    <input placeholder="Заголовок 2" required type="text" size="100"
+    <input placeholder="Заголовок 2"  type="text" size="100"
            name="smm_section_kazakhstan[header_two]"
            id="smm-section-kazakhstan-header-two"
            value="<?php if ( isset ( $links_stored_meta['header_two'] ) ) echo $links_stored_meta['header_two']; ?>"/>
-    <input placeholder="Результат 1" required type="text" size="100"
+    <input placeholder="Результат 1"  type="text" size="100"
            name="smm_section_kazakhstan[result_one]"
            id="smm-section-kazakhstan-result-one"
            value="<?php if ( isset ( $links_stored_meta['result_one'] ) ) echo $links_stored_meta['result_one']; ?>"/>
-    <input placeholder="Результат 2" required type="text" size="100"
+    <input placeholder="Результат 2"  type="text" size="100"
            name="smm_section_kazakhstan[result_two]"
            id="smm-section-kazakhstan-result-two"
            value="<?php if ( isset ( $links_stored_meta['result_two'] ) ) echo $links_stored_meta['result_two']; ?>"/>
@@ -341,7 +341,7 @@ function smm_section_kazakhstan_init() {
                             <option  value="2" '.((int)$item['type'] === 2 ? 'selected' : '').'>Вторая колонка</option>
                         </select>
                         Текст : 
-                        <input required type="text" name="smm_section_kazakhstan[items][%1$s][text]" value="%2$s" />
+                        <input  type="text" name="smm_section_kazakhstan[items][%1$s][text]" value="%2$s" />
                         <a href="#section-kazakhstan-remove" class="remove-kazakhstan-item button">%3$s</a>
                     </p>', $c, $item['text'], 'Удалить'
                     );
@@ -367,7 +367,7 @@ function smm_section_kazakhstan_init() {
                             '<option  value="2">Вторая колонка</option>' +
                         '</select>' +
                         'Текст :' +
-                        '<input required type="text" name="smm_section_kazakhstan[items]['+count+'][text]" />' +
+                        '<input  type="text" name="smm_section_kazakhstan[items]['+count+'][text]" />' +
                         '<a href="#section-kazakhstan-remove" class="remove-kazakhstan-item button">Удалить</a>' +
                         '</p>';
 
@@ -415,13 +415,13 @@ function footer_smm_section_init() {
     wp_nonce_field(basename(__FILE__), 'footer_smm_section');
     $links_stored_meta = get_post_meta( $post->ID , 'footer_smm_section', true);
     ?>
-    <p><input name="footer_smm_section[placeholder_name]" style="width:400px" placeholder="Строчка в поле Имя" required value="<?=!empty($links_stored_meta['placeholder_name']) ? $links_stored_meta['placeholder_name'] : ''?>"></p>
-    <p><input name="footer_smm_section[placeholder_phone]" style="width:400px" placeholder="Строчка в поле Контактный телефон" required value="<?=!empty($links_stored_meta['placeholder_phone']) ? $links_stored_meta['placeholder_phone'] : ''?>"></p>
-    <p><input name="footer_smm_section[placeholder_email]" style="width:400px" placeholder="Строчка в поле Электронная почта" required value="<?=!empty($links_stored_meta['placeholder_email']) ? $links_stored_meta['placeholder_email'] : ''?>"></p>
-    <p><input name="footer_smm_section[placeholder_text]" style="width:400px" placeholder="Строчка в поле Опишите ваш проект" required value="<?=!empty($links_stored_meta['placeholder_text']) ? $links_stored_meta['placeholder_text'] : ''?>"></p>
-    <p><input name="footer_smm_section[phone]" style="width:400px" placeholder="Телефон" required value="<?=!empty($links_stored_meta['phone']) ? $links_stored_meta['phone'] : ''?>"></p>
-    <p><input name="footer_smm_section[email]" type="email" style="width:400px" placeholder="Email" required value="<?=!empty($links_stored_meta['email']) ? $links_stored_meta['email'] : ''?>"></p>
-    <p><textarea style="width:400px" rows="5" placeholder="Адрес" name="footer_smm_section[adress]" required ><?=!empty($links_stored_meta['adress']) ? $links_stored_meta['adress'] : ''?></textarea></p>
+    <p><input name="footer_smm_section[placeholder_name]" style="width:400px" placeholder="Строчка в поле Имя"  value="<?=!empty($links_stored_meta['placeholder_name']) ? $links_stored_meta['placeholder_name'] : ''?>"></p>
+    <p><input name="footer_smm_section[placeholder_phone]" style="width:400px" placeholder="Строчка в поле Контактный телефон"  value="<?=!empty($links_stored_meta['placeholder_phone']) ? $links_stored_meta['placeholder_phone'] : ''?>"></p>
+    <p><input name="footer_smm_section[placeholder_email]" style="width:400px" placeholder="Строчка в поле Электронная почта"  value="<?=!empty($links_stored_meta['placeholder_email']) ? $links_stored_meta['placeholder_email'] : ''?>"></p>
+    <p><input name="footer_smm_section[placeholder_text]" style="width:400px" placeholder="Строчка в поле Опишите ваш проект"  value="<?=!empty($links_stored_meta['placeholder_text']) ? $links_stored_meta['placeholder_text'] : ''?>"></p>
+    <p><input name="footer_smm_section[phone]" style="width:400px" placeholder="Телефон"  value="<?=!empty($links_stored_meta['phone']) ? $links_stored_meta['phone'] : ''?>"></p>
+    <p><input name="footer_smm_section[email]" type="email" style="width:400px" placeholder="Email"  value="<?=!empty($links_stored_meta['email']) ? $links_stored_meta['email'] : ''?>"></p>
+    <p><textarea style="width:400px" rows="5" placeholder="Адрес" name="footer_smm_section[adress]"><?=!empty($links_stored_meta['adress']) ? $links_stored_meta['adress'] : ''?></textarea></p>
     <?php
 }
 
@@ -3054,7 +3054,7 @@ add_action('customize_register', function(WP_Customize_Manager $customizer) {
     $customizer->add_setting('address');
 
     $customizer->add_control(new WP_Customize_Control($customizer, 'address', [
-        'label' => 'Координата Y',
+        'label' => 'Адрес на карте',
         'section' => 'block_contacts',
         'setting' => 'address',
         'type' => 'textarea'
@@ -3128,16 +3128,23 @@ if (! function_exists('sdc_is_front_page')) :
     */
 
     function sdc_is_front_page(){
+        $languagesUrls = [
+                '/en/main/',
+                '/kk/%d0%b1%d0%b0%d1%85%d1%82%d1%8b/'
+        ];
+
         $isfrontpage = false;
-        $current = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
         $site = get_site_url();
+        $current = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
         $site = str_replace('http://', '', $site);
         $site = str_replace('https://', '', $site);
         $site = str_replace('www', '', $site);
-        if( $site == $current || $site . '/' == $current ){
+
+        if( $site == $current || $site . '/' == $current
+            || $site . $languagesUrls[0] == $current
+            || $site . $languagesUrls[1] == $current  ){
             $isfrontpage = true;
         }
-
 
         return $isfrontpage;
     }

@@ -57,9 +57,29 @@ global $directionPage;
             <?php endif; ?>
 
             <?php if ($directionPage !== false) : ?>
-                <li class="li <?=(sdc_is_direction_page() ? 'active' : '')?>">
-                    <a href="<?=get_category_link($directionPage->cat_ID)?>"><?=$directionPage->name?></a>
-                </li>
+                <?php
+                $directionsLoop = new WP_Query(  [
+                    'post_type'=>'direction_item',
+                    'posts_per_page' => -1,
+                    'lang' => pll_current_language(),
+                    'orderby' => 'menu_order',
+                    'order' => 'ASC'
+                ] );
+                ?>
+                <?php if ($directionsLoop->have_posts()): ?>
+                    <li class="submenu <?=sdc_is_direction_page() ? 'active' : ''?>">
+                        <a href="<?=get_category_link($directionPage->cat_ID)?>"><?=$directionPage->name?></a>
+                        <ul <?=!sdc_is_direction_page() ? "style='display:none'" : ''?>>
+                            <?php while($directionsLoop->have_posts()) : $directionsLoop->the_post();  ?>
+                                <?php get_template_part( 'templates/categories/direction/direction_footer_item', 'index' );?>
+                            <?php endwhile; ; ?>
+                        </ul>
+                    </li>
+                <?php else: ?>
+                    <li class="li <?=(sdc_is_direction_page() ? 'active' : '')?>">
+                        <a href="<?=get_category_link($directionPage->cat_ID)?>"><?=$directionPage->name?></a>
+                    </li>
+                <?php endif; ?>
             <?php endif; ?>
 
             <?php if ($clientsPage !== false) : ?>
