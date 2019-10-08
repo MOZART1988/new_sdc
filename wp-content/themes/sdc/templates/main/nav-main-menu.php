@@ -33,12 +33,18 @@ global $directionPage;
                 <?php if (sdc_check_if_children_exists($portfolioPage)) : ?>
                     <li class="submenu <?=sdc_is_portfolio_page() ? 'active' : ''?>">
                         <a href="<?=get_category_link($portfolioPage->cat_ID)?>"><?=$portfolioPage->name?></a>
-                        <?php $children = get_term_children($portfolioPage->term_id, 'category'); ?>
+                        <?php
+                            $children = get_terms([
+                                'hide_empty' => true,
+                                'taxonomy' => 'category',
+                                'parent' => $portfolioPage->term_id
+                            ]);
+                        ?>
                         <ul <?=!sdc_is_portfolio_page() ? "style='display:none'" : ''?>>
                             <?php foreach ($children as $term_id) : ?>
                                 <?php $category = get_term($term_id); ?>
                                 <li class="<?=sdc_is_current_category($category->slug) ? 'active' : ''?>">
-                                    <a href="<?=get_category_link($category->cat_ID)?>"><?=$category->name?></a>
+                                    <a href="<?=esc_attr(get_term_link($category, 'category'))?>"><?=$category->name?></a>
                                 </li>
                             <?php endforeach ; ?>
                         </ul>

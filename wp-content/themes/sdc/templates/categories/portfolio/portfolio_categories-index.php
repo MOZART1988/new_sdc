@@ -2,6 +2,7 @@
 /**
  * @var WP_Term $category
  */
+
 $taxonomies = [
     'category',
 ];
@@ -45,7 +46,9 @@ if (is_single()) {
     $categoriesFinal = $categories;
 }
 
-
+$isPortfolioRootCategory = (get_queried_object()->slug == 'portfolio' ||
+    (strpos(get_queried_object()->slug, 'portfolio') !== false)
+) ? true : false;
 
 
 
@@ -53,9 +56,14 @@ if (is_single()) {
 <?php if (!empty($categoriesFinal)) : ?>
 <div class="portfolio__nav" data-post-id="<?=get_post()->ID?>">
     <ul>
-        <li class="active portfolio-filter"><a data-id="all" href="#all"><?php _e('Все', 'SDC'); ?></a></li>
+        <li class="<?=$isPortfolioRootCategory ? 'active' : ''?> portfolio-filter"><a data-id="all" href="#all"><?php _e('Все', 'SDC'); ?></a></li>
         <?php foreach ($categoriesFinal as $item) : ?>
-            <li class="portfolio-filter"><a data-id="<?=$item->cat_ID?>" href="#<?=$item->name?>"><?=$item->name?></a></li>
+            <?php $active = (get_queried_object()->cat_ID == $item->cat_ID ? 'active' : '');?>
+            <li class="<?=$active?> portfolio-filter">
+                <a data-id="<?=$item->cat_ID?>" href="#<?=$item->name?>">
+                    <?=$item->name?>
+                </a>
+            </li>
         <?php endforeach; ?>
 
     </ul>
@@ -63,7 +71,8 @@ if (is_single()) {
 <select class="dropdown">
     <option value="all"><?php _e('Все', 'SDC'); ?></option>
     <?php foreach ($categoriesFinal as $item) : ?>
-        <option value="<?=$item->cat_ID?>"><?=$item->name?></option>
+        <?php $active = (get_queried_object()->cat_ID == $item->cat_ID ? 'selected' : '');?>
+        <option <?= $active ?> value="<?=$item->cat_ID?>"><?=$item->name?></option>
     <?php endforeach; ?>
 </select>
 <?php endif; ?>

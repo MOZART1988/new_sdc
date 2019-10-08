@@ -6,7 +6,6 @@
  * @var WP_Term $category
  * @package WordPress
  */
-
 if (!empty(sdc_get_clients_category_from_request())) {
     $category = sdc_get_clients_category();
 

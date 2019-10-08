@@ -13,11 +13,16 @@ $paged = $template_args['paged'];
  * @var WP_Term $categpry
  */
 
+$isClientsRootCategory = (get_queried_object()->slug == 'clients' ||
+    (strpos(get_queried_object()->slug, 'clients') !== false)
+) ? true : false;
+
+$categories = get_categories([
+    'parent' => sdc_get_clients_category()->cat_ID,
+    'hide_empty' => true
+]);
+
 ?>
-<!--<div class="preloader show">
-    <div class="preloader__block"></div>
-    <span class="preloader__title"><?=$category->name?></span>
-</div>-->
 <div class="page"><!-- main content -->
     <section class="clientage"><!-- main clientage -->
         <div class="container">
@@ -28,9 +33,10 @@ $paged = $template_args['paged'];
                 <div class="col-lg-9 col-md-8 right">
                     <h3><?=$category->category_description?></h3>
                     <select class="dropdown">
-                        <option value="1" selected>Все отрасли</option>
-                        <option value="2">Все отрасли</option>
-                        <option value="3">Все отрасли</option>
+                        <option value="all" <?=$isClientsRootCategory ? 'active' : ''?>>Все отрасли</option>
+                        <?php foreach ($categories as $category) : ?>
+                            <option value="<?=$category->cat_ID?>"><?=$category->cat_name?></option>
+                        <?php endforeach ; ?>
                     </select>
                 </div>
             </div>

@@ -3196,11 +3196,22 @@ if (! function_exists('sdc_get_portfolio_category')) :
     function sdc_get_portfolio_category_from_request(){
         $term = get_queried_object();
 
+        $parentTerm = ($term->parent == 0) ? null :
+            get_term($term->parent, 'category');
+
         if ($term !== null) {
-            $term_slug = get_queried_object()->slug;
+            $term_slug = $term->slug;
 
             if ($term_slug === 'portfolio' || (strpos($term_slug, 'portfolio') !== false)) {
                 return sdc_get_portfolio_category();
+            }
+        }
+
+        if ($parentTerm !== null) {
+            $parentTermSlug = $parentTerm->slug;
+
+            if ($parentTermSlug === 'portfolio' || (strpos($parentTermSlug, 'portfolio') !== false)) {
+                return $term;
             }
         }
 
