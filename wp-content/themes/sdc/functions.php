@@ -1583,6 +1583,111 @@ function load_items_by_portfolio_category_callback() {
 }
 
 /**
+ *  Загрузка элементов по клиентам по отдельной категории
+ */
+
+if (wp_doing_ajax()) {
+    add_action('wp_ajax_load_items_by_clients_category', 'load_items_by_clients_category_callback');
+    add_action('wp_ajax_nopriv_load_items_by_clients_category', 'load_items_by_clients_category_callback');
+}
+
+add_action( 'wp_footer' , 'load_items_by_clients_category', 99);
+
+function load_items_by_clients_category() {
+    ?>
+    <script type="text/javascript" >
+        $(document).ready(function($) {
+            $('body').on('change', '.clients-ajax-dropdown', function(){
+                var container = $('.clients-ajax-result');
+
+                var data = {
+                    action: 'load_items_by_clients_category',
+                    id: $(this).val(),
+                };
+
+                $.ajax({
+                    url: myajax.url,
+                    data: data,
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function (data) {
+                        container.html(data);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            });
+        });
+    </script>
+    <?php
+}
+
+function load_items_by_clients_category_callback() {
+
+    if (empty($_GET['id'])) {
+        wp_die();
+    }
+
+    $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+
+    $args = [
+        'post_type'=>'client_item',
+        'posts_per_page' => 16,
+        'paged' => $paged,
+        'lang' => pll_current_language()
+    ];
+
+    if ($_GET['id'] !== 'all') {
+        $args = [
+            'post_type'=>'client_item',
+            'posts_per_page' => 16,
+            'paged' => $paged,
+            'lang' => pll_current_language(),
+            'cat' => $_GET['id']
+        ];
+    }
+
+    $loop = new WP_Query( $args );
+
+    if ($loop->have_posts()) {
+        echo '<div class="clientage__block">';
+            while ($loop->have_posts()) {
+                $loop->the_post();
+                get_template_part('/templates/categories/clients/clients_item', 'index');
+            }
+        echo '</div>';
+
+        $total_pages = $loop->max_num_pages;
+
+        if ($total_pages > 1){
+
+            $current_page = max(1, $paged);
+
+            $params = [
+                'current' => $current_page,
+                'total' => $total_pages,
+                'type' => 'list',
+                'next_text' => '>',
+                'prev_text' => '<',
+                'base' => get_pagenum_link(1) . '%_%',
+                'format' => 'page/%#%/',
+                'prev_next' => false,
+            ];
+
+            echo '<div class="pagination">
+                                <a href="'.get_category_link(sdc_get_clients_category()->cat_ID).'" class="back">'.pll__('в самое начало').'</a>' .
+                paginate_links($params)
+                . '<a href="'.get_category_link(sdc_get_clients_category()->cat_ID).'page/'.$loop->max_num_pages.'/" class="end">'.pll__('в самый конец').'</a></div>';
+        }
+    }
+
+    wp_reset_postdata();
+
+    wp_die();
+}
+
+/**
  * Отправка формы обратный звонок
 */
 
@@ -3164,6 +3269,9 @@ if (! function_exists('sdc_get_events_category')) :
     function sdc_get_events_category_from_request(){
         $term = get_queried_object();
 
+        $parentTerm = ($term->parent == 0) ? null :
+            get_term($term->parent, 'category');
+
         if ($term !== null) {
             $term_slug = get_queried_object()->slug;
 
@@ -3171,6 +3279,16 @@ if (! function_exists('sdc_get_events_category')) :
                 return sdc_get_events_category();
             }
         }
+
+        if ($parentTerm !== null) {
+            $parentTermSlug = $parentTerm->slug;
+
+            if ($parentTermSlug === 'events' || (strpos($parentTermSlug, 'events') !== false)) {
+                return $term;
+            }
+        }
+
+
 
         return null;
     }
@@ -3242,11 +3360,22 @@ if (! function_exists('sdc_get_direction_category')) {
 
         $term = get_queried_object();
 
+        $parentTerm = ($term->parent == 0) ? null :
+            get_term($term->parent, 'category');
+
         if ($term !== null) {
             $term_slug = get_queried_object()->slug;
 
             if ($term_slug === 'direction' || (strpos($term_slug, 'direction') !== false)) {
                 return sdc_get_direction_category();
+            }
+        }
+
+        if ($parentTerm !== null) {
+            $parentTermSlug = $parentTerm->slug;
+
+            if ($parentTermSlug === 'direction' || (strpos($parentTermSlug, 'direction') !== false)) {
+                return $term;
             }
         }
 
@@ -3276,11 +3405,22 @@ if (! function_exists('sdc_get_clients_category')) :
 
         $term = get_queried_object();
 
+        $parentTerm = ($term->parent == 0) ? null :
+            get_term($term->parent, 'category');
+
         if ($term !== null) {
             $term_slug = get_queried_object()->slug;
 
             if ($term_slug === 'clients' || (strpos($term_slug, 'clients') !== false)) {
                 return sdc_get_clients_category();
+            }
+        }
+
+        if ($parentTerm !== null) {
+            $parentTermSlug = $parentTerm->slug;
+
+            if ($parentTermSlug === 'clients' || (strpos($parentTermSlug, 'clients') !== false)) {
+                return $term;
             }
         }
 

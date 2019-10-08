@@ -23,7 +23,8 @@ if (!empty(sdc_get_clients_category_from_request())) {
         'paged' => $paged,
         'lang' => pll_current_language(),
         'orderby' => 'menu_order',
-        'order' => 'ASC'
+        'order' => 'ASC',
+        'cat' => sdc_get_clients_category_from_request()->cat_ID
     ];
 
     $loop = new WP_Query( $args );
@@ -51,7 +52,8 @@ if (!empty(sdc_get_portfolio_category_from_request())) {
         'paged' => $paged,
         'lang' => pll_current_language(),
         'orderby' => 'menu_order',
-        'order' => 'ASC'
+        'order' => 'ASC',
+        'cat' => sdc_get_portfolio_category_from_request()->cat_ID
     ];
 
     $loop = new WP_Query( $args );
@@ -96,7 +98,8 @@ if (!empty(sdc_get_events_category_from_request())) {
         'paged' => $paged,
         'lang' => pll_current_language(),
         'orderby' => 'menu_order',
-        'order' => 'ASC'
+        'order' => 'ASC',
+        'cat' => sdc_get_events_category_from_request()->cat_ID,
     ];
 
     $loop = new WP_Query( $args );

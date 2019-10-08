@@ -32,10 +32,11 @@ $categories = get_categories([
                 </div>
                 <div class="col-lg-9 col-md-8 right">
                     <h3><?=$category->category_description?></h3>
-                    <select class="dropdown">
-                        <option value="all" <?=$isClientsRootCategory ? 'active' : ''?>>Все отрасли</option>
+                    <select class="dropdown clients-ajax-dropdown">
+                        <option value="all" <?= ($isClientsRootCategory ? 'selected' : '') ?>>Все отрасли</option>
                         <?php foreach ($categories as $category) : ?>
-                            <option value="<?=$category->cat_ID?>"><?=$category->cat_name?></option>
+                            <?php $active = (get_queried_object()->cat_ID == $category->cat_ID ? 'selected' : ''); ?>
+                            <option <?=$active?> value="<?=$category->cat_ID?>"><?=$category->cat_name?></option>
                         <?php endforeach ; ?>
                     </select>
                 </div>
