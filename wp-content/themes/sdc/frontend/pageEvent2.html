@@ -95,12 +95,16 @@
 							<span class="event__block__tags">Метки: <a href="#">жизнь</a>,<a href="#">процесс</a></span>
 							<div class="event__block__right">
 								<span class="date">20 Декабря 2017</span>
-								<ul class="socials">
-									<li><a href="#" onClick="window.open('https://facebook.com', 'win1', 'width=600, height=600, top=50, left=50, status=no, location=no, toolbar=no, menubar=no');"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
-									<li><a href="#" onClick="window.open('https://vk.com', 'win2', 'width=600, height=600, top=50, left=50, status=no, location=no, toolbar=no, menubar=no');"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+								<div class="pluso" data-options="small,round,line,horizontal,nocounter,theme=04" data-services="vkontakte,google,facebook,odnoklassniki," data-url="http://new.sd-c.kz">
+								
+
+								</div>
+								<!-- <ul class="socials " >
+									<li><a href="#"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
+									<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
 									<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
 									<li><a href="#"><i class="fa fa-odnoklassniki" aria-hidden="true"></i></a></li>
-								</ul>
+								</ul> -->
 							</div>
 						</div>
 					</div>
@@ -180,7 +184,20 @@
     	</div>
     </footer><!-- footer -->
     <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript" src="js/libs.js"></script>
+	<script type="text/javascript" src="js/libs.js"></script>
+	<script type="text/javascript">
+		(function() {
+			if (window.pluso)if (typeof window.pluso.start == "function") return;
+			if (window.ifpluso==undefined) { window.ifpluso = 1;
+				var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+				s.type = 'text/javascript'; s.charset='UTF-8'; s.async = true;
+				s.src = ('https:' == window.location.protocol ? 'https' : 'http')  + '://share.pluso.ru/pluso-like.js';
+				var h=d[g]('body')[0];
+				h.appendChild(s);
+			  }
+		})();
+	</script>
 	<script type="text/javascript" src="js/main.js"></script>
+	
 </body>
 </html>
