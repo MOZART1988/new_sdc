@@ -33,12 +33,11 @@ get_header();
 
                             <div class="event__block__right">
                                 <span class="date"><?php echo get_the_date(); ?></span>
-                                <ul class="socials">
-                                    <li><a href="#"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-odnoklassniki" aria-hidden="true"></i></a></li>
-                                </ul>
+                                <div class="pluso"
+                                     data-options="small,round,line,horizontal,nocounter,theme=04"
+                                     data-services="vkontakte,facebook,odnoklassniki"
+                                     data-url="<?=get_permalink()?>">
+                                </div>
                             </div>
                         </div>
                     </div>
