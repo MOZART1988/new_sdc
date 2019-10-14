@@ -15,8 +15,10 @@ $(function(){
 	}, 500);
 	
   	setTimeout(function() {
-    	$('.banner__title').typeIt({
-        	strings: 'Мы Работаем на <span>результат</span>,<br> чтоб результат работал на вас!',
+  		var elem = $('.banner__title');
+  		var data = elem.data('title');
+    	elem.typeIt({
+        	strings: data,
         	speed: 50,
     	})
 	}, 2000);

@@ -26,7 +26,7 @@ global $directionPage;
     <div class="container">
         <ul>
             <li class="<?=sdc_is_front_page() ? 'active' : 'li'?>">
-                <a href="/"><?=pll__('Компания')?></a>
+                <a href="<?=sdc_get_front_url()?>"><?=pll__('Компания')?></a>
             </li>
 
             <?php if ($portfolioPage !== false) : ?>

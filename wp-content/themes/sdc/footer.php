@@ -43,19 +43,19 @@ $directionsLoop = new WP_Query(  [
                 <h6><?=pll__('Компания')?></h6>
                 <ul>
                     <li class="<?=sdc_is_front_page() ? 'active' : ''?>">
-                        <a href="/"><?=pll__('О компании')?></a>
+                        <a href="<?=sdc_get_front_url()?>"><?=pll__('О компании')?></a>
                     </li>
-                    <?php if ($eventsPage !== false) : ?>
+                    <?php if (!empty($eventsPage)) : ?>
                         <li class="<?=(sdc_is_events_page() ? 'active' : '')?>">
                             <a href="<?=get_category_link($eventsPage->cat_ID)?>"><?=$eventsPage->name?></a>
                         </li>
                     <?php endif; ?>
-                    <?php if ($contactsPage !== false) : ?>
+                    <?php if (!empty($contactsPage)) : ?>
                         <li class="<?=(sdc_is_contacts_page() ? 'active' : '')?>">
                             <a href="<?=get_permalink($contactsPage)?>"><?=$contactsPage->post_title?></a>
                         </li>
                     <?php endif; ?>
-                    <?php if ($clientsPage !== false) : ?>
+                    <?php if (!empty($clientsPage)) : ?>
                         <li class="<?=(sdc_is_clients_page() ? 'active' : '')?>">
                             <a href="<?=get_category_link($clientsPage->cat_ID)?>"><?=$clientsPage->name?></a>
                         </li>
@@ -86,7 +86,7 @@ $directionsLoop = new WP_Query(  [
             <?php wp_reset_postdata() ?>
             <div class="col-md-3 col-sm-12 col--logo">
                 <?=sdc_footer_logo()?>
-                <p><?php _e('© 2012–2018 Рекламное агентство', 'SDC'); ?> <br> <?php _e('Smart Digital Consulting', 'SDC'); ?></p>
+                <p><?php pll__('© 2012–2018 Рекламное агентство'); ?> <br> <?php _e('Smart Digital Consulting', 'SDC'); ?></p>
             </div>
         </div>
     </div>

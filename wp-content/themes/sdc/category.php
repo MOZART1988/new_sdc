@@ -102,6 +102,10 @@ if (!empty(sdc_get_events_category_from_request())) {
         'cat' => sdc_get_events_category_from_request()->cat_ID,
     ];
 
+    if (!empty($_GET['tag'])) {
+        $args['tag'] = $_GET['tag'];
+    }
+
     $loop = new WP_Query( $args );
 
     get_header();

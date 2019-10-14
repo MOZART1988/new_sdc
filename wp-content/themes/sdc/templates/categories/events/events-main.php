@@ -26,7 +26,9 @@ $loop = $template_args['loop'];
                     <h3><?=$category->category_description?></h3>
                 </div>
             </div>
-            <?php get_template_part('/templates/categories/events/events-categories', 'index'); ?>
+            <?php if (empty($_GET['tag'])):?>
+                <?php get_template_part('/templates/categories/events/events-categories', 'index'); ?>
+            <?php endif; ?>
             <div class="events-ajax-result">
                 <div class="row">
                     <?php if ($loop->have_posts()): ?>

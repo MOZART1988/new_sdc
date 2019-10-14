@@ -24,7 +24,7 @@ get_header(); ?>
 <div class="main"><!-- main content -->
     <section class="banner"><!-- main banner -->
         <?=$mainBannerHtml?>
-        <span class="banner__title"></span>
+        <span data-title="<?=pll__('Мы Работаем на <span>результат</span>,<br> чтоб результат работал на вас!')?>" class="banner__title"></span>
     </section><!-- main banner -->
     <section class="about"><!-- main about -->
         <div class="container">

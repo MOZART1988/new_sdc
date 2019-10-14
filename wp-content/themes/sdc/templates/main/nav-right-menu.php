@@ -19,31 +19,31 @@ global $directionPage;
 <nav class="nav"><!-- header nav -->
     <ul>
         <li class="<?=sdc_is_front_page() ? 'active' : ''?>">
-            <a href="/"><?=pll__('Компания')?></a>
+            <a href="<?=sdc_get_front_url()?>"><?=pll__('Компания')?></a>
         </li>
-        <?php if ($portfolioPage !== false) : ?>
+        <?php if (!empty($portfolioPage)) : ?>
             <li class="<?=(sdc_is_portfolio_page() ? 'active' : '')?>">
                 <a href="<?=get_category_link($portfolioPage->cat_ID)?>" id="c_1"><?=$portfolioPage->name?></a>
             </li>
         <?php endif; ?>
-        <?php if ($directionPage !== false) : ?>
+        <?php if (!empty($directionPage)) : ?>
             <li class="<?=(sdc_is_direction_page() ? 'active' : '')?>">
                 <a href="<?=get_category_link($directionPage->cat_ID)?>">
                     <?=$directionPage->name?>
                 </a>
             </li>
         <?php endif; ?>
-        <?php if ($clientsPage !== false) : ?>
+        <?php if (!empty($clientsPage)) : ?>
             <li class="<?=(sdc_is_clients_page() ? 'active' : '')?>">
                 <a href="<?=get_category_link($clientsPage->cat_ID)?>"><?=$clientsPage->name?></a>
             </li>
         <?php endif; ?>
-        <?php if ($eventsPage !== false) : ?>
+        <?php if (!empty($eventsPage)) : ?>
             <li class="<?=(sdc_is_events_page() ? 'active' : '')?>">
                 <a href="<?=get_category_link($eventsPage->cat_ID)?>"><?=$eventsPage->name?></a>
             </li>
         <?php endif; ?>
-        <?php if ($contactsPage !== false) : ?>
+        <?php if (!empty($contactsPage)) : ?>
             <li class="<?=(sdc_is_contacts_page() ? 'active' : '')?>">
                 <a href="<?=get_permalink($contactsPage)?>"><?=$contactsPage->post_title?></a>
             </li>

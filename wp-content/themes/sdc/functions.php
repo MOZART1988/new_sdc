@@ -1025,9 +1025,9 @@ const TAB_2 = 'Как мы работаем';
 const TAB_3 = 'Миссия компании';
 
 $tabArray = [
-    1 => TAB_1,
-    2 => TAB_2,
-    3 => TAB_3,
+    1 => pll__('Почему мы?'),
+    2 => pll__('Как мы работаем'),
+    3 => pll__('Миссия компании'),
 ];
 
 /**
@@ -2799,6 +2799,8 @@ if ( ! function_exists( 'sdc_setup' ) ) :
             'Мы сформируем вам правильную стратегию ведения рекламы и продвижению сайта  в интернете, что обеспечивает максимальное увеличение продаж на любом уровне. Благодаря продвижению сайта и интернет рекламе вы получите стабильный поток клиентов.',
             'SDC');
         pll_register_string('О компании', 'О компании', 'SDC');
+        pll_register_string('Заголовок баннера',
+            'Мы Работаем на <span>результат</span>,<br> чтоб результат работал на вас!', 'SDC');
 
         /**
          * index.php
@@ -2814,6 +2816,12 @@ if ( ! function_exists( 'sdc_setup' ) ) :
                 'SDC'
         );
         pll_register_string('Smartdigital', 'Smartdigital', 'SDC');
+        pll_register_string('Почему мы?', 'Почему мы?', 'SDC');
+        pll_register_string('Как мы работаем', 'Как мы работаем', 'SDC');
+        pll_register_string('Миссия компании', 'Миссия компании', 'SDC');
+
+        pll_register_string('Полезная информация', 'Полезная информация', 'SDC');
+        pll_register_string('Компания', 'Компания', 'SDC');
 
         /**
          * contacts-main.php
@@ -3465,15 +3473,17 @@ if (! function_exists('sdc_get_contacts_page')) :
 
     function sdc_get_contacts_page() {
 
-        $args = [
-            'name'        => 'contacts',
-            'post_type'   => 'page',
-            'post_status' => 'publish',
-            'numberposts' => 1
-        ];
-        $post = get_posts($args);
+        $lang = pll_current_language();
 
-        if (!$post) {
+        if ($lang == 'ru') {
+            $args = [
+                'name'        => 'contacts',
+                'post_type'   => 'page',
+                'post_status' => 'publish',
+                'numberposts' => 1
+            ];
+
+        } else {
             $args = [
                 'name'        => 'contacts-' . pll_current_language(),
                 'post_type'   => 'page',
@@ -3481,10 +3491,30 @@ if (! function_exists('sdc_get_contacts_page')) :
                 'numberposts' => 1
             ];
 
-            $post = get_posts($args);
         }
 
-        return $post !== null ? $post[0] : null;
+        $post = get_posts($args);
+
+        return $post !== null && isset($post[0]) ? $post[0] : null;
+    }
+
+endif;
+
+if (! function_exists('sdc_get_front_url')) :
+    /**
+     * get contacts page
+     * @return array $post
+     */
+
+    function sdc_get_front_url() {
+
+        $languagesUrls = [
+            'ru' => '/',
+            'en' => '/en/main/',
+            'kk' => '/kk/%d0%b1%d0%b0%d1%85%d1%82%d1%8b/'
+        ];
+
+        return $languagesUrls[pll_current_language()];
     }
 
 endif;
