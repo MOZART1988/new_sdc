@@ -103,7 +103,7 @@ if (!empty(sdc_get_events_category_from_request())) {
     ];
 
     if (!empty($_GET['tag'])) {
-        $args['tag'] = $_GET['tag'];
+        $args['tag'] = sanitize_title($_GET['tag']);
     }
 
     $loop = new WP_Query( $args );

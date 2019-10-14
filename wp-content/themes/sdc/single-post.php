@@ -6,6 +6,7 @@
  * Time: 16:35
  */
 get_header();
+global $eventsPage;
 ?>
 <div class="page portfolio--unit"><!-- page content -->
     <?php while(have_posts()) : the_post()?>
@@ -26,7 +27,10 @@ get_header();
                             <?php if (!empty(wp_get_post_tags($post->ID))) : ?>
                                 <span class="event__block__tags"><?=pll__('Метки:')?>
                                 <?php foreach (wp_get_post_tags($post->ID) as $item) : ?>
-                                    <a href="#"><?=$item->name?></a>,
+                                    <a target="_blank"
+                                       href="<?=get_category_link($eventsPage)?>?tag=<?=$item->name?>">
+                                        <?=$item->name?>
+                                    </a>
                                 <?php endforeach ; ?>
                                 </span>
                             <?php endif; ?>
